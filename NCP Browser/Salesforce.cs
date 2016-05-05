@@ -427,6 +427,18 @@ namespace NCP_Browser
         {
             BrowserScripting.NewBrowser("QFund LMS", "http://ncponsiteqa.qfund.net/ncp/", this, openWindows, true);
         }
+
+
+        /*
+        * Timer For Ticker
+        * This is used to ensure that the tab manager is running
+        * Log the Last time the tab manager checked in
+        */
+
+        private void timerTicker_Tick(object sender, EventArgs e)
+        {
+
+        }
     }
 
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]

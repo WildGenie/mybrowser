@@ -51,6 +51,7 @@
             this.CheckForUIUpdates = new System.Windows.Forms.Timer(this.components);
             this.ncpBrowser = new System.Windows.Forms.WebBrowser();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.timerTicker = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -245,6 +246,12 @@
             this.panel1.TabIndex = 2;
             this.panel1.MouseEnter += new System.EventHandler(this.panel1_MouseEnter);
             // 
+            // timerTicker
+            // 
+            this.timerTicker.Enabled = true;
+            this.timerTicker.Interval = 5000;
+            this.timerTicker.Tick += new System.EventHandler(this.timerTicker_Tick);
+            // 
             // Salesforce
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -294,6 +301,7 @@
         private System.Windows.Forms.ToolStripMenuItem wikiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Docker;
         private System.Windows.Forms.ToolStripMenuItem teestToolStripMenuItem;
+        private System.Windows.Forms.Timer timerTicker;
     }
 }
 
