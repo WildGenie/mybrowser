@@ -21,7 +21,7 @@ namespace NCP_Browser
         }
     }
 
-    class ChromiumResourceHandler : CefSharp.IResourceHandler
+    /*class ChromiumResourceHandler : CefSharp.IResourceHandler
     {
         private HttpWebRequest webRequest;
         private HttpWebResponse webResponse;
@@ -67,7 +67,7 @@ namespace NCP_Browser
 
         public bool ProcessRequestAsync(IRequest request, ICallback callback)
         {
-            /*this.callback = callback;
+            this.callback = callback;
             webRequest = (HttpWebRequest)WebRequest.Create(request.Url);
             webRequest.Method = request.Method;
             foreach (string key in request.Headers)
@@ -95,9 +95,9 @@ namespace NCP_Browser
             else
             {
                 webRequest.BeginGetResponse(new AsyncCallback(Response), null);
-            }*/
+            }
             callback = null;
             return false;
         }
-    }
+    }*/
 }

@@ -48,6 +48,7 @@
             this.wikiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Docker = new System.Windows.Forms.ToolStripMenuItem();
             this.teestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showDevToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckForUIUpdates = new System.Windows.Forms.Timer(this.components);
             this.ncpBrowser = new System.Windows.Forms.WebBrowser();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -69,7 +70,8 @@
             this.internetToolStripMenuItem,
             this.wikiToolStripMenuItem,
             this.Docker,
-            this.teestToolStripMenuItem});
+            this.teestToolStripMenuItem,
+            this.showDevToolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1074, 24);
@@ -219,6 +221,13 @@
             this.teestToolStripMenuItem.Text = "QFund";
             this.teestToolStripMenuItem.Click += new System.EventHandler(this.teestToolStripMenuItem_Click);
             // 
+            // showDevToolsToolStripMenuItem
+            // 
+            this.showDevToolsToolStripMenuItem.Name = "showDevToolsToolStripMenuItem";
+            this.showDevToolsToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
+            this.showDevToolsToolStripMenuItem.Text = "Show Dev Tools";
+            this.showDevToolsToolStripMenuItem.Click += new System.EventHandler(this.showDevToolsToolStripMenuItem_Click);
+            // 
             // CheckForUIUpdates
             // 
             this.CheckForUIUpdates.Enabled = true;
@@ -248,7 +257,6 @@
             // 
             // timerTicker
             // 
-            this.timerTicker.Enabled = true;
             this.timerTicker.Interval = 5000;
             this.timerTicker.Tick += new System.EventHandler(this.timerTicker_Tick);
             // 
@@ -302,6 +310,7 @@
         private System.Windows.Forms.ToolStripMenuItem Docker;
         private System.Windows.Forms.ToolStripMenuItem teestToolStripMenuItem;
         private System.Windows.Forms.Timer timerTicker;
+        private System.Windows.Forms.ToolStripMenuItem showDevToolsToolStripMenuItem;
     }
 }
 

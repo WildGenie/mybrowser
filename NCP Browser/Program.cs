@@ -45,7 +45,9 @@ namespace NCP_Browser
         {
             ReloadMe = new NCP_Browser.Salesforce.ReloadMe(ReloadSalesforce);
             CloseMe = new NCP_Browser.Salesforce.CloseMe(SalesforceClosing);
-            Salesforce = new NCP_Browser.Salesforce(ReloadMe, CloseMe, Initialize, "test.salesforce.com");
+            //Salesforce = new NCP_Browser.Salesforce(ReloadMe, CloseMe, Initialize, "http://localhost:59507/demo/sample.html");
+            //Salesforce = new NCP_Browser.Salesforce(ReloadMe, CloseMe, Initialize, "chrome-extension://sample.html");
+            Salesforce = new NCP_Browser.Salesforce(ReloadMe, CloseMe, Initialize, "http://google.com");
             Salesforce.Show();
         }
 

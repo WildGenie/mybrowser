@@ -12,6 +12,8 @@ using SHDocVw;
 using System.IO;
 using System.Reflection;
 using System.Media;
+using CefSharp;
+using System.Diagnostics;
 
 namespace NCP_Browser
 {
@@ -30,38 +32,80 @@ namespace NCP_Browser
         private string SalesforceInstance;
         private jabber.client.JabberClient JabberClient;
 
+
+
+        public const string DefaultUrl = "custom://cefsharp/home.html";
+        public const string BindingTestUrl = "custom://cefsharp/BindingTest.html";
+        public const string PluginsTestUrl = "custom://cefsharp/plugins.html";
+        public const string PopupTestUrl = "custom://cefsharp/PopupTest.html";
+        public const string BasicSchemeTestUrl = "custom://cefsharp/SchemeTest.html";
+        public const string ResponseFilterTestUrl = "custom://cefsharp/ResponseFilterTest.html";
+        public const string DraggableRegionTestUrl = "custom://cefsharp/DraggableRegionTest.html";
+        public const string TestResourceUrl = "http://test/resource/load";
+        public const string RenderProcessCrashedUrl = "http://processcrashed";
+        public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
+        public const string PopupParentUrl = "http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_win_close";
+
         public Salesforce(ReloadMe reloader, CloseMe closing)
         {
+            /*
             this.reloader = reloader;
             this.closing = closing;
-            this.SalesforceInstance = "https://test.salesforce.com";
+            this.SalesforceInstance = "http://localhost:59507/sample.html";
             InitializeComponent();
-            Initialize();
+            Initialize();*/
             //this.ShowInTaskbar = false;
         }
 
         public Salesforce(ReloadMe reloader, CloseMe closing, bool InitializeCEF)
         {
+            /*
             this.reloader = reloader;
             this.closing = closing;
             if (InitializeCEF)
                 this.InitializeCEF();
             InitializeComponent();
-            Initialize();
+            Initialize();*/
             //this.ShowInTaskbar = false;
         }
 
         public Salesforce(ReloadMe ReloadMe, CloseMe CloseMe, bool InitializeCEF, string SalesforceInstance)
         {
             // TODO: Complete member initialization
-            this.reloader = ReloadMe;
+            /*this.reloader = ReloadMe;
             this.closing = CloseMe;
             this.SalesforceInstance = SalesforceInstance;
 
             if (InitializeCEF)
                 this.InitializeCEF();
+
             InitializeComponent();
-            Initialize();
+            Initialize();*/
+            RunV2(SalesforceInstance);
+        }
+
+        Process salesforceProcess; 
+
+        private void RunV2(string SalesforceInstance)
+        {
+            
+        }
+
+        void salesforceProcess_Disposed(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void salesforceProcess_Exited(object sender, EventArgs e)
+        {
+            if(this.InvokeRequired)
+            {
+                this.Invoke(new Action<object, EventArgs>(salesforceProcess_Exited), new object[] { sender, e });
+            }
+            else
+            {
+                this.Close();
+            }            
         }
 
         
@@ -108,19 +152,57 @@ namespace NCP_Browser
 
         private void OpenChrome()
         {
+            /*
             this.Chromium = new CefSharp.WinForms.ChromiumWebBrowser(this.SalesforceInstance);
             this.panel1.Controls.Add(this.Chromium);
             this.Chromium.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Chromium.Name = "Chromium";
             this.Chromium.TabIndex = 0;
+
+            this.Chromium.BrowserSettings.UniversalAccessFromFileUrls = CefSharp.CefState.Enabled;
+            this.Chromium.BrowserSettings.FileAccessFromFileUrls = CefSharp.CefState.Enabled;
+
             // Register customer Javascript functions
+
             this.Chromium.RegisterAsyncJsObject("bound", browserScripting, false);
             this.Chromium.RequestHandler = new ChromiumRestriction();
             this.Chromium.ResourceHandlerFactory = new ChromiumResourceHandlerFactory();
             this.Chromium.DownloadHandler = new DownloadHandler(this);
+
+            ////this.Chromium.LoadHandler = new ChromiumLoadHandler();
             // This is required to make the browser dock within its bounds
             this.Chromium.LoadError += Chromium_LoadError;
+            //this.Chromium.ConsoleMessage += Chromium_ConsoleMessage;
+            //this.Chromium.FrameLoadEnd += Chromium_FrameLoadEnd;
             this.Chromium.BringToFront();
+            */
+
+            this.Chromium = new CefSharp.WinForms.ChromiumWebBrowser(this.SalesforceInstance);
+            this.panel1.Controls.Add(this.Chromium);
+            this.Chromium.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Chromium.Name = "Chromium";
+            this.Chromium.TabIndex = 0;
+
+            this.Chromium.MenuHandler = new NCP_Browser.ChromiumHandlers.MenuHandler();
+            //this.Chromium.RequestHandler = new NCP_Browser.ChromiumHandlers.WinFormsRequestHandler(openNewTab);
+            this.Chromium.JsDialogHandler = new NCP_Browser.ChromiumHandlers.JsDialogHandler();
+            this.Chromium.GeolocationHandler = new NCP_Browser.ChromiumHandlers.GeolocationHandler();
+            this.Chromium.DownloadHandler = new NCP_Browser.ChromiumHandlers.DownloadHandler();
+            this.Chromium.KeyboardHandler = new NCP_Browser.ChromiumHandlers.KeyboardHandler();
+            this.Chromium.LifeSpanHandler = new NCP_Browser.ChromiumHandlers.LifeSpanHandler();
+
+            this.Chromium.BringToFront();
+        }
+
+        void Chromium_ConsoleMessage(object sender, CefSharp.ConsoleMessageEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void Chromium_FrameLoadEnd(object sender, CefSharp.FrameLoadEndEventArgs e)
+        {
+            // Cisco Plugin
+            
         }
 
         public ToolStripItemCollection OpenWindowCollection()
@@ -209,7 +291,7 @@ namespace NCP_Browser
 
         private void Salesforce_Load(object sender, EventArgs e)
         {
-            DockMe();
+            //DockMe();
         }
 
         private void DockMe()
@@ -347,7 +429,14 @@ namespace NCP_Browser
 
         private void Salesforce_FormClosing(object sender, FormClosingEventArgs e)
         {
-            closing.Invoke(e);
+            if(closing != null)
+            {
+                closing.Invoke(e);
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
         }
 
         private void pDFTESTToolStripMenuItem_Click(object sender, EventArgs e)
@@ -392,13 +481,31 @@ namespace NCP_Browser
         public void InitializeCEF()
         {
             CefSharp.CefSettings cfSettings = new CefSharp.CefSettings();
-            cfSettings.IgnoreCertificateErrors = true;
-            cfSettings.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
+
+            cfSettings.RemoteDebuggingPort = 8088;
             if (!Directory.Exists(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "NCPBrowser")))
                 Directory.CreateDirectory(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "NCPBrowser"));
             cfSettings.CachePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "NCPBrowser");
+            cfSettings.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
+            cfSettings.MultiThreadedMessageLoop = true;
+            cfSettings.IgnoreCertificateErrors = true;
+            cfSettings.FocusedNodeChangedEnabled = true;
+            cfSettings.RegisterScheme(new CefSharp.CefCustomScheme()
+            {
+                SchemeName = ChromeExtensionSchemeHandlerFactory.SchemeName,
+                SchemeHandlerFactory = new ChromeExtensionSchemeHandlerFactory()
+            });
+            cfSettings.RegisterExtension(new CefSharp.CefExtension("cwic_background", NCP_Browser.Properties.Resources.cwic_background));
+            cfSettings.FocusedNodeChangedEnabled = true;            
+
             cfSettings.CefCommandLineArgs.Add("--mute-audio", "--mute-audio");
-            CefSharp.Cef.Initialize(cfSettings);
+            cfSettings.CefCommandLineArgs.Add("--external-devtools", "--external-devtools");
+            
+            
+            //cfSettings.RegisterExtension(new CefSharp.CefExtension("cwic_cwic_plugin", NCP_Browser.Properties.Resources.cwic_plugin));
+            //cfSettings.RegisterExtension(new CefSharp.CefExtension("test", "alert('dingdong');"));            
+            //cfSettings.RegisterExtension(new CefSharp.CefExtension("cwic_contentscript", NCP_Browser.Properties.Resources.cwic_contentscript));
+            CefSharp.Cef.Initialize(cfSettings, true, false);
 
         }
 
@@ -438,6 +545,16 @@ namespace NCP_Browser
         private void timerTicker_Tick(object sender, EventArgs e)
         {
 
+        }
+
+        private void showDevToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Chromium.GetBrowser().GetHost().ShowDevTools();
+        }
+
+        private void Salesforce_Shown(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
 

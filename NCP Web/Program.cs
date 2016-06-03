@@ -1,5 +1,4 @@
-﻿using NCP_Browser;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +8,7 @@ using System.Configuration;
 using System.IO;
 using System.Globalization;
 using Microsoft.VisualBasic.FileIO;
+using System.Diagnostics;
 
 namespace NCP_Web
 {
@@ -32,9 +32,6 @@ namespace NCP_Web
 
     class ProgramRunner
     {
-        private Salesforce.ReloadMe ReloadMe;
-        private Salesforce.CloseMe CloseMe;
-        private Salesforce Salesforce;
         private ApplicationContext ac;
         private bool intendedClose = false;
         private String VersionFolder;
@@ -47,7 +44,7 @@ namespace NCP_Web
                 this.ac = ac;
                 VersionFolder = "";
                 SalesforceInstance = "";
-                if (Directory.GetCurrentDirectory() != Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"NCP_Salesforce_APP"))
+                if (Directory.GetCurrentDirectory() != Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"NCP_Salesforce_APP") && !System.Diagnostics.Debugger.IsAttached)
                 {
                     MessageBox.Show(String.Format("This application must reside in your Documents\\NCP_Salesforce_APP({0})",Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)));
                     this.ac.ExitThread();
@@ -58,7 +55,7 @@ namespace NCP_Web
                 else
                 {
                     UpdateAndLaunch();
-                }                
+                }           
                 
             } catch (Exception e)
             {
@@ -120,13 +117,13 @@ namespace NCP_Web
             // Pull down new version if there is one
             if (NewVersion != 0)
             {
-                DeleteFolders(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NCP_Salesforce_APP"));
-                CopyFolder(NewVersionFolder, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NCP_Salesforce_APP"));
+                DeleteFolders(Directory.GetCurrentDirectory());
+                CopyFolder(NewVersionFolder, Directory.GetCurrentDirectory());
                 File.WriteAllText("VersionInfo.txt", NewVersion.ToString());
             }
 
             // Load the browser
-            LoadSalesforce(true);
+            LoadSalesforce();
         }
 
         private static void LoadVariables(ref String VersionFolder, ref String SalesforceInstance)
@@ -151,7 +148,16 @@ namespace NCP_Web
                 { 
                     if (!x.EndsWith("NCP Web.exe"))
                     {
-                        FileSystem.DeleteFile(x, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                        try
+                        {
+                            FileSystem.DeleteFile(x, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                        }
+                        catch
+                        {
+
+                        }
+                        
+                        //
                     }
                 }
             });
@@ -164,58 +170,46 @@ namespace NCP_Web
         /// <param name="RootFolder">Root folder of application</param>
         private static void CopyFolder(string NewVersionFolder, String RootFolder)
         {
+            if(!Directory.Exists(RootFolder))
+            {
+                Directory.CreateDirectory(RootFolder);
+            }
             Directory.GetFileSystemEntries(NewVersionFolder).ToList().ForEach(x =>
             {
                 if ((File.GetAttributes(x) & FileAttributes.Directory) == FileAttributes.Directory)
                 {
-                    CopyFolder(x, Path.Combine(Directory.GetCurrentDirectory(), new DirectoryInfo(x).Name));
+                    CopyFolder(x, Path.Combine(RootFolder, new DirectoryInfo(x).Name));
                 }
                 else
                 { 
                     if (!x.EndsWith("NCP Web.exe"))
                     {
-                        File.Copy(x, Path.Combine(RootFolder, new FileInfo(x).Name));
+                        try
+                        {
+                            File.Copy(x, Path.Combine(RootFolder, new FileInfo(x).Name), true);
+                        }
+                        catch
+                        {
+
+                        }
                     }
                 }
             });
         }
 
-
-        private void LoadSalesforce(bool Initialize)
+        Process salesforceProcess;
+        private void LoadSalesforce()
         {
-            ReloadMe = new NCP_Browser.Salesforce.ReloadMe(ReloadSalesforce);
-            CloseMe = new NCP_Browser.Salesforce.CloseMe(SalesforceClosing);
-            Salesforce = new NCP_Browser.Salesforce(ReloadMe, CloseMe, Initialize, SalesforceInstance);
-            Salesforce.Show();
+            salesforceProcess = new Process();
+            salesforceProcess.EnableRaisingEvents = true;
+            salesforceProcess.Exited += salesforceProcess_Exited;
+            salesforceProcess.StartInfo = new ProcessStartInfo(Directory.GetCurrentDirectory() + "/V2/NCPBrowserV2.exe", String.Format("\"{0}\"", SalesforceInstance));
+            salesforceProcess.Start();
         }
 
-        private void ReloadSalesforce()
+        private void salesforceProcess_Exited(object sender, EventArgs e)
         {
-            this.intendedClose = true;
-            Salesforce.Close();
-            LoadSalesforce(false);
-        }
-
-        private void SalesforceClosing(FormClosingEventArgs e)
-        {
-            if (!this.intendedClose)
-            {
-                var res = MessageBox.Show("Are you sure you want to close?", "Are you sure you want to close?", MessageBoxButtons.YesNo);
-                if (res == DialogResult.Yes)
-                {
-                    ac.ExitThread();
-                    Application.Exit();
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
-            }
-        }
-
-        public Salesforce getSalesforceReference()
-        {
-            return this.Salesforce;
+            Environment.Exit(0);
         }
     }
 }

@@ -23,6 +23,10 @@ namespace NCP_Browser
                 frameLoadEndArgs.Frame.EvaluateScriptAsync("var notesBox2 = document.getElementsByName('loanOriginationRequestBean.reason'); notesBox2[0]['onblur'] = null;");
             }
 
+            // Cisco Plugin
+            //frameLoadEndArgs.Frame.ExecuteJavaScriptAsync(NCP_Browser.Properties.Resources.cwic_plugin);
+            //frameLoadEndArgs.Frame.EvaluateScriptAsync(NCP_Browser.Properties.Resources.cwic_background);
+            //frameLoadEndArgs.Frame.ExecuteJavaScriptAsync(NCP_Browser.Properties.Resources.cwic_contentscript);
             
             //if (frameLoadEndArgs.Url.ToLower().Contains("suspenseaccsearch.do"))
             //{
@@ -66,25 +70,10 @@ namespace NCP_Browser
             return;
         }
 
-        bool CefSharp.ILifeSpanHandler.OnBeforePopup(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, string targetUrl, string targetFrameName, CefSharp.WindowOpenDisposition targetDisposition, bool userGesture, CefSharp.IWindowInfo windowInfo, ref bool noJavascriptAccess, out CefSharp.IWebBrowser newBrowser)
-        {
-            // Position the popup in the center
-            // Get Screen
-            Screen screen = null;
-            GetControlScreenAction<Control, Screen> x = new GetControlScreenAction<Control,Screen>(GetControlScreen);
-            var y = ((CefSharp.WinForms.ChromiumWebBrowser)browserControl).Parent;
-            x.Invoke(y, out screen);            
-             
-            // Position
-            windowInfo.X = screen.Bounds.Left + ((screen.WorkingArea.Width - windowInfo.Width)/2);
-            windowInfo.Y = (screen.WorkingArea.Height - windowInfo.Height) / 2;
-
-            // this has to be done
-            newBrowser = null;
-
-            // Return false to create the popup
-            return false;
-        }
+        //bool CefSharp.ILifeSpanHandler.OnBeforePopup(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, string targetUrl, string targetFrameName, CefSharp.WindowOpenDisposition targetDisposition, bool userGesture, CefSharp.IWindowInfo windowInfo, ref bool noJavascriptAccess, out CefSharp.IWebBrowser newBrowser)
+        //{
+        //    
+        //}
 
         public delegate void GetControlScreenAction<T1,T2>(Control control, out Screen screen);
         static void GetControlScreen(Control control, out Screen screen)
@@ -97,6 +86,27 @@ namespace NCP_Browser
             {
                 screen = Screen.FromControl(control);
             }            
+        }
+
+
+        public bool OnBeforePopup(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, string targetUrl, string targetFrameName, CefSharp.WindowOpenDisposition targetDisposition, bool userGesture, CefSharp.IPopupFeatures popupFeatures, CefSharp.IWindowInfo windowInfo, CefSharp.IBrowserSettings browserSettings, ref bool noJavascriptAccess, out CefSharp.IWebBrowser newBrowser)
+        {
+            // Position the popup in the center
+            // Get Screen
+            Screen screen = null;
+            GetControlScreenAction<Control, Screen> x = new GetControlScreenAction<Control, Screen>(GetControlScreen);
+            var y = ((CefSharp.WinForms.ChromiumWebBrowser)browserControl).Parent;
+            x.Invoke(y, out screen);
+
+            // Position
+            windowInfo.X = screen.Bounds.Left + ((screen.WorkingArea.Width - windowInfo.Width) / 2);
+            windowInfo.Y = (screen.WorkingArea.Height - windowInfo.Height) / 2;
+
+            // this has to be done
+            newBrowser = null;
+
+            // Return false to create the popup
+            return false;
         }
     }
 
@@ -220,12 +230,12 @@ namespace NCP_Browser
 
         bool CefSharp.IRequestHandler.OnCertificateError(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.CefErrorCode errorCode, string requestUrl, CefSharp.ISslInfo sslInfo, CefSharp.IRequestCallback callback)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         bool CefSharp.IRequestHandler.OnOpenUrlFromTab(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, string targetUrl, CefSharp.WindowOpenDisposition targetDisposition, bool userGesture)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         void CefSharp.IRequestHandler.OnPluginCrashed(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, string pluginPath)
@@ -268,6 +278,12 @@ namespace NCP_Browser
         bool CefSharp.IRequestHandler.OnResourceResponse(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IRequest request, CefSharp.IResponse response)
         {
             return false;
+        }
+
+
+        public CefSharp.IResponseFilter GetResourceResponseFilter(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IRequest request, CefSharp.IResponse response)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,6 +11,8 @@ Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "NCP Browser Setup", "NCP Br
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCP Web", "NCP Web\NCP Web.csproj", "{ECA926EB-76B6-4A7F-9D9D-13735D1C3304}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{842A52FA-20CB-491F-B18E-7D023829B9BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU

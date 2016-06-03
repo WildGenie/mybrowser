@@ -59,11 +59,12 @@ namespace NCP_Browser
                 BaseURL.Contains("salesforce.com") ||
                 BaseURL.Contains("staticforce.com") ||
                 BaseURL.Contains("salesforceliveagent.com") ||
-                BaseURL.Contains("sfdcstatic.com")
+                BaseURL.Contains("sfdcstatic.com") ||
+                BaseURL.Contains("localhost")
             )
                 return true;
             else
-                return false;
+                return true;
         }
 
         CefSharp.CefReturnValue CefSharp.IRequestHandler.OnBeforeResourceLoad(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IRequest request, CefSharp.IRequestCallback callback)
@@ -223,6 +224,110 @@ namespace NCP_Browser
         bool CefSharp.IRequestHandler.OnResourceResponse(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IRequest request, CefSharp.IResponse response)
         {
             return false;
+        }
+
+
+        public IResponseFilter GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+        {
+            return null;
+        }
+    }
+
+    class ChromiumLoadHandler : CefSharp.ILoadHandler
+    {
+        void CefSharp.ILoadHandler.OnFrameLoadEnd(CefSharp.IWebBrowser browserControl, CefSharp.FrameLoadEndEventArgs frameLoadEndArgs)
+        {
+            // Cisco Plugin
+            frameLoadEndArgs.Frame.EvaluateScriptAsync(NCP_Browser.Properties.Resources.cwic_plugin);
+            frameLoadEndArgs.Frame.EvaluateScriptAsync(NCP_Browser.Properties.Resources.cwic_background);
+            frameLoadEndArgs.Frame.EvaluateScriptAsync(NCP_Browser.Properties.Resources.cwic_contentscript);
+        }
+
+        void CefSharp.ILoadHandler.OnFrameLoadStart(CefSharp.IWebBrowser browserControl, CefSharp.FrameLoadStartEventArgs frameLoadStartArgs)
+        {
+            //throw new NotImplementedException();
+        }
+
+        void CefSharp.ILoadHandler.OnLoadError(CefSharp.IWebBrowser browserControl, CefSharp.LoadErrorEventArgs loadErrorArgs)
+        {
+            //throw new NotImplementedException();
+        }
+
+        void CefSharp.ILoadHandler.OnLoadingStateChange(CefSharp.IWebBrowser browserControl, CefSharp.LoadingStateChangedEventArgs loadingStateChangedArgs)
+        {
+            //throw new NotImplementedException();
+        }
+    }
+
+    class JsDialogHander : CefSharp.IJsDialogHandler
+    {
+
+        void IJsDialogHandler.OnDialogClosed(IWebBrowser browserControl, IBrowser browser)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IJsDialogHandler.OnJSBeforeUnload(IWebBrowser browserControl, IBrowser browser, string message, bool isReload, IJsDialogCallback callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IJsDialogHandler.OnJSDialog(IWebBrowser browserControl, IBrowser browser, string originUrl, string acceptLang, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IJsDialogHandler.OnResetDialogState(IWebBrowser browserControl, IBrowser browser)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ChromeExtensionSchemeHandlerFactory : ISchemeHandlerFactory
+    {
+
+        public static string SchemeName { get { return "chrome-extension"; } }
+
+        IResourceHandler ISchemeHandlerFactory.Create(IBrowser browser, IFrame frame, string schemeName, IRequest request)
+        {
+            return new ChromeExtensionResourceHandler();
+        }
+    }
+
+    public class ChromeExtensionResourceHandler : IResourceHandler
+    {
+
+        bool IResourceHandler.CanGetCookie(CefSharp.Cookie cookie)
+        {
+            return false;
+        }
+
+        bool IResourceHandler.CanSetCookie(CefSharp.Cookie cookie)
+        {
+            return false;
+        }
+
+        void IResourceHandler.Cancel()
+        {
+            return;
+        }
+
+        void IResourceHandler.GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl)
+        {
+            responseLength = 0;
+            redirectUrl = "";
+            return;
+        }
+
+        bool IResourceHandler.ProcessRequest(IRequest request, ICallback callback)
+        {
+            return true;
+        }
+
+        bool IResourceHandler.ReadResponse(Stream dataOut, out int bytesRead, ICallback callback)
+        {
+            bytesRead = 0;
+            return true;
         }
     }
 }
