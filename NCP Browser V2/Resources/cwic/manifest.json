@@ -1,0 +1,30 @@
+{
+   "background": {
+      "persistent": false,
+      "scripts": [ "background.js" ]
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "contentscript.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_end"
+   } ],
+   "default_locale": "en",
+   "description": "__MSG_extension_description__",
+   "externally_connectable": {
+      "accepts_tls_channel_id": false,
+      "ids": [ "*" ]
+   },
+   "icons": {
+      "128": "Jabber_128x128.png",
+      "16": "Jabber_16x16.png",
+      "48": "Jabber_48x48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqrkBaIu5adCzhKJ580XAApFJr4HF1ZoAtS0/u0FoypnJZtRACwAeNC4aeOIbxM0ODM6+2Sux6w+4fcmpWl1OMCARH9SbOXFzcvXIX2b+CifwhkxdlY8XXqwxJ8SujJ+sdMJdbRdfgDCFaoAyHpMXp1P4CLsbMNLJuKgU2UnJyK/qWhaX3LJFhQQ9VSrgkePR5oG4ECec+WQZbGst4qLBwk4+PWSsKq7F7fLISeUzbkNQOIKw2j9i5isjMbp0p4oWcOBmRznb2drtQquiEgQV0+FbnKiPSDQeSilYevypzAY2/wqSW+91QZ8GjU5ARSzlJneJpu0b9XxZljuUrVq+fQIDAQAB",
+   "manifest_version": 2,
+   "name": "Cisco Web Communicator",
+   "permissions": [ "nativeMessaging", "management" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "3.1.0.363",
+   "web_accessible_resources": [ "cwic_plugin.js", "contentscript.js", "extProps.json" ]
+}
