@@ -765,7 +765,11 @@ namespace NCP_Browser
             {
                 
             }
-            
+            this.Visible = false;
+            CefSharpSettings.WcfTimeout = TimeSpan.Zero;
+            Cef.Shutdown();
+            Environment.Exit(0);
+            e.Cancel = true;
         }
 
         private void toolStripMenuItem_MouseEnter(object sender, EventArgs e)
@@ -793,6 +797,7 @@ namespace NCP_Browser
         {
             this.Visible = false;
             Cef.Shutdown();
+            Environment.Exit(0);
         }
     }
 }
