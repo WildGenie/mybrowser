@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using CefSharp.Example.Proxy;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NCP_Browser
 {
@@ -67,7 +68,7 @@ namespace NCP_Browser
             InitializeComponent();
 
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
-            Text = "NCP Call Center Console";
+            Text = "NCP Call Center Console test update process";
             WindowState = FormWindowState.Maximized;
 
             // Set up Asysnc Browser Scripting
@@ -209,7 +210,7 @@ namespace NCP_Browser
             {
                 throw new Exception("Unable to Initialize Cef");
             }
-
+            
             if (!CefSharp.Cef.AddCrossOriginWhitelistEntry("http://localhost:59507", "cefsharp-extension", "ppbllmlcmhfnfflbkbinnhacecaankdh", true))
             {
 
@@ -675,7 +676,6 @@ namespace NCP_Browser
         private void closeSalesforceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CloseOpenWindows();
-            Application.Exit();
         }
 
         private void CloseOpenWindows()
@@ -691,7 +691,7 @@ namespace NCP_Browser
             }
             catch (Exception e)
             { }
-            openWindows.DropDownItems.Clear();
+            
         }
 
         private void CloseOpenWindow(ToolStripEnhanced toolStripEnhanced)
@@ -760,7 +760,38 @@ namespace NCP_Browser
             if(closing != null)
             {
                 closing.Invoke(e);
-            }            
+            }
+            else
+            {
+                
+            }
+            Cef.Shutdown();
+        }
+
+        private void toolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            ((ToolStripMenuItem)sender).BackColor = System.Drawing.Color.DeepSkyBlue;
+            ((ToolStripMenuItem)sender).ForeColor = System.Drawing.Color.Black;
+        }
+
+        private void toolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        {
+            ((ToolStripMenuItem)sender).BackColor = System.Drawing.Color.SteelBlue;
+            ((ToolStripMenuItem)sender).ForeColor = System.Drawing.SystemColors.Info;
+        }
+
+        private void Salesforce_Load(object sender, EventArgs e)
+        {
+            for(int i = 0; i <  this.menuStrip.Items.Count; i++)
+            {
+                this.menuStrip.Items[i].MouseEnter += toolStripMenuItem_MouseEnter;
+                this.menuStrip.Items[i].MouseLeave += toolStripMenuItem_MouseLeave;
+            }
+        }
+
+        private void Salesforce_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

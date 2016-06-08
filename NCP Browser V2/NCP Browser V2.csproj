@@ -31,7 +31,7 @@
     <PublisherName>NCP</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -112,10 +112,10 @@
     <Compile Include="Forms\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\BrowserTabUserControl.cs">
+    <Compile Include="Forms\Controls\BrowserTabUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\BrowserTabUserControl.designer.cs">
+    <Compile Include="Forms\Controls\BrowserTabUserControl.designer.cs">
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Internals\ChromeWidgetMessageInterceptor.cs" />
@@ -172,13 +172,13 @@
     <Compile Include="Forms\Salesforce.designer.cs">
       <DependentUpon>Salesforce.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ToolStripEnhanced.cs">
+    <Compile Include="Forms\Controls\ToolStripEnhanced.cs">
       <SubType>Component</SubType>
     </Compile>
     <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\BrowserTabUserControl.resx">
+    <EmbeddedResource Include="Forms\Controls\BrowserTabUserControl.resx">
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputBox.resx">
@@ -389,6 +389,7 @@
     <None Include="Properties\app.manifest" />
     <Content Include="Resources\chromium-256.ico" />
     <Content Include="Resources\NCP Browser.ico" />
+    <Content Include="Resources\qfund.ico" />
     <Content Include="snapshot_blob.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

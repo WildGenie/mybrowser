@@ -35,7 +35,7 @@ namespace NCP_Browser.Internals
             ToolStripEnhanced browserStrip = new ToolStripEnhanced(Title, FormControl.browserScripting.generic_Menu, BrowserWindow, openWindows);
             CefSharp.WinForms.ChromiumWebBrowser Browser = new CefSharp.WinForms.ChromiumWebBrowser(URL);
             Browser.Dock = DockStyle.Fill;
-
+            BrowserWindow.Icon = NCP_Browser.Properties.Resources.chromium_256;
             BrowserWindow.Title = Title;
             BrowserWindow.Browser = Browser;
             BrowserWindow.URL = URL;

@@ -24,7 +24,7 @@ namespace NCP_Browser
 
         private void QFund_Load(object sender, EventArgs e)
         {
-
+            this.Icon = NCP_Browser.Properties.Resources.qfund;
         }
 
         public string BrowserName { get; set; }

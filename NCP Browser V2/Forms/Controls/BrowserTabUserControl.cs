@@ -156,9 +156,12 @@ namespace NCP_Browser
                 //e.Frame.ExecuteJavaScriptAsync(NCP_Browser.Properties.Resources.chrome_runtime.Replace("{!FrameID}", e.Frame.Identifier.ToString()));
                 //e.Frame.ExecuteJavaScriptAsync(String.Format("ncp_runtime.DoneInitializingFrame('{0}');", e.Frame.Identifier));
             //}
-            lock (this.frameLocks[e.Frame.Identifier].Lock)
+            if (this.frameLocks.Keys.Contains(e.Frame.Identifier))
             {
-                this.frameLocks[e.Frame.Identifier].IsLocked = false;
+                lock (this.frameLocks[e.Frame.Identifier].Lock)
+                {
+                    this.frameLocks[e.Frame.Identifier].IsLocked = false;
+                }
             }
         }
 
