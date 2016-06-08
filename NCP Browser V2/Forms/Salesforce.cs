@@ -675,7 +675,7 @@ namespace NCP_Browser
 
         private void closeSalesforceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CloseOpenWindows();
+            Close();
         }
 
         private void CloseOpenWindows()
@@ -765,7 +765,7 @@ namespace NCP_Browser
             {
                 
             }
-            Cef.Shutdown();
+            
         }
 
         private void toolStripMenuItem_MouseEnter(object sender, EventArgs e)
@@ -791,7 +791,8 @@ namespace NCP_Browser
 
         private void Salesforce_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Environment.Exit(0);
+            this.Visible = false;
+            Cef.Shutdown();
         }
     }
 }
