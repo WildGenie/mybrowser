@@ -68,7 +68,7 @@ namespace NCP_Browser
             InitializeComponent();
 
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
-            Text = "NCP Call Center Console test update process";
+            Text = "NCP Call Center Console";
             WindowState = FormWindowState.Maximized;
 
             // Set up Asysnc Browser Scripting
