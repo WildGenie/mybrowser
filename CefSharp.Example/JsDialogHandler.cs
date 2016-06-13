@@ -8,7 +8,7 @@ namespace CefSharp.Example
     {
         void IJsDialogHandler.OnDialogClosed(IWebBrowser browserControl, IBrowser browser)
         {
-            throw new System.NotImplementedException();
+            return;
         }
 
         bool IJsDialogHandler.OnJSBeforeUnload(IWebBrowser browserControl, IBrowser browser, string message, bool isReload, IJsDialogCallback callback)
@@ -23,7 +23,7 @@ namespace CefSharp.Example
 
         void IJsDialogHandler.OnResetDialogState(IWebBrowser browserControl, IBrowser browser)
         {
-            throw new System.NotImplementedException();
+            return;
         }
     }
 }

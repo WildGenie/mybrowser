@@ -17,7 +17,7 @@ namespace NCP_Browser
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             CefSharp.Cef.EnableHighDPISupport();
-            Application.Run(new Salesforce(true, "https://ncp.my.salesforce.com"));
+            Application.Run(new Salesforce(true, "https://test.salesforce.com"));
         }
     }
 }
