@@ -40,12 +40,7 @@ namespace JabberSDK
 
             xmppClient.Resource = null;
             xmppClient.ClientSocket.OnValidateCertificate += ClientSocket_OnValidateCertificate;
-            xmppClient.OnXmppConnectionStateChanged += xmppClient_OnXmppConnectionStateChanged;
-        }
-
-        void xmppClient_OnXmppConnectionStateChanged(object sender, XmppConnectionState state)
-        {
-            throw new NotImplementedException();
+            
         }
 
         public void Open()
@@ -62,6 +57,8 @@ namespace JabberSDK
                     this.xmppClient.OnMessage -= this._XmppClient.OnMessage;
                     this.xmppClient.OnPresence -= this._XmppClient.OnPresence;
                     this.xmppClient.OnAuthError -= this._XmppClient.OnAuthError;
+                    this.xmppClient.OnLogin -= this._XmppClient.OnLogin;
+                    this.xmppClient.OnXmppConnectionStateChanged -= this._XmppClient.OnXmppConnectionStateChanged;
                 }
 
                 this._XmppClient = value;
@@ -69,6 +66,8 @@ namespace JabberSDK
                 this.xmppClient.OnMessage += this._XmppClient.OnMessage;
                 this.xmppClient.OnPresence += this._XmppClient.OnPresence;
                 this.xmppClient.OnAuthError += this._XmppClient.OnAuthError;
+                this.xmppClient.OnLogin += this._XmppClient.OnLogin;
+                this.xmppClient.OnXmppConnectionStateChanged += this._XmppClient.OnXmppConnectionStateChanged;
             }
 
             get

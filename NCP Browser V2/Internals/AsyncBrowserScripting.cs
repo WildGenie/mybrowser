@@ -257,5 +257,12 @@ namespace NCP_Browser.Internals
         {
             ((BaseBaseForm)((ToolStripEnhanced)sender).form).SafeClose();
         }
+        
+        public void RegisterJabberCallBack(CefSharp.IJavascriptCallback callback)
+        {
+            // TODO set up linker to forwarder
+            NCP_Browser.Jabber.XmppClient.AddCallBack(callback);
+        }
+
     }
 }

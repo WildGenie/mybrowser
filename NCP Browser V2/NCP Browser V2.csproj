@@ -87,6 +87,10 @@
     <ApplicationIcon>Resources\chromium-256.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="agsXMPP, Version=1.1.1.0, Culture=neutral, PublicKeyToken=ff839b81f1debe86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\agsXMPP.1.1.1.0\lib\agsXMPP.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -100,6 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Encryption\Rijindael.cs" />
     <Compile Include="Forms\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +149,15 @@
     <Compile Include="Internals\QFund\LifeSpanHandler.cs" />
     <Compile Include="Internals\QFund\LoadHandler.cs" />
     <Compile Include="Internals\QFund\RequestHandler.cs" />
+    <Compile Include="Jabber\Credentials.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Jabber\Credentials.Designer.cs">
+      <DependentUpon>Credentials.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Jabber\Info.cs" />
+    <Compile Include="Jabber\Manager.cs" />
+    <Compile Include="Jabber\XmppClient.cs" />
     <Compile Include="Minimal\SimpleBrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Jabber\Credentials.resx">
+      <DependentUpon>Credentials.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Minimal\SimpleBrowserForm.resx">
       <DependentUpon>SimpleBrowserForm.cs</DependentUpon>
@@ -494,6 +511,10 @@
     <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj">
       <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
       <Name>CefSharp.Example</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JabberSDK\JabberSDK.csproj">
+      <Project>{01d4ced5-5f4c-4b4a-8813-b7ce98181291}</Project>
+      <Name>JabberSDK</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -83,6 +83,7 @@
             this.qFundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.browserPanel = new System.Windows.Forms.Panel();
+            this.cicoJabberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,13 +103,15 @@
             this.lMSDowntimeToolStripMenuItem,
             this.wikiToolStripMenuItem,
             this.qFundToolStripMenuItem,
-            this.openWindows});
+            this.openWindows,
+            this.cicoJabberToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.menuStrip.Size = new System.Drawing.Size(1020, 24);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip";
+            this.menuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip_ItemClicked);
             // 
             // fileToolStripMenuItem
             // 
@@ -480,6 +483,18 @@
             this.browserPanel.Size = new System.Drawing.Size(1020, 466);
             this.browserPanel.TabIndex = 2;
             // 
+            // cicoJabberToolStripMenuItem
+            // 
+            this.cicoJabberToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.cicoJabberToolStripMenuItem.BackColor = System.Drawing.Color.Crimson;
+            this.cicoJabberToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.cicoJabberToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.cicoJabberToolStripMenuItem.Name = "cicoJabberToolStripMenuItem";
+            this.cicoJabberToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.cicoJabberToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
+            this.cicoJabberToolStripMenuItem.Text = "Cisco Jabber";
+            this.cicoJabberToolStripMenuItem.Visible = false;
+            // 
             // Salesforce
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -550,6 +565,7 @@
         private System.Windows.Forms.ToolStripMenuItem loanDetailToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loanLookupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loanNotesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cicoJabberToolStripMenuItem;
 
     }
 }

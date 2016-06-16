@@ -18,6 +18,7 @@ namespace NCP_Browser
             Application.SetCompatibleTextRenderingDefault(false);
             CefSharp.Cef.EnableHighDPISupport();
             Application.Run(new Salesforce(true, "https://test.salesforce.com"));
+            //Application.Run(new Jabber.Credentials());
         }
     }
 }

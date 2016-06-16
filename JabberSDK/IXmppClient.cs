@@ -16,6 +16,6 @@ namespace JabberSDK
 
         void OnLogin(object sender);
 
-        void xmppClient_OnXmppConnectionStateChanged(object sender, agsXMPP.XmppConnectionState state);
+        void OnXmppConnectionStateChanged(object sender, agsXMPP.XmppConnectionState state);
     }
 }

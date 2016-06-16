@@ -94,7 +94,7 @@ namespace JabberSDK
         }
 
 
-        void IXmppClient.xmppClient_OnXmppConnectionStateChanged(object sender, agsXMPP.XmppConnectionState state)
+        void IXmppClient.OnXmppConnectionStateChanged(object sender, agsXMPP.XmppConnectionState state)
         {
             
         }

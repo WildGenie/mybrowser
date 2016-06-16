@@ -791,6 +791,8 @@ namespace NCP_Browser
                 this.menuStrip.Items[i].MouseEnter += toolStripMenuItem_MouseEnter;
                 this.menuStrip.Items[i].MouseLeave += toolStripMenuItem_MouseLeave;
             }
+
+            NCP_Browser.Jabber.Manager.LogIn(this.cicoJabberToolStripMenuItem);
         }
 
         private void Salesforce_FormClosed(object sender, FormClosedEventArgs e)
@@ -798,6 +800,11 @@ namespace NCP_Browser
             this.Visible = false;
             Cef.Shutdown();
             Environment.Exit(0);
+        }
+
+        private void menuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }
