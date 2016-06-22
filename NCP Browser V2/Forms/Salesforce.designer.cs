@@ -80,10 +80,10 @@
             this.loanLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loanNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wikiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.qFundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFiness = new System.Windows.Forms.ToolStripMenuItem();
             this.openWindows = new System.Windows.Forms.ToolStripMenuItem();
-            this.browserPanel = new System.Windows.Forms.Panel();
             this.cicoJabberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.browserPanel = new System.Windows.Forms.Panel();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,7 +102,7 @@
             this.suspenseLogToolStripMenuItem,
             this.lMSDowntimeToolStripMenuItem,
             this.wikiToolStripMenuItem,
-            this.qFundToolStripMenuItem,
+            this.mnuFiness,
             this.openWindows,
             this.cicoJabberToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -458,13 +458,13 @@
             this.wikiToolStripMenuItem.Text = "Wiki";
             this.wikiToolStripMenuItem.Click += new System.EventHandler(this.wikiToolStripMenuItem_Click);
             // 
-            // qFundToolStripMenuItem
+            // mnuFiness
             // 
-            this.qFundToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Info;
-            this.qFundToolStripMenuItem.Name = "qFundToolStripMenuItem";
-            this.qFundToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.qFundToolStripMenuItem.Text = "QFund";
-            this.qFundToolStripMenuItem.Click += new System.EventHandler(this.qFundToolStripMenuItem_Click);
+            this.mnuFiness.ForeColor = System.Drawing.SystemColors.Info;
+            this.mnuFiness.Name = "mnuFiness";
+            this.mnuFiness.Size = new System.Drawing.Size(51, 20);
+            this.mnuFiness.Text = "Finess";
+            this.mnuFiness.Click += new System.EventHandler(this.mnu_Finess);
             // 
             // openWindows
             // 
@@ -474,14 +474,6 @@
             this.openWindows.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.openWindows.Size = new System.Drawing.Size(100, 20);
             this.openWindows.Text = "Open Windows";
-            // 
-            // browserPanel
-            // 
-            this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.browserPanel.Location = new System.Drawing.Point(0, 24);
-            this.browserPanel.Name = "browserPanel";
-            this.browserPanel.Size = new System.Drawing.Size(1020, 466);
-            this.browserPanel.TabIndex = 2;
             // 
             // cicoJabberToolStripMenuItem
             // 
@@ -494,6 +486,14 @@
             this.cicoJabberToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.cicoJabberToolStripMenuItem.Text = "Cisco Jabber";
             this.cicoJabberToolStripMenuItem.Visible = false;
+            // 
+            // browserPanel
+            // 
+            this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browserPanel.Location = new System.Drawing.Point(0, 24);
+            this.browserPanel.Name = "browserPanel";
+            this.browserPanel.Size = new System.Drawing.Size(1020, 466);
+            this.browserPanel.TabIndex = 2;
             // 
             // Salesforce
             // 
@@ -559,7 +559,7 @@
         private System.Windows.Forms.ToolStripMenuItem suspenseLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lMSDowntimeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wikiToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem qFundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuFiness;
         internal System.Windows.Forms.ToolStripMenuItem openWindows;
         private System.Windows.Forms.ToolStripMenuItem customerLookupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loanDetailToolStripMenuItem;

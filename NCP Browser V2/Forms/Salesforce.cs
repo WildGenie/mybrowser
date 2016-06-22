@@ -806,5 +806,12 @@ namespace NCP_Browser
         {
 
         }
+
+        private void mnu_Finess(object sender, EventArgs e)
+        {
+            ToolStripEnhanced tsi = new ToolStripEnhanced("Finess", "http://apps/", this.openWindows);
+            openWindows.DropDownItems.Add(tsi);
+
+        }
     }
 }

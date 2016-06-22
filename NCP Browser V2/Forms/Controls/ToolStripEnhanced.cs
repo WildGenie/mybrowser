@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,6 +11,8 @@ namespace NCP_Browser
 {
     public class ToolStripEnhanced : ToolStripMenuItem
     {
+        private string SpecialType;
+
         public Form form { get; set; }
         internal ToolStripMenuItem DropDownParent { get; set; }
         public string URI { get; set; }
@@ -39,6 +43,124 @@ namespace NCP_Browser
             this.DropDownParent = DropDownParent;
             this.BrowserScripting = bs;
         }
+
+        public ToolStripEnhanced(string SpecialType, string URI, ToolStripMenuItem DropDownParent)
+        {
+            // TODO: Complete member initialization
+            this.SpecialType = SpecialType;
+            this.URI = URI;
+            base.Text = SpecialType;
+            this.DropDownParent = DropDownParent;
+
+            switch(this.SpecialType)
+            {
+                case "Finess":
+                    LoadFireFox();
+                    break;
+                default:
+                    throw new Exception("Unknown special type");
+            }
+        }
+
+        #region FireFox
+        private void LoadFireFox()
+        {
+            object currentVersion = null;
+
+            currentVersion = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Mozilla\Mozilla Firefox", "CurrentVersion", null);
+            if(currentVersion != null)
+            {
+                LoadFireFoxVersion((string)currentVersion);
+            }
+            else
+            {
+                MessageBox.Show("It appears firefox is not installed. Contact support.");
+            }
+        }
+
+        private void LoadFireFoxVersion(string currentVersion)
+        {
+            object pathToExe = null;
+
+            pathToExe = Registry.GetValue(String.Format(@"HKEY_CURRENT_USER\Software\Mozilla\Mozilla Firefox\{0}\Main", currentVersion), "PathToExe", null);
+
+            if(pathToExe != null)
+            {
+                StartFireFoxProcess((string)pathToExe);
+            }
+            else
+            {
+                MessageBox.Show("It appears firefox is not installed. Contact support.");
+            }
+        }
+
+        Process ffP;
+        IntPtr? ffpIntPtr = null;
+
+        private void StartFireFoxProcess(string PathToExe)
+        {
+            ffP = new Process();
+            
+            ffP.StartInfo = new ProcessStartInfo(PathToExe, "-new-window " + this.URI);
+            ffP.Start();
+            //ffP.WaitForInputIdle();
+            this.Hooks = new NCP_Browser.Win32.Hooks();
+            this.Hooks.Handle = ffP.MainWindowHandle;
+            this.Hooks.OnWindowDestroy = FireFoxExited;
+            var zeroVal = new IntPtr(0);
+            for(int i = 0; i < 300 && !ffpIntPtr.HasValue; i++)
+            {
+                ffP.Refresh();
+                if(ffP.MainWindowHandle != zeroVal)
+                {
+                    ffpIntPtr = ffP.MainWindowHandle;
+                }
+                System.Threading.Thread.Sleep(10);
+            }
+            /*ToolStripEnhanced Show = new ToolStripEnhanced();
+            Show.Text = "Show";
+            Show.Name = "Show";
+            //Show.form = this.form;
+            ToolStripEnhanced Close = new ToolStripEnhanced();
+            Close.Text = "Close";
+            Close.Name = "Close";
+            //Close.form = tse.form;
+            Show.AutoSize = true;
+            Close.AutoSize = true;
+            Show.Click += Show_Click;
+            Close.Click += Close_Click;
+            this.DropDownItems.AddRange(new ToolStripEnhanced[] { Show, Close });*/
+        }
+
+        void Close_Click(object sender, EventArgs e)
+        {
+            var ctl = Control.FromHandle(ffP.MainWindowHandle);
+            var type = ctl.GetType();
+        }
+
+        void Show_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FireFoxExited(IntPtr hWnd)
+        {
+ 	        if(hWnd == ffpIntPtr)
+            {
+                if (this.DropDownParent.Owner.InvokeRequired)
+                {
+                    this.DropDownParent.Owner.Invoke(new Action<IntPtr>((IntPtr hwnd) => 
+                    { 
+                        this.DropDownParent.DropDownItems.Remove(this); 
+                    }), new object[] { hWnd });
+                }
+                else
+                {
+                    this.DropDownParent.DropDownItems.Remove(this);
+                }
+            }
+        }
+        #endregion
 
         internal void form_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -177,5 +299,6 @@ namespace NCP_Browser
         {
             ((CefSharp.WinForms.ChromiumWebBrowser)((BaseBaseForm)this.form).Browser).GetBrowser().StopLoad();
         }
-    }
+    
+public  Win32.Hooks Hooks { get; set; }}
 }
