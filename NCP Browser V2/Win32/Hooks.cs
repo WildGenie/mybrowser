@@ -59,6 +59,13 @@ namespace NCP_Browser.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumChildWindows(IntPtr parentHandle, Win32Callback callback, IntPtr lParam);
 
+        [DllImport("user32")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DestroyWindow(IntPtr hWnd);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
+
         List<IntPtr> GetRootWindowsOfProcess(int pid)
         {
             List<IntPtr> rootWindows = GetChildWindows(IntPtr.Zero);

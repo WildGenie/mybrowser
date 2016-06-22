@@ -111,36 +111,48 @@ namespace NCP_Browser
             for(int i = 0; i < 300 && !ffpIntPtr.HasValue; i++)
             {
                 ffP.Refresh();
-                if(ffP.MainWindowHandle != zeroVal)
+                try
                 {
-                    ffpIntPtr = ffP.MainWindowHandle;
+                    if (ffP.MainWindowHandle != zeroVal)
+                    {
+                        ffpIntPtr = ffP.MainWindowHandle;
+                    }
+                    System.Threading.Thread.Sleep(10);
                 }
-                System.Threading.Thread.Sleep(10);
+                catch
+                {
+
+                }
             }
-            /*ToolStripEnhanced Show = new ToolStripEnhanced();
+            ToolStripEnhanced Show = new ToolStripEnhanced();
             Show.Text = "Show";
             Show.Name = "Show";
             //Show.form = this.form;
-            ToolStripEnhanced Close = new ToolStripEnhanced();
-            Close.Text = "Close";
-            Close.Name = "Close";
             //Close.form = tse.form;
             Show.AutoSize = true;
-            Close.AutoSize = true;
             Show.Click += Show_Click;
-            Close.Click += Close_Click;
-            this.DropDownItems.AddRange(new ToolStripEnhanced[] { Show, Close });*/
-        }
-
-        void Close_Click(object sender, EventArgs e)
-        {
-            var ctl = Control.FromHandle(ffP.MainWindowHandle);
-            var type = ctl.GetType();
+            this.DropDownItems.AddRange(new ToolStripEnhanced[] { Show });
         }
 
         void Show_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!ffpIntPtr.HasValue && ffP.MainWindowHandle != new IntPtr(0))
+                {
+                    ffpIntPtr = ffP.MainWindowHandle;
+                }
+            }
+            catch
+            {
+
+            }
+            if(ffpIntPtr.HasValue)
+                NCP_Browser.Win32.Hooks.SwitchToThisWindow(ffpIntPtr.Value, true);
+            else
+            {
+                MessageBox.Show("Unable to focus window, manually focus window.");
+            }
         }
 
         private void FireFoxExited(IntPtr hWnd)
