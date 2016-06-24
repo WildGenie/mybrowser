@@ -274,5 +274,20 @@ namespace NCP_Browser.Internals
             NCP_Browser.Jabber.XmppClient.AddUnlockCallBack(callback);
         }
 
+        public void GetPresenceStatus(CefSharp.IJavascriptCallback callback)
+        {
+            callback.ExecuteAsync(NCP_Browser.Jabber.XmppClient.GetPresenceStatus());
+        }
+
+        public void JabberAvailable()
+        {
+            NCP_Browser.Jabber.XmppClient.SetAvailable();
+        }
+
+        public void JabberDND(string status)
+        {
+            NCP_Browser.Jabber.XmppClient.SetDND(status);
+        }
+
     }
 }

@@ -64,7 +64,7 @@ namespace NCP_Browser.Jabber
             {
                 Client = new JabberSDK.Client(true, false, true, false, true, "schearfin.local", "192.168.150.15", 5222, cred.UserName, cred.Password);
                 Client.XmppClient = new XmppClient(toolStripMenuItem);
-                Client.Open();                
+                Client.Open();
             }            
         }
     }

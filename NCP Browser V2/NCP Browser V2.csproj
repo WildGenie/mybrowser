@@ -145,6 +145,7 @@
       <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Internals\AsyncBrowserScripting.cs" />
+    <Compile Include="Internals\PresenceStatus.cs" />
     <Compile Include="Internals\QFund\AllowedResource.cs" />
     <Compile Include="Internals\QFund\LifeSpanHandler.cs" />
     <Compile Include="Internals\QFund\LoadHandler.cs" />

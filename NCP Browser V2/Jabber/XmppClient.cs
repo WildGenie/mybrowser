@@ -12,6 +12,9 @@ namespace NCP_Browser.Jabber
         private static List<CefSharp.IJavascriptCallback> JavascriptCallBacks;
         private static List<CefSharp.IJavascriptCallback> LockCallBacks;
         private static List<CefSharp.IJavascriptCallback> UnLockCallBacks;
+        private static agsXMPP.XmppClientConnection clientConnection;
+        private static string status = null;
+        private static string show = null;
 
         public XmppClient(System.Windows.Forms.ToolStripMenuItem MenuItem)
         {
@@ -56,9 +59,12 @@ namespace NCP_Browser.Jabber
         {
             if(pres.From.User == Environment.UserName)
             {
+                status = String.IsNullOrEmpty(pres.Status) ? "NONE" : pres.Status;
+                show = pres.Show.ToString();
                 // TODO Set up Forwarding
                 foreach(var cb in JavascriptCallBacks)
                 {
+                    
                     cb.ExecuteAsync(new object[] { String.IsNullOrEmpty(pres.Status) ? "NONE" : pres.Status, pres.Show.ToString() });
                 }
             }
@@ -80,10 +86,12 @@ namespace NCP_Browser.Jabber
             if (state != agsXMPP.XmppConnectionState.SessionStarted)
             {
                 this.MenuItem.Visible = true;
+                clientConnection = null;                
             }
             else
             {
                 this.MenuItem.Visible = false;
+                clientConnection = (agsXMPP.XmppClientConnection)sender;
             }
         }
 
@@ -100,6 +108,31 @@ namespace NCP_Browser.Jabber
         internal static void AddUnlockCallBack(CefSharp.IJavascriptCallback callback)
         {
             UnLockCallBacks.Add(callback);
+        }
+
+        internal static object[] GetPresenceStatus()
+        {
+            return new object[] { status, show };
+        }
+
+        internal static void SetAvailable()
+        {
+            if(clientConnection != null)
+            {
+                clientConnection.Show = agsXMPP.protocol.client.ShowType.NONE;
+                clientConnection.Status = null;
+                clientConnection.SendMyPresence();
+            }
+        }
+
+        internal static void SetDND(string status)
+        {
+            if (clientConnection != null)
+            {
+                clientConnection.Show = agsXMPP.protocol.client.ShowType.dnd;
+                clientConnection.Status = status;
+                clientConnection.SendMyPresence();
+            }
         }
     }
 }
