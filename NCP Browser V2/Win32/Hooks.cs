@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace NCP_Browser.Win32
 {
@@ -134,6 +135,8 @@ namespace NCP_Browser.Win32
                 );
 
             if (IntPtr.Zero.Equals(pHook)) throw new Win32Exception();
+
+            
 
             GC.KeepAlive(dEvent);
         }

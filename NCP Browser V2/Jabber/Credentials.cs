@@ -20,6 +20,7 @@ namespace NCP_Browser.Jabber
         private void btn_LogIn_Click(object sender, EventArgs e)
         {
             Manager.WriteCredentials(this.txtPassword.Text);
+            this.Close();
         }
 
         private void Credentials_Load(object sender, EventArgs e)

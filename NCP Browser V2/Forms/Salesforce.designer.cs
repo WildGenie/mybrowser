@@ -486,6 +486,7 @@
             this.cicoJabberToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.cicoJabberToolStripMenuItem.Text = "Cisco Jabber";
             this.cicoJabberToolStripMenuItem.Visible = false;
+            this.cicoJabberToolStripMenuItem.Click += new System.EventHandler(this.cicoJabberToolStripMenuItem_Click);
             // 
             // browserPanel
             // 

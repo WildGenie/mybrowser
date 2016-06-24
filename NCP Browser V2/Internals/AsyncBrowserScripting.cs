@@ -264,5 +264,15 @@ namespace NCP_Browser.Internals
             NCP_Browser.Jabber.XmppClient.AddCallBack(callback);
         }
 
+        public void RegisterLockCallback(CefSharp.IJavascriptCallback callback)
+        {
+            NCP_Browser.Jabber.XmppClient.AddLockCallBack(callback);
+        }
+
+        public void RegisterUnlockCallback(CefSharp.IJavascriptCallback callback)
+        {
+            NCP_Browser.Jabber.XmppClient.AddUnlockCallBack(callback);
+        }
+
     }
 }

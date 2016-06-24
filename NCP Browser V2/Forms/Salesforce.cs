@@ -813,5 +813,12 @@ namespace NCP_Browser
             openWindows.DropDownItems.Add(tsi);
 
         }
+
+        private void cicoJabberToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NCP_Browser.Jabber.Credentials c = new Jabber.Credentials();
+            c.ShowDialog();
+            NCP_Browser.Jabber.Manager.LogIn(cicoJabberToolStripMenuItem);
+        }
     }
 }
