@@ -12,9 +12,39 @@ namespace JabberSDK
         static void Main()
         {
             Program p = new Program();
-            Client c = new Client(true, false, true, false, true, "schearfin.local", "192.168.150.15", 5222, "ccraig", "nothere");
+            string username = "";
+            Console.Write("Enter your username:");
+            username = Console.ReadLine();
+            string pass = "";
+            Console.Write("Enter your password: ");
+            ConsoleKeyInfo key;
+
+            do
+            {
+                key = Console.ReadKey(true);
+
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                {
+                    pass += key.KeyChar;
+                    Console.Write("*");
+                }
+                else
+                {
+                    if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
+                    {
+                        pass = pass.Substring(0, (pass.Length - 1));
+                        Console.Write("\b \b");
+                    }
+                }
+            }
+            // Stops Receving Keys Once Enter is Pressed
+            while (key.Key != ConsoleKey.Enter);
+
+            Console.WriteLine();
+            Client c = new Client(true, false, true, false, true, "schearfin.local", "192.168.150.16", 5222, username, pass);
             c.Open();
             c.XmppClient = p;
+            
             bool done = false;
             while(!done)
             {
@@ -84,7 +114,7 @@ namespace JabberSDK
 
         void IXmppClient.OnAuthError(object sender, agsXMPP.Xml.Dom.Element e)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(e.InnerXml);
         }
 
 

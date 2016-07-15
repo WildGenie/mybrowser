@@ -117,7 +117,7 @@ namespace NCP_Browser.Jabber
 
         internal static void SetAvailable()
         {
-            if(clientConnection != null)
+            if(clientConnection != null && show != "NONE")
             {
                 clientConnection.Show = agsXMPP.protocol.client.ShowType.NONE;
                 clientConnection.Status = null;
@@ -127,7 +127,7 @@ namespace NCP_Browser.Jabber
 
         internal static void SetDND(string status)
         {
-            if (clientConnection != null)
+            if (clientConnection != null && show != "dnd")
             {
                 clientConnection.Show = agsXMPP.protocol.client.ShowType.dnd;
                 clientConnection.Status = status;

@@ -43,6 +43,7 @@ namespace NCP_Browser
 
         private ReloadMe reloader;
         private CloseMe closing;
+        private JabberWebApi.Program JabberWebApi;
 
         public Salesforce()
         {
@@ -69,7 +70,7 @@ namespace NCP_Browser
 
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
             Text = "NCP Call Center Console";
-            WindowState = FormWindowState.Maximized;
+            //WindowState = FormWindowState.Maximized;
 
             // Set up Asysnc Browser Scripting
             browserScripting = new Internals.AsyncBrowserScripting();
@@ -103,6 +104,11 @@ namespace NCP_Browser
                 this.InitializeCEF();
 
             Initialize();
+
+            JabberWebApi = new JabberWebApi.Program(new JabberWebApi.Program.SendPresence(new Action<string,string>((string status, string show) => {
+                MessageBox.Show(String.Format("{0}|{1}", status, show));
+            })));
+            JabberWebApi.Start();
         }
 
         public void InitializeCEF()
@@ -276,6 +282,7 @@ namespace NCP_Browser
 
         private void ExitApplication()
         {
+            JabberWebApi.Stop();
             Close();
         }
 

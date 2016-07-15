@@ -40,7 +40,6 @@ namespace JabberSDK
 
             xmppClient.Resource = null;
             xmppClient.ClientSocket.OnValidateCertificate += ClientSocket_OnValidateCertificate;
-            
         }
 
         public void Open()

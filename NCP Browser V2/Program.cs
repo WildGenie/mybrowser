@@ -47,7 +47,7 @@ namespace NCP_Browser
         {
             WshShell shell = new WshShell();
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutFileName);
-            shortcut.Description = "New shortcut for a Notepad";
+            shortcut.Description = "NCP Browser Autostart Shortcut";
             shortcut.TargetPath = shortcutFile;
             shortcut.Save();
             shortcut.WorkingDirectory = Path.GetDirectoryName(Application.ExecutablePath);
