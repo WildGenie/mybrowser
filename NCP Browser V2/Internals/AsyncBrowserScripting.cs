@@ -276,7 +276,10 @@ namespace NCP_Browser.Internals
 
         public void GetPresenceStatus(CefSharp.IJavascriptCallback callback)
         {
-            callback.ExecuteAsync(NCP_Browser.Jabber.XmppClient.GetPresenceStatus());
+            // No longer using XMPP
+            //callback.ExecuteAsync(NCP_Browser.Jabber.XmppClient.GetPresenceStatus());
+
+            callback.ExecuteAsync(NCP_Browser.Salesforce.GetPresence());
         }
 
         public void JabberAvailable()

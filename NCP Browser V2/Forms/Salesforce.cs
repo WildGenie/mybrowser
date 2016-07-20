@@ -1,6 +1,4 @@
-﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
-//
-// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+﻿// Copyright © 2016 Cory Craig
 
 using System;
 using System.Windows.Forms;
@@ -44,6 +42,7 @@ namespace NCP_Browser
         private ReloadMe reloader;
         private CloseMe closing;
         private JabberWebApi.Program JabberWebApi;
+        public static List<IJavascriptCallback> PresenseNotifications;
 
         public Salesforce()
         {
@@ -84,6 +83,9 @@ namespace NCP_Browser
             Salesforce.BackgroundBrowsers = new Dictionary<string, IWebBrowser>();
             Salesforce.FrameLoadLock = new object();
             Salesforce.FrameLoads = new Dictionary<long, chrome.runtime.FrameLoad>();
+            Salesforce.PresenseNotifications = new List<IJavascriptCallback>();
+            Finesse_Status = String.Empty;
+            Finesse_Show = String.Empty;
 
             // Add salesforce tab
             AddTab(this.SalesforceInstance);
@@ -106,7 +108,16 @@ namespace NCP_Browser
             Initialize();
 
             JabberWebApi = new JabberWebApi.Program(new JabberWebApi.Program.SendPresence(new Action<string,string>((string status, string show) => {
-                MessageBox.Show(String.Format("{0}|{1}", status, show));
+                if (Salesforce.Finesse_Status != status || Salesforce.Finesse_Show != show)
+                {
+                    Salesforce.Finesse_Status = status;
+                    Salesforce.Finesse_Show = show;
+                    PresenseNotifications.ForEach(x =>
+                    {
+                        x.ExecuteAsync(new object[] { status, show });
+                    });
+                }                
+                //MessageBox.Show(String.Format("{0}|{1}", status, show));
             })));
             JabberWebApi.Start();
         }
@@ -799,7 +810,10 @@ namespace NCP_Browser
                 this.menuStrip.Items[i].MouseLeave += toolStripMenuItem_MouseLeave;
             }
 
-            NCP_Browser.Jabber.Manager.LogIn(this.cicoJabberToolStripMenuItem);
+            // Disabled 2016-07-15 - no need to do XMPP
+            //NCP_Browser.Jabber.Manager.LogIn(this.cicoJabberToolStripMenuItem);
+
+            // Start up finesse watcher
         }
 
         private void Salesforce_FormClosed(object sender, FormClosedEventArgs e)
@@ -827,5 +841,14 @@ namespace NCP_Browser
             c.ShowDialog();
             NCP_Browser.Jabber.Manager.LogIn(cicoJabberToolStripMenuItem);
         }
+
+        internal static object[] GetPresence()
+        {
+            return new object[] { Salesforce.Finesse_Status, Salesforce.Finesse_Show };
+        }
+
+        public static string Finesse_Status { get; set; }
+
+        public static string Finesse_Show { get; set; }
     }
 }

@@ -420,7 +420,7 @@ namespace NCP_Browser
 
                 if(Name != null)
                 {
-                    //this.Browser.GetBrowser().ShowDevTools();
+                    this.Browser.GetBrowser().ShowDevTools();
                 }
             }
         }

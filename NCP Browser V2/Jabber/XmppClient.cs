@@ -33,6 +33,8 @@ namespace NCP_Browser.Jabber
                 case SessionSwitchReason.SessionLock:
                     // Do whatever you need to do for a lock
                     // ...
+                    if (LockCallBacks == null)
+                        LockCallBacks = new List<CefSharp.IJavascriptCallback>();
                     foreach(var cb in LockCallBacks)
                     {
                         cb.ExecuteAsync();
@@ -41,6 +43,8 @@ namespace NCP_Browser.Jabber
                 case SessionSwitchReason.SessionUnlock:
                     // Do whatever you need to do for an unlock
                     // ...
+                    if (UnLockCallBacks == null)
+                        UnLockCallBacks = new List<CefSharp.IJavascriptCallback>();
                     foreach (var cb in UnLockCallBacks)
                     {
                         cb.ExecuteAsync();
@@ -57,6 +61,8 @@ namespace NCP_Browser.Jabber
 
         void JabberSDK.IXmppClient.OnPresence(object sender, agsXMPP.protocol.client.Presence pres)
         {
+            if (JavascriptCallBacks == null)
+                JavascriptCallBacks = new List<CefSharp.IJavascriptCallback>();
             if(pres.From.User == Environment.UserName)
             {
                 status = String.IsNullOrEmpty(pres.Status) ? "NONE" : pres.Status;
@@ -97,16 +103,23 @@ namespace NCP_Browser.Jabber
 
         internal static void AddCallBack(CefSharp.IJavascriptCallback callback)
         {
-            JavascriptCallBacks.Add(callback);
+            Salesforce.PresenseNotifications.Add(callback);
+            /*if(JavascriptCallBacks == null)
+                JavascriptCallBacks = new List<CefSharp.IJavascriptCallback>();
+            JavascriptCallBacks.Add(callback);*/
         }
 
         internal static void AddLockCallBack(CefSharp.IJavascriptCallback callback)
         {
+            if (LockCallBacks == null)
+                LockCallBacks = new List<CefSharp.IJavascriptCallback>();
             LockCallBacks.Add(callback);
         }
 
         internal static void AddUnlockCallBack(CefSharp.IJavascriptCallback callback)
         {
+            if (UnLockCallBacks == null)
+                UnLockCallBacks = new List<CefSharp.IJavascriptCallback>();
             UnLockCallBacks.Add(callback);
         }
 

@@ -1,7 +1,8 @@
 ﻿(function () {
     // Don't clutter up Page frontend in the event ther are collisions
     var currentPresence = "";
-    var watchSelector = "username";
+    var currentAction = "";
+    var watchSelector = "state-text";
     //var watchSelector = "state-text";
     var backgroundCallbacks = new Array();
     var backgroundCallbackData = new Array();
@@ -26,25 +27,36 @@
 
     currentPresence = getValueFromSelector(watchSelector)
     window.setInterval(function () {
-        //console.log("tic");
-        if (currentPresence != getValueFromSelector(watchSelector)) {
+        currentPresence = getValueFromSelector(watchSelector);
+        var callListArea = document.getElementById("call-list-area")
+        if (currentPresence != "")
+        {
+            FinessePresenceStatus(currentPresence);
+        }        
+        /*if (currentPresence != getValueFromSelector(watchSelector)) {
             currentPresence = getValueFromSelector(watchSelector);
             //alert(currentPresence);
             FinessePresenceStatus(currentPresence);
-        }
+        }*/
     }, 1000);
 
 
     function getValueFromSelector(selector)
     {
-        var selected = document.getElementById(selector);
-        var retVal = selected.value;
-        if(retVal == undefined)
+        try
         {
-            retVal = selected.text;
+            var selected = document.getElementById(selector);
+            var retVal = selected.value;
+            if(retVal == undefined)
+            {
+                retVal = selected.text;
+            }
+            return retVal;
         }
-        return retVal;
-    }
+        catch (exception)
+        {
+            return "";
+        }
 
-    self.port.emit("tacoEvent", "COOOKIES");
+    }
 })();
