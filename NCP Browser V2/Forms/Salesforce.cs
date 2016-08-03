@@ -107,17 +107,48 @@ namespace NCP_Browser
 
             Initialize();
 
+            Salesforce.Finesse_Show = "NONE";
+            Salesforce.Finesse_Status = "NONE";
+            Salesforce.Finesse_CallStatus = "Not_On_A_Call";
+            Salesforce.Finesse_Stale = 0;
+            Salesforce.Finesse_Lock = new object();
+
             JabberWebApi = new JabberWebApi.Program(new JabberWebApi.Program.SendPresence(new Action<string,string>((string status, string show) => {
-                if (Salesforce.Finesse_Status != status || Salesforce.Finesse_Show != show)
+                lock (Salesforce.Finesse_Lock)
                 {
-                    Salesforce.Finesse_Status = status;
-                    Salesforce.Finesse_Show = show;
-                    PresenseNotifications.ForEach(x =>
+                    if (Salesforce.Finesse_Status != status || Salesforce.Finesse_Show != show)
                     {
-                        x.ExecuteAsync(new object[] { status, show });
-                    });
-                }                
+                        Salesforce.Finesse_Status = status;
+                        Salesforce.Finesse_Show = show;
+                        Salesforce.Finesse_Stale = 0;
+                    }
+                    else if (Salesforce.Finesse_Stale >= 2 && Salesforce.Finesse_Stale < 3)
+                    {
+                        Salesforce.Finesse_Stale++;
+                        PresenseNotifications.ForEach(x =>
+                        {
+                            x.ExecuteAsync(new object[] { status == "dnd" && Salesforce.Finesse_CallStatus == "On_A_Call" ? "busy" : status, show });
+                        });
+                    }
+                    else
+                    {
+                        Salesforce.Finesse_Stale++;
+                    }
+                }
                 //MessageBox.Show(String.Format("{0}|{1}", status, show));
+            })), new JabberWebApi.Program.SendCallStatus(new Action<string>((string status) => {
+                lock(Salesforce.Finesse_Lock)
+                {
+                    if(status != Salesforce.Finesse_CallStatus)
+                    {
+                        Salesforce.Finesse_CallStatus = status;
+                        // Reset Staleness if need be to immediately forward status unless a new status comes in
+                        if(Salesforce.Finesse_Stale >= 3)
+                        {
+                            Finesse_Stale = 2;
+                        }
+                    }                    
+                }                
             })));
             JabberWebApi.Start();
         }
@@ -850,5 +881,11 @@ namespace NCP_Browser
         public static string Finesse_Status { get; set; }
 
         public static string Finesse_Show { get; set; }
+
+        public static int Finesse_Stale { get; set; }
+
+        public static string Finesse_CallStatus { get; set; }
+
+        public static object Finesse_Lock { get; set; }
     }
 }

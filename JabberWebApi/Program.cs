@@ -12,9 +12,10 @@ namespace JabberWebApi
     public class Program
     {
         public delegate void SendPresence(string status, string show);
+        public delegate void SendCallStatus(string status);
         static void Main(string[] args)
         {
-            Program p = new Program(PresDegTest);
+            Program p = new Program(PresDegTest, CStatDegTest);
             p.Start();
             Console.ReadLine();
             p.Stop();
@@ -37,12 +38,19 @@ namespace JabberWebApi
             Console.WriteLine("Status:{0}, Show{1}", status, show);
         }
 
-        public Program(SendPresence SendPresenceDelegate)
+        private static void CStatDegTest(string status)
+        {
+            Console.WriteLine("Call Status: {0}", status);
+        }
+
+        public Program(SendPresence SendPresenceDelegate, SendCallStatus SendCallStatusDelegate)
         {
             Program.SendPresenceDelegate = SendPresenceDelegate;
+            Program.SendCallStatusDelegate = SendCallStatusDelegate;
         }
 
         internal static SendPresence SendPresenceDelegate { get; set; }
+        internal static SendCallStatus SendCallStatusDelegate { get; set; }
         private static IDisposable WebApplication;
     }
 }

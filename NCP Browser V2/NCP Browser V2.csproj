@@ -10,7 +10,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NCP_Browser</RootNamespace>
-    <AssemblyName>NCP Browser V2</AssemblyName>
+    <AssemblyName>NCP_Browser_V2</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,8 +31,8 @@
     <PublisherName>NCP</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2.0.0.0</ApplicationVersion>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>2.0.0.4</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -261,6 +261,12 @@
       <DependentUpon>Salesforce.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="agsXMPP.dll" />
+    <Content Include="JabberAddOn.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="JabberAddOnBackground.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="locales\am.pak">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

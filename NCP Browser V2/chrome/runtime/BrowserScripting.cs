@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+// #1 - Remove Dynamic Load of background scripts. They are loaded in NCP_Browser.BrowserTabUserControl.LoadBackgroundPages
 
 namespace NCP_Browser.chrome.runtime
 {
@@ -29,14 +30,8 @@ namespace NCP_Browser.chrome.runtime
             { 
                 Port p = new Port();
                 p.name = extensionId;
-                // TODO: Any interop between foreground and background
-                if(Salesforce.NativeMessagingExtensions.Values.Where(x => x.Name == extensionId).Count() == 0)
-                {
-                    // Start Background
-                    NCP_Browser.NativeMessaging.Extension extension = new NativeMessaging.Extension(extensionId, chromiumWebBrowser, salesforce);
-                    Salesforce.NativeMessagingExtensions.Add(extensionId, extension);
-                }
 
+                // #1 - Removed Dynamic Load
                 var ex = Salesforce.NativeMessagingExtensions.Values.Where(x => x.Name == extensionId).First();
                 ex.connect(connectInfo, channelId);
 

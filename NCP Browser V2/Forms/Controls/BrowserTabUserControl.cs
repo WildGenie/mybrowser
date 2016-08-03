@@ -1,6 +1,7 @@
 ﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+// #1 - Add change to load background pages on initialization/first load. For whatever reason the dynamic loading of background pages when needed stopped working randomly
 
 using CefSharp.Example;
 using System;
@@ -42,6 +43,7 @@ namespace NCP_Browser
             this.frameLocks = new Dictionary<long, chrome.runtime.FrameLock>();
             InitializeComponent();
             this.Name = Name;
+            this.salesforce = salesforce;
             //this.Extension = Extension;
             var browser = new ChromiumWebBrowser(url)
             {
@@ -420,8 +422,25 @@ namespace NCP_Browser
 
                 if(Name != null)
                 {
-                    this.Browser.GetBrowser().ShowDevTools();
+                    //this.Browser.GetBrowser().ShowDevTools();
                 }
+                // #1
+                else
+                {
+                    LoadBackgroundPages();
+                }
+            }
+        }
+
+        private void LoadBackgroundPages()
+        {
+            // Load Background pages
+            // CWIC
+            if (Salesforce.NativeMessagingExtensions.Values.Where(x => x.Name == "ppbllmlcmhfnfflbkbinnhacecaankdh").Count() == 0)
+            {
+                // Start Background
+                NCP_Browser.NativeMessaging.Extension extension = new NativeMessaging.Extension("ppbllmlcmhfnfflbkbinnhacecaankdh", (ChromiumWebBrowser)Browser, this.salesforce);
+                Salesforce.NativeMessagingExtensions.Add("ppbllmlcmhfnfflbkbinnhacecaankdh", extension);
             }
         }
 
@@ -568,5 +587,7 @@ namespace NCP_Browser
                 JavascriptToAllFramesQueue.Enqueue(Javascript);
             } 
         }
+
+        public Salesforce salesforce { get; set; }
     }
 }
