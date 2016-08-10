@@ -6,6 +6,7 @@ namespace CefSharp.Example
 {
     public class JsDialogHandler : IJsDialogHandler
     {
+
         void IJsDialogHandler.OnDialogClosed(IWebBrowser browserControl, IBrowser browser)
         {
             return;
@@ -16,7 +17,7 @@ namespace CefSharp.Example
             return false;
         }
 
-        bool IJsDialogHandler.OnJSDialog(IWebBrowser browserControl, IBrowser browser, string originUrl, string acceptLang, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage)
+        bool IJsDialogHandler.OnJSDialog(IWebBrowser browserControl, IBrowser browser, string originUrl, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage)
         {
             return false;
         }

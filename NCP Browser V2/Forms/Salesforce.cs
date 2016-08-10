@@ -107,13 +107,33 @@ namespace NCP_Browser
 
             Initialize();
 
+            // Jabber Web Api Initialization
+            InitializeJabberWebApi();
+
+            // Call Recorder Initialization
+            try
+            {
+                CallRecorderImplementation = new CallRecorder.Implementation();
+                CallRecorderImplementation.Open();
+                CallRecorderImplementation.Connect();            
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            
+        }
+
+        private void InitializeJabberWebApi()
+        {
             Salesforce.Finesse_Show = "NONE";
             Salesforce.Finesse_Status = "NONE";
             Salesforce.Finesse_CallStatus = "Not_On_A_Call";
             Salesforce.Finesse_Stale = 0;
             Salesforce.Finesse_Lock = new object();
 
-            JabberWebApi = new JabberWebApi.Program(new JabberWebApi.Program.SendPresence(new Action<string,string>((string status, string show) => {
+            JabberWebApi = new JabberWebApi.Program(new JabberWebApi.Program.SendPresence(new Action<string, string>((string status, string show) =>
+            {
                 lock (Salesforce.Finesse_Lock)
                 {
                     if (Salesforce.Finesse_Status != status || Salesforce.Finesse_Show != show)
@@ -136,19 +156,20 @@ namespace NCP_Browser
                     }
                 }
                 //MessageBox.Show(String.Format("{0}|{1}", status, show));
-            })), new JabberWebApi.Program.SendCallStatus(new Action<string>((string status) => {
-                lock(Salesforce.Finesse_Lock)
+            })), new JabberWebApi.Program.SendCallStatus(new Action<string>((string status) =>
+            {
+                lock (Salesforce.Finesse_Lock)
                 {
-                    if(status != Salesforce.Finesse_CallStatus)
+                    if (status != Salesforce.Finesse_CallStatus)
                     {
                         Salesforce.Finesse_CallStatus = status;
                         // Reset Staleness if need be to immediately forward status unless a new status comes in
-                        if(Salesforce.Finesse_Stale >= 3)
+                        if (Salesforce.Finesse_Stale >= 3)
                         {
                             Finesse_Stale = 2;
                         }
-                    }                    
-                }                
+                    }
+                }
             })));
             JabberWebApi.Start();
         }
@@ -805,6 +826,7 @@ namespace NCP_Browser
 
         private void Salesforce_FormClosing(object sender, FormClosingEventArgs e)
         {
+            CallRecorderImplementation.Disconnect();
             CloseOpenWindows();
             if(closing != null)
             {
@@ -887,5 +909,7 @@ namespace NCP_Browser
         public static string Finesse_CallStatus { get; set; }
 
         public static object Finesse_Lock { get; set; }
+
+        internal static CallRecorder.Implementation CallRecorderImplementation { get; set; }
     }
 }

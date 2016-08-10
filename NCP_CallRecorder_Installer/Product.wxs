@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?define Name = "NCP CallRecording Service" ?>
+<?define Manufacturer = "NCP" ?>
+<?define Version = "1.0.0.0" ?>
+<?define UpgradeCode = "{0879348F-FA5C-4898-8968-FF40901656BF}"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <?include "Includes.wxi"?>
+	<Product Id="*" Name="$(var.Name)" Language="1033" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+        <Directory Id="ROOTDIRECTORY" Name="$(var.Manufacturer)">
+          <Directory Id="INSTALLFOLDER" Name="$(var.Name)" />  
+        </Directory>				
+			</Directory>
+		</Directory>
+    
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="$(var.NCP_CallRecorder.TargetFileName)" Guid="{89497FCE-D686-458D-98C7-1A9643212A38}">
+        <File Id="$(var.NCP_CallRecorder.TargetFileName)" Source="$(var.NCP_CallRecorder.TargetPath)" KeyPath ="yes" />
+      </Component>
+      <Component Id="PacketDotNet.dll" Guid="{DE96936D-E576-499B-80EA-1CA0BFF82CC6}">
+        <File Id="PacketDotNet.dll" Source="$(var.SourceDir)\PacketDotNet.dll" KeyPath ="yes" />
+      </Component>
+      <Component Id="$(var.SharpPcap.TargetFileName)" Guid="{5F22B2EF-A260-4FBA-822C-897DC167C752}">
+        <File Id="$(var.SharpPcap.TargetFileName)" Source="$(var.SharpPcap.TargetPath)" KeyPath ="yes" />
+      </Component>
+      <Component Id="$(var.NCP_CallRecording_Service.TargetFileName)" Guid="{A00C2C57-023F-41F9-931F-456516B71D73}">
+        <File Id="$(var.NCP_CallRecording_Service.TargetFileName)" Source="$(var.NCP_CallRecording_Service.TargetPath)" KeyPath="yes" />
+        <!--<RemoveFile Id="ALLFILES" Name="*.*" On="both"/>-->
+        <ServiceInstall Id="ServiceInstaller"
+                        Type="ownProcess"
+                        Name="NCP_CallRecording_Service"
+                        DisplayName="$(var.Name)"
+                        Description="Records Cisco Phone calls via the SPAN based approach. Allows IPC to start/stop recording."
+                        Start="auto"
+                        Account="LocalSystem"
+                        Vital="yes"
+                        ErrorControl="normal">
+          <util:ServiceConfig
+          FirstFailureActionType='restart'
+          SecondFailureActionType='restart'
+          ThirdFailureActionType='restart'
+          RestartServiceDelayInSeconds='30'
+          ResetPeriodInDays='1'/>
+        </ServiceInstall>
+        <ServiceControl Id="StartService" Stop="both" Remove="uninstall" Name="NCP_CallRecording_Service" Wait="yes" />
+      </Component>      
+    </DirectoryRef>
+  
+    <Feature Id="MainApplication" Title="Main Application" Level="1">
+      <ComponentRef Id="$(var.NCP_CallRecorder.TargetFileName)"/>
+      <ComponentRef Id="PacketDotNet.dll" />
+      <ComponentRef Id="$(var.SharpPcap.TargetFileName)"/>
+      <ComponentRef Id="$(var.NCP_CallRecording_Service.TargetFileName)"/>      
+    </Feature>
+	</Product>
+</Wix>

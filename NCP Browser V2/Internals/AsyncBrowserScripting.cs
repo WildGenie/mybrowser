@@ -292,5 +292,25 @@ namespace NCP_Browser.Internals
             NCP_Browser.Jabber.XmppClient.SetDND(status);
         }
 
+        public void RegisterSendCallStatusCallback(CefSharp.IJavascriptCallback callback)
+        {
+            Salesforce.CallRecorderImplementation.AddSendCallStatusListener(callback);
+        }
+
+        public void StartRecording()
+        {
+            Salesforce.CallRecorderImplementation.StartRecording();
+        }
+
+        public void StopRecording()
+        {
+            Salesforce.CallRecorderImplementation.StopRecording();
+        }
+
+        public string GetRecorderStatus()
+        {
+            return Salesforce.CallRecorderImplementation.GetStatus();
+        }
+
     }
 }
