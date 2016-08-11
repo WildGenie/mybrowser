@@ -39,5 +39,23 @@ namespace NCP_CallRecorder.IPC
         {
             NCP_CallRecorder.RecordingEngine.Break();
         }
+
+
+        NCP_CallRecording.IPC.Information WCFInterfaceContract.GetInformation()
+        {
+            NCP_CallRecording.IPC.Information info = new NCP_CallRecording.IPC.Information();
+            info.CallDataList = NCP_CallRecorder.RecordingEngine.ipcCallDataList;
+            info.CurrentStatus = NCP_CallRecorder.RecordingEngine.LastReportedCallStatus;
+            return info;
+        }
+
+
+        void WCFInterfaceContract.Confirm(int Number)
+        {
+            if(NCP_CallRecorder.RecordingEngine.ipcCallDataList.Where(x => x.Number == Number).Count() == 1)
+            {
+                NCP_CallRecorder.RecordingEngine.ipcCallDataList.RemoveAll(x => x.Number == Number);
+            }
+        }
     }
 }

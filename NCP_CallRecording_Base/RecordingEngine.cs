@@ -16,6 +16,8 @@ namespace NCP_CallRecorder
     {
         internal static List<UInt16> watchPorts;
         internal static List<NCP_CallRecorder.CallData> callDataList;
+        internal static List<IPC.CallData> ipcCallDataList;
+        internal static int callDataNumber = 0;
         internal static object lockObject;
 
         private static bool startMarker = false;
@@ -34,6 +36,10 @@ namespace NCP_CallRecorder
             lock(lockObject)
             {
                 BreakIt = false;
+            }
+            if(ipcCallDataList == null)
+            {
+                ipcCallDataList = new List<IPC.CallData>();
             }
             // Initialize Fields/Properties
             if (RecordingEngine.device != null && ((SharpPcap.WinPcap.WinPcapDevice)RecordingEngine.device).Opened)
@@ -104,7 +110,7 @@ namespace NCP_CallRecorder
 
         internal static void Run()
         {
-            
+            NCP_CallRecording.Logging.Writer.SetUp();
             lockObject = new object();
             string ver = SharpPcap.Version.VersionString;
             Console.WriteLine("SharpPcap {0}, NCP_CallRecorder.RecordingEngine\n", ver);
@@ -152,13 +158,13 @@ namespace NCP_CallRecorder
                         });
                     }
                 }
-
+                NCP_CallRecording.Logging.Writer.Write("CheckClientConnected");
                 // Report current status to client
-                if (ClientConnected)
-                {
+                //if (ClientConnected)
+                //{
                     HandleClientConnected();
 
-                }
+                //}
                 System.Threading.Thread.Sleep(1000);
             }
 
@@ -170,6 +176,7 @@ namespace NCP_CallRecorder
 
         private static void HandleClientConnected()
         {
+            NCP_CallRecording.Logging.Writer.Write("HandleClientConnected");
             IPC.CallStatus CallStatusToReport = IPC.CallStatus.Ready;
             lock (lockObject)
             {
@@ -186,13 +193,18 @@ namespace NCP_CallRecorder
             {
                 //if (LastReportedCallStatus != CallStatusToReport)
                 //{
-                    callbackChannel.SendCallStatus(CallStatusToReport);
+                    //callbackChannel.SendCallStatus(CallStatusToReport);
                     LastReportedCallStatus = CallStatusToReport;
                 //}
+                    NCP_CallRecording.Logging.Writer.Write("HandleClientConnected:" + CallStatusToReport.ToString());
             }
-            catch
+            catch(Exception e)
             {
                 ClientConnected = false;
+                NCP_CallRecording.Logging.Writer.Write("HandleClientConnected:false");
+                NCP_CallRecording.Logging.Writer.Write("Error: " + e.Message);
+                if(e.InnerException != null)
+                    NCP_CallRecording.Logging.Writer.Write("Error: " + e.InnerException.Message);
             }
         }
 
@@ -562,10 +574,18 @@ namespace NCP_CallRecorder
 
         internal static void ConnectClient(string Pipe)
         {
-            NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-            EndpointAddress ep = new EndpointAddress(Pipe);
-            callbackChannel = ChannelFactory<IPC.WCFCallbackInterface>.CreateChannel(binding, ep);
             ClientConnected = true;
+            //try
+            //{
+            //    NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+            //    EndpointAddress ep = new EndpointAddress(Pipe);
+            //    callbackChannel = ChannelFactory<IPC.WCFCallbackInterface>.CreateChannel(binding, ep);
+                
+            //}
+            //catch(Exception e)
+            //{
+            //    NCP_CallRecording.Logging.Writer.Write(e.Message);
+            //}            
         }
 
         internal static IPC.WCFCallbackInterface callbackChannel { get; set; }
@@ -585,6 +605,11 @@ namespace NCP_CallRecorder
         }
 
         internal static bool BreakIt { get; set; }
+
+        internal static void AddCallData(IPC.CallData callData)
+        {
+            ipcCallDataList.Add(callData);
+        }
     }
 
     internal class TableConvert

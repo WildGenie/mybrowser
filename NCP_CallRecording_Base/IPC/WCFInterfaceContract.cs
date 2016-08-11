@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using NCP_CallRecording.IPC;
+using System.ServiceModel;
 
 namespace NCP_CallRecorder.IPC
 {
@@ -19,5 +20,11 @@ namespace NCP_CallRecorder.IPC
 
         [OperationContract(IsOneWay = true)]
         void Break();
+
+        [OperationContract(IsOneWay = false)]
+        Information GetInformation();
+
+        [OperationContract(IsOneWay = true)]
+        void Confirm(int Number);
     }
 }

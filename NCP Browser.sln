@@ -35,6 +35,10 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NCP_CallRecorder_Installer"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCP_CallRecorder_Monitor", "NCP_CallRecorder_Monitor\NCP_CallRecorder_Monitor.csproj", "{C96963C0-CA55-46AD-A1EA-CA442504EC1C}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NCP Web Installer", "NCP Web Installer\NCP Web Installer.wixproj", "{2629F9BF-5E7D-433B-BFBC-4F40E8214129}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallerFileTagGenerator", "InstallerFileTagGenerator\InstallerFileTagGenerator.csproj", "{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -561,6 +565,66 @@ Global
 		{C96963C0-CA55-46AD-A1EA-CA442504EC1C}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{C96963C0-CA55-46AD-A1EA-CA442504EC1C}.SingleImage|x64.ActiveCfg = Release|Any CPU
 		{C96963C0-CA55-46AD-A1EA-CA442504EC1C}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.CD_ROM|Any CPU.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.CD_ROM|x64.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.CD_ROM|x86.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.CD_ROM|x86.Build.0 = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Debug|x64.ActiveCfg = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Debug|x86.ActiveCfg = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Debug|x86.Build.0 = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.DVD-5|Any CPU.ActiveCfg = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.DVD-5|Mixed Platforms.ActiveCfg = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.DVD-5|Mixed Platforms.Build.0 = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.DVD-5|x64.ActiveCfg = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.DVD-5|x86.ActiveCfg = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.DVD-5|x86.Build.0 = Debug|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Release|Any CPU.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Release|x64.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Release|x86.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.Release|x86.Build.0 = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.SingleImage|Any CPU.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.SingleImage|Mixed Platforms.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.SingleImage|Mixed Platforms.Build.0 = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.SingleImage|x64.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.SingleImage|x86.ActiveCfg = Release|x86
+		{2629F9BF-5E7D-433B-BFBC-4F40E8214129}.SingleImage|x86.Build.0 = Release|x86
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.CD_ROM|x64.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.DVD-5|x64.ActiveCfg = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Release|x64.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.Release|x86.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.SingleImage|x64.ActiveCfg = Release|Any CPU
+		{52C9CB2C-011C-4CCB-8FD8-8A93C039E189}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

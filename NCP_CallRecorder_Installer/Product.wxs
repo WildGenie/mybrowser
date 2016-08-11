@@ -6,19 +6,22 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include "Includes.wxi"?>
 	<Product Id="*" Name="$(var.Name)" Language="1033" Version="$(var.Version)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"/>
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate />
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
+			<Directory Id="WindowsVolume">
         <Directory Id="ROOTDIRECTORY" Name="$(var.Manufacturer)">
           <Directory Id="INSTALLFOLDER" Name="$(var.Name)" />  
-        </Directory>				
+        </Directory>
+        <Directory Id="CallRecordingFolder" Name="CallRecording" />
 			</Directory>
 		</Directory>
+
     
+
     <DirectoryRef Id="INSTALLFOLDER">
       <Component Id="$(var.NCP_CallRecorder.TargetFileName)" Guid="{89497FCE-D686-458D-98C7-1A9643212A38}">
         <File Id="$(var.NCP_CallRecorder.TargetFileName)" Source="$(var.NCP_CallRecorder.TargetPath)" KeyPath ="yes" />
@@ -38,7 +41,8 @@
                         DisplayName="$(var.Name)"
                         Description="Records Cisco Phone calls via the SPAN based approach. Allows IPC to start/stop recording."
                         Start="auto"
-                        Account="LocalSystem"
+                        Account="SCHEARFIN\SchearServices"
+                        Password="D@+@RulzTh3W04Ld"
                         Vital="yes"
                         ErrorControl="normal">
           <util:ServiceConfig
@@ -48,15 +52,22 @@
           RestartServiceDelayInSeconds='30'
           ResetPeriodInDays='1'/>
         </ServiceInstall>
-        <ServiceControl Id="StartService" Stop="both" Remove="uninstall" Name="NCP_CallRecording_Service" Wait="yes" />
-      </Component>      
+        <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="NCP_CallRecording_Service" Wait="yes" />
+        <util:User Id="ServiceUser" Name="SchearServices" Domain="SCHEARFIN" Password="D@+@RulzTh3W04Ld"
+                     LogonAsService="yes" FailIfExists="no" CreateUser="no" RemoveOnUninstall="no"/>
+      </Component>
     </DirectoryRef>
+
+    <Component Id="CreateCallRecordingFolder" Directory="CallRecordingFolder" Guid="{2A1EC6BD-97BC-4BEE-BD09-4F018D1B53BF}">
+      <CreateFolder />
+    </Component>
   
     <Feature Id="MainApplication" Title="Main Application" Level="1">
       <ComponentRef Id="$(var.NCP_CallRecorder.TargetFileName)"/>
       <ComponentRef Id="PacketDotNet.dll" />
       <ComponentRef Id="$(var.SharpPcap.TargetFileName)"/>
-      <ComponentRef Id="$(var.NCP_CallRecording_Service.TargetFileName)"/>      
+      <ComponentRef Id="$(var.NCP_CallRecording_Service.TargetFileName)"/>
+      <ComponentRef Id="CreateCallRecordingFolder"/>
     </Feature>
 	</Product>
 </Wix>

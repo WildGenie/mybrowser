@@ -94,10 +94,12 @@
   <ItemGroup>
     <Compile Include="CallData.cs" />
     <Compile Include="Decoder.cs" />
+    <Compile Include="IPC\Information.cs" />
     <Compile Include="IPC\WCFCallbackInterface.cs" />
     <Compile Include="IPC\WCFFactory.cs" />
     <Compile Include="IPC\WCFInterfaceContract.cs" />
     <Compile Include="IPC\WCFServer.cs" />
+    <Compile Include="Logging\Writer.cs" />
     <Compile Include="RecordingEngine.cs">
       <SubType>Code</SubType>
     </Compile>

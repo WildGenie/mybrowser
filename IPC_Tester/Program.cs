@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace IPC_Tester
 {
-    [ServiceBehavior(InstanceContextMode=InstanceContextMode.PerCall)]
-    class Program : NCP_CallRecorder.IPC.WCFCallbackInterface
+    class Program
     {
         static void Main(string[] args)
         {
@@ -29,8 +28,8 @@ namespace IPC_Tester
                         channel.StopRecording();
                         break;
                     case "connect":
-                        var pipe = "net.pipe://localhost/NCP_CallRecorderFrontend/IPC";
-                        serviceHost = NCP_CallRecorder.IPC.WCFFactory.OpenPipe(typeof(Program), typeof(NCP_CallRecorder.IPC.WCFCallbackInterface), pipe);
+                        var pipe = "TestConnection";
+                        //serviceHost = NCP_CallRecorder.IPC.WCFFactory.OpenPipe(typeof(Program), typeof(NCP_CallRecorder.IPC.WCFCallbackInterface), pipe);
                         channel.Connect(pipe);
                         break;
                     case "disconnect":
@@ -39,6 +38,22 @@ namespace IPC_Tester
                     case "break":
                         channel.Break();
                         break;
+                    case "get":
+                        var info = channel.GetInformation();
+                        Console.WriteLine(info.CurrentStatus.ToString());
+                        if (info.CallDataList != null)
+                        {
+                            info.CallDataList.ForEach(cd =>
+                            {
+                                ForwardCallData(cd);
+                            });
+                        }
+                        break;
+                    case "confirm":
+                        Console.Write("Enter Confirmation #:");
+                        var cn = Console.ReadLine();
+                        channel.Confirm(int.Parse(cn));
+                        break;
                     case "quit":
                         done = true;
                         break;
@@ -46,19 +61,14 @@ namespace IPC_Tester
             }
         }
 
-        void NCP_CallRecorder.IPC.WCFCallbackInterface.SendCallStatus(NCP_CallRecorder.IPC.CallStatus CallStatus)
-        {
-            Console.WriteLine(CallStatus.ToString());
-        }
-
         public static ServiceHost serviceHost { get; set; }
 
 
-        void NCP_CallRecorder.IPC.WCFCallbackInterface.ForwardCallData(NCP_CallRecorder.IPC.CallData callData)
+        static void ForwardCallData(NCP_CallRecorder.IPC.CallData callData)
         {
             foreach(var file in callData.OpusFiles)
             {
-                Console.WriteLine("Opus File: {0}", file);
+                Console.WriteLine("{1}|Opus File: {0}", file, callData.Number);
             }
         }
     }

@@ -180,7 +180,7 @@ namespace NCP_CallRecorder
             List<String> WavFilesToConvert = new List<string>();
                 
             // TODO, need to linke the BYE to the call id, party id for the target of call
-            var fullCall = @"C:\temp\From_" + From + "_To_" + To + "_RemotePhone_" + RemotePhone + String.Format("_{0:yyyyMMddHHmmSS}_.wav", DateTime.Now);
+            var fullCall = @"C:\CallRecording\From_" + From + "_To_" + To + "_RemotePhone_" + RemotePhone + String.Format("_{0:yyyyMMddHHmmss}_.wav", DateTime.Now);
             FileStream fs = new FileStream(fullCall, FileMode.Create);
             WavFilesToConvert.Add(fullCall);
             //byte[] bs = new byte[audioData.Length * 2];
@@ -215,7 +215,7 @@ namespace NCP_CallRecorder
                 }
 
                 // TODO, need to linke the BYE to the call id, party id for the target of call
-                var callSlice = @"C:\temp\CallRecording_"+CallRecordingNumber.ToString()+"_From_" + From + "_To_" + To + "_RemotePhone_" + RemotePhone + String.Format("_{0:yyyyMMddHHmmSS}_.wav",DateTime.Now);
+                var callSlice = @"C:\CallRecording\CallRecording_"+CallRecordingNumber.ToString()+"_From_" + From + "_To_" + To + "_RemotePhone_" + RemotePhone + String.Format("_{0:yyyyMMddHHmmss}_.wav",DateTime.Now);
                 fs = new FileStream(callSlice, FileMode.Create);
                 WavFilesToConvert.Add(callSlice);
                 //byte[] bs = new byte[audioData.Length * 2];
@@ -251,10 +251,14 @@ namespace NCP_CallRecorder
             }
             try
             {
-                if (NCP_CallRecorder.RecordingEngine.ClientConnected)
-                {
-                    NCP_CallRecorder.RecordingEngine.callbackChannel.ForwardCallData(callData);
-                }
+                NCP_CallRecorder.RecordingEngine.callDataNumber++;
+                callData.Number = NCP_CallRecorder.RecordingEngine.callDataNumber;
+                NCP_CallRecorder.RecordingEngine.AddCallData(callData);
+
+                //if (NCP_CallRecorder.RecordingEngine.ClientConnected)
+                //{
+                //    NCP_CallRecorder.RecordingEngine.callbackChannel.ForwardCallData(callData);
+                //}
             }
             catch
             {

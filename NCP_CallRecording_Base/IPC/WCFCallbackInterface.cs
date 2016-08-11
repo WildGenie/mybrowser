@@ -30,5 +30,8 @@ namespace NCP_CallRecorder.IPC
     {
         [DataMember]
         public List<String> OpusFiles { get; set; }
+
+        [DataMember]
+        public int Number { get; set; }
     }
 }
