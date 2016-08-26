@@ -63,6 +63,16 @@ namespace NCP_CallRecording.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] opusdec {
+            get {
+                object obj = ResourceManager.GetObject("opusdec", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] opusenc {
             get {
                 object obj = ResourceManager.GetObject("opusenc", resourceCulture);

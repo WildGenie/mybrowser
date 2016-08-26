@@ -19,12 +19,16 @@ namespace NCP_CallRecorder
         internal static List<IPC.CallData> ipcCallDataList;
         internal static int callDataNumber = 0;
         internal static object lockObject;
+        internal static List<String> DeleteTheseFiles { get; set; }
 
         private static bool startMarker = false;
         private static bool stopMarker = false;
         private static bool recording = false;
 
-        public static string IPC_ADDRESS = "net.pipe://localhost/NCP_CallRecorder/IPC";
+        public static string IPC_ADDRESS = NCP_CallRecording.Configuration.Settings.IPC_ADDRESS;
+
+        // TODO: CONFIG FILE
+        internal static string ROOT_FILE_FOLDER = NCP_CallRecording.Configuration.Settings.ROOT_FILE_FOLDER;
         
         public static void Main(string[] args)
         {
@@ -94,6 +98,12 @@ namespace NCP_CallRecorder
                 }
                 File.WriteAllBytes(Path.Combine(Path.GetTempPath(), "opusenc.exe"), NCP_CallRecording.Properties.Resources.opusenc);
 
+                if (File.Exists(Path.Combine(Path.GetTempPath(), "opusdec.exe")))
+                {
+                    File.Delete(Path.Combine(Path.GetTempPath(), "opusdec.exe"));
+                }
+                File.WriteAllBytes(Path.Combine(Path.GetTempPath(), "opusdec.exe"), NCP_CallRecording.Properties.Resources.opusdec);
+
 
 
                 //Open the device for capturing
@@ -112,9 +122,36 @@ namespace NCP_CallRecorder
         {
             NCP_CallRecording.Logging.Writer.SetUp();
             lockObject = new object();
+            DeleteTheseFiles = new List<string>();
             string ver = SharpPcap.Version.VersionString;
             Console.WriteLine("SharpPcap {0}, NCP_CallRecorder.RecordingEngine\n", ver);
 
+            // Make Folder structure is needed
+            if(!Directory.Exists(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName)))
+            {
+                Directory.CreateDirectory(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName));
+            }
+
+            if(!Directory.Exists(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "recording")))
+            {
+                Directory.CreateDirectory(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "recording"));
+            }
+
+            if(!Directory.Exists(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "temp")))
+            {
+                Directory.CreateDirectory(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "temp"));
+            }
+
+            // Load any files sitting in our machine's folder
+            try
+            {
+                LoadExistingFiles();
+            }
+            catch
+            {
+                // Nothing to do
+            }
+            
             // Start IPC
             //wcfServer = new NCP_CallRecording.IPC.WCFServer();
             serviceHost = IPC.WCFFactory.OpenPipe(typeof(IPC.WCFServer), typeof(IPC.WCFInterfaceContract), IPC_ADDRESS);
@@ -126,6 +163,51 @@ namespace NCP_CallRecorder
 
             System.Threading.Thread messageThread = new System.Threading.Thread(MessageLoop);
             messageThread.Start(t);
+        }
+
+        private static void LoadExistingFiles()
+        {
+            var pgpFiles = Directory.GetFiles(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "recording"), "*.pgp");
+            Dictionary<DateTime, List<String>> DateAndFiles = new Dictionary<DateTime, List<String>>();
+            foreach (string pgpFile in pgpFiles)
+            {
+                var pgpFileInfo = new FileInfo(pgpFile);
+                string DateString = "";
+                if (pgpFileInfo.Name.StartsWith("CallRecording"))
+                {
+                    DateString = pgpFileInfo.Name.Split('_')[8];
+                }
+                else if (pgpFileInfo.Name.StartsWith("From"))
+                {
+                    DateString = pgpFileInfo.Name.Split('_')[6];
+                }
+
+                if (DateString != "")
+                {
+                    var datetimevalue = DateTime.ParseExact(DateString, "yyyyMMddHHmmss", null);
+                    if (!DateAndFiles.ContainsKey(datetimevalue))
+                    {
+                        DateAndFiles.Add(datetimevalue, new List<string>());
+                    }
+
+                    DateAndFiles.First(x => x.Key == datetimevalue).Value.Add(pgpFile.Replace(".pgp", ""));
+                }
+            }
+
+            if (DateAndFiles.Count > 0)
+            {
+                ipcCallDataList = new List<IPC.CallData>();
+                DateAndFiles.OrderBy(x => x.Key).ToList().ForEach(x =>
+                {
+                    callDataNumber++;
+                    var nicp = new IPC.CallData() { Number = callDataNumber, OpusFiles = new List<string>() };
+                    x.Value.ForEach(y =>
+                    {
+                        nicp.OpusFiles.Add(y);
+                    });
+                    ipcCallDataList.Add(nicp);
+                });
+            }
         }
 
         private static void MessageLoop(object threadRef)
@@ -156,6 +238,24 @@ namespace NCP_CallRecorder
                                 callDataList.Remove(x);
                             }
                         });
+                        List<String> DeletedFiles = new List<string>();
+                        foreach(var file in DeleteTheseFiles)
+                        {
+                            try
+                            {
+                                File.Delete(file);
+                                Console.WriteLine("File Deleted: {0}", file);
+                                DeletedFiles.Add(file);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("File Not Deleted: {0} | {1}", file, e.Message);
+                            }
+                        }
+                        foreach(var dfile in DeletedFiles)
+                        {
+                            DeleteTheseFiles.Remove(dfile);
+                        }
                     }
                 }
                 NCP_CallRecording.Logging.Writer.Write("CheckClientConnected");

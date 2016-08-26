@@ -127,7 +127,7 @@
             this.backButton.Image = global::NCP_Browser.Properties.Resources.nav_left_green;
             this.backButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(49, 22);
+            this.backButton.Size = new System.Drawing.Size(52, 22);
             this.backButton.Text = "Back";
             this.backButton.Click += new System.EventHandler(this.BackButtonClick);
             // 
@@ -137,7 +137,7 @@
             this.forwardButton.Image = global::NCP_Browser.Properties.Resources.nav_right_green;
             this.forwardButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.forwardButton.Name = "forwardButton";
-            this.forwardButton.Size = new System.Drawing.Size(67, 22);
+            this.forwardButton.Size = new System.Drawing.Size(70, 22);
             this.forwardButton.Text = "Forward";
             this.forwardButton.Click += new System.EventHandler(this.ForwardButtonClick);
             // 
@@ -153,7 +153,7 @@
             this.goButton.Image = global::NCP_Browser.Properties.Resources.nav_plain_green;
             this.goButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.goButton.Name = "goButton";
-            this.goButton.Size = new System.Drawing.Size(40, 22);
+            this.goButton.Size = new System.Drawing.Size(42, 22);
             this.goButton.Text = "Go";
             this.goButton.Click += new System.EventHandler(this.GoButtonClick);
             // 

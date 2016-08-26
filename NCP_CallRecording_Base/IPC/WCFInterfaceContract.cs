@@ -1,4 +1,5 @@
 ﻿using NCP_CallRecording.IPC;
+using System.IO;
 using System.ServiceModel;
 
 namespace NCP_CallRecorder.IPC
@@ -26,5 +27,11 @@ namespace NCP_CallRecorder.IPC
 
         [OperationContract(IsOneWay = true)]
         void Confirm(int Number);
+
+        [OperationContract(IsOneWay = false)]
+        MemoryStream PlayFile(string FilePath);
+
+        [OperationContract(IsOneWay = false)]
+        bool SendFile(int Number, string CaseId);
     }
 }

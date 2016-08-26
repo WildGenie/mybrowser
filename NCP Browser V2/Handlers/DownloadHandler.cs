@@ -2,7 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-namespace CefSharp.Example
+using CefSharp;
+using System.Media;
+namespace NCP_Browser.Handlers
 {
     public class DownloadHandler : IDownloadHandler
     {
@@ -37,10 +39,10 @@ namespace CefSharp.Example
                     browser.CloseBrowser(false);
                 }
 
-                if(downloadItem.SuggestedFileName.EndsWith(".opus.pgp") || downloadItem.SuggestedFileName.EndsWith(".opus"))
+                if (downloadItem.FullPath.EndsWith(".opus.pgp") || downloadItem.FullPath.EndsWith(".opus"))
                 {
-                    // TODO: Send Command to recording service to play the file
-                    
+                    SoundPlayer sp = new SoundPlayer(Salesforce.CallRecorderImplementation.channel.PlayFile(downloadItem.FullPath));
+                    sp.Play();
                 }
             }
         }

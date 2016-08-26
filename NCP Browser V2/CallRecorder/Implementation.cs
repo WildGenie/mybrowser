@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
 using System.IO;
+using NCP_Browser.Internals;
 
 namespace NCP_Browser.CallRecorder
 {
-    class Implementation : NCP_CallRecorder.IPC.WCFCallbackInterface
+    class Implementation
     {
         private static string AlertSMTPHost = "192.168.100.12";
         private static MailAddress AlertFromAddress = new MailAddress("Alerts@schear.net", "NCP ALERTS");
@@ -31,21 +32,14 @@ namespace NCP_Browser.CallRecorder
             CallStatusCallbacks.Add(callback);
         }
 
-        void NCP_CallRecorder.IPC.WCFCallbackInterface.SendCallStatus(NCP_CallRecorder.IPC.CallStatus CallStatus)
+        void SendCallStatus(NCP_CallRecorder.IPC.CallStatus CallStatus)
         {
-            lock(CallRecorderLock)
+            foreach (var callback in CallStatusCallbacks)
             {
-                if (CallStatus != this.CallStatus)
-                {
-                    this.CallStatus = CallStatus;
-                    foreach (var callback in CallStatusCallbacks)
-                    {
-                        callback.ExecuteAsync(this.CallStatus.ToString());
-                    }
-                }
-            }            
+                callback.ExecuteAsync(this.CallStatus.ToString());
+            }         
         }
-
+        /*
         void NCP_CallRecorder.IPC.WCFCallbackInterface.ForwardCallData(NCP_CallRecorder.IPC.CallData callData)
         {
             SmtpClient mailClient = new SmtpClient();
@@ -63,33 +57,190 @@ namespace NCP_Browser.CallRecorder
                 mailMessage.Attachments.Add(new Attachment(fi.FullName));
             }
             mailClient.Send(mailMessage);
-        }
+        }*/
 
         internal void Open()
         {
+            OpenChannel();
+            System.Threading.Thread messageLoop = new System.Threading.Thread(MessageLoop);
+            messageLoop.Start();
+        }
+
+        private void OpenChannel()
+        {
             NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+            binding.MaxReceivedMessageSize = 2147483647;
             EndpointAddress ep = new EndpointAddress(NCP_CallRecorder.RecordingEngine.IPC_ADDRESS);
-            channel = ChannelFactory<NCP_CallRecorder.IPC.WCFInterfaceContract>.CreateChannel(binding, ep);
+            channelFactory = new ChannelFactory<NCP_CallRecorder.IPC.WCFInterfaceContract>(binding);
+            channelFactory.Faulted += channelFactory_Faulted;
+            channel = channelFactory.CreateChannel(ep);
+        }
+
+        void channelFactory_Faulted(object sender, EventArgs e)
+        {
+            lock(CallRecorderLock)
+            {
+                // Re-open channel if it is still faulted
+                if(channelFactory.State == CommunicationState.Faulted)
+                {
+                    OpenChannel();
+                }                
+            }
+        }
+
+        private void MessageLoop(object obj)
+        {
+            int MaxCallNumber = 0;
+            int LastShownNumber = 0;
+            for(;;)
+            {
+                
+                NCP_CallRecording.IPC.Information info = null;
+                lock(CallRecorderLock)
+                {
+                    if (ChannelActive())
+                    {
+                        info = MessageLoop_HandleOpenedState();
+                    }
+                    else
+                    {
+                        MessageLoop_HandleOtherState(((ICommunicationObject)channel).State);
+                    }
+                }
+                // Populate Drop Down with calls
+                if(info != null)
+                {
+                    lock (Salesforce.FrameLoadLock)
+                    {
+                        int CurCallNumber = MaxCallNumber;
+                        int AddedNumbers = 0;
+
+                        // Add calls from the call recorder into memory
+                        info.CallDataList.ForEach(x =>
+                        {
+                            if(AddCallToList(x, false))
+                            {
+                                AddedNumbers++;
+                            }
+                            if (x.Number > MaxCallNumber)
+                            {
+                                MaxCallNumber = x.Number;
+                            }
+                        });
+
+                        // If we add more than 1 call then this is an 'initial' load
+                        // We don't want to display a dialog
+                        if(AddedNumbers > 1)
+                        {
+                            var call = Salesforce.CallRecordings.OrderByDescending(x => x.IPC_CallData.Number).FirstOrDefault();
+                            if (call != null)
+                            {
+                                LastShownNumber = call.IPC_CallData.Number;
+                            }
+                        }
+                        
+                        // Remove calls no longer being tracked by the recorder
+                        Salesforce.CallRecordings.ForEach(x =>
+                        {
+                            if (info.CallDataList.Where(y => y.Number == x.IPC_CallData.Number).Count() == 0)
+                            {
+                                x.Remove = true;
+                            }
+                        });
+
+
+                        // Show Call Dialog if it has been triggered
+                        if(Salesforce.CallEndTrigger)
+                        {
+                            var call = Salesforce.CallRecordings.OrderByDescending(x => x.IPC_CallData.Number).FirstOrDefault();
+                            if(call != null && call.IPC_CallData.Number > LastShownNumber)
+                            {
+                                LastShownNumber = call.IPC_CallData.Number;
+                                Salesforce.CallEndTrigger = false;
+                                AsyncBrowserScripting.CheckCallRecordingAgainstCasePhoneNumbers(call, true);
+                            }
+                        }
+                    }
+                }                
+                System.Threading.Thread.Sleep(1000);
+            }
+        }
+
+        private void MessageLoop_HandleOtherState(CommunicationState communicationState)
+        {
+            // Re-open if closed/faulted but not if opening/closing
+            if(communicationState != CommunicationState.Opening && communicationState != CommunicationState.Closing)
+            {
+                OpenChannel();
+            }
+        }
+
+        private NCP_CallRecording.IPC.Information MessageLoop_HandleOpenedState()
+        {
+            try
+            {
+                var info = channel.GetInformation();
+                if (CallStatus != info.CurrentStatus)
+                {
+                    CallStatus = info.CurrentStatus;
+                    SendCallStatus(CallStatus);
+                }
+
+                return info;
+            }
+            catch
+            {
+                // Reset status
+                CallStatus = NCP_CallRecorder.IPC.CallStatus.Init;
+                return null;
+            }
         }
 
         public void StartRecording()
         {
             lock (CallRecorderLock)
             {
-                channel.StartRecording();
+                try
+                {
+                    if (ChannelActive())
+                    {
+                        channel.StartRecording();
+                    }
+                }
+                catch
+                {
+                    // Reset status
+                    CallStatus = NCP_CallRecorder.IPC.CallStatus.Init;
+                }
+                
             }
+        }
+
+        private bool ChannelActive()
+        {
+            return ((ICommunicationObject)channel).State == CommunicationState.Opened || ((ICommunicationObject)channel).State == CommunicationState.Created;
         }
 
         public void StopRecording()
         {
             lock (CallRecorderLock)
             {
-                
-                channel.StopRecording();
+                try
+                {
+                    if (ChannelActive())
+                    {
+                        channel.StopRecording();
+                    }
+                }
+                catch
+                {
+                    // Reset status
+                    CallStatus = NCP_CallRecorder.IPC.CallStatus.Init;
+                }                
             }
         }
 
-        public void Connect()
+        /*public void Connect()
         {
             lock(CallRecorderLock)
             {
@@ -97,18 +248,30 @@ namespace NCP_Browser.CallRecorder
                 serviceHost = NCP_CallRecorder.IPC.WCFFactory.OpenPipe(typeof(Implementation), typeof(NCP_CallRecorder.IPC.WCFCallbackInterface), pipe);
                 channel.Connect(pipe);
             }
-        }
+        }*/
 
         public void Disconnect()
         {
             lock(CallRecorderLock)
             {
-                channel.Disconnect();
+                try
+                {
+                    if (ChannelActive())
+                    {
+                        channel.Disconnect();
+                    }
+                }
+                catch
+                {
+                    // Reset status
+                    CallStatus = NCP_CallRecorder.IPC.CallStatus.Init;
+                }   
             }
         }
         
         public ServiceHost serviceHost { get; set; }
         public NCP_CallRecorder.IPC.WCFInterfaceContract channel { get; set; }
+        public ChannelFactory<NCP_CallRecorder.IPC.WCFInterfaceContract> channelFactory { get; set; }
         public object CallRecorderLock { get; set; }
 
         internal string GetStatus()
@@ -117,6 +280,130 @@ namespace NCP_Browser.CallRecorder
             {
                 return this.CallStatus.ToString();
             }
+        }
+
+        public NCP_CallRecording.IPC.Information GetInformation()
+        {
+            NCP_CallRecording.IPC.Information retVal = new NCP_CallRecording.IPC.Information();            
+            lock(CallRecorderLock)
+            {
+                try
+                {
+                    retVal.CallDataList = new List<NCP_CallRecorder.IPC.CallData>();
+                    retVal.CurrentStatus = CallStatus;
+                    if (ChannelActive())
+                    {
+                        retVal = channel.GetInformation();
+                    }
+                }
+                catch
+                {
+                    // Reset status
+                    CallStatus = NCP_CallRecorder.IPC.CallStatus.Init;
+                }
+                return retVal;
+            }
+        }
+
+        internal bool SendFile(int Number, string CaseId)
+        {
+            lock(CallRecorderLock)
+            {
+                try
+                {
+                    if (ChannelActive())
+                    {
+                        if (channel.SendFile(Number, CaseId))
+                        {
+                            channel.Confirm(Number);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch
+                {
+                    // Reset status
+                    CallStatus = NCP_CallRecorder.IPC.CallStatus.Init;
+                    return false;
+                }                
+            }
+        }
+
+        internal void Confirm(int Number)
+        {
+            lock(CallRecorderLock)
+            {
+                try
+                {
+                    if (ChannelActive())
+                    {
+                        channel.Confirm(Number);
+                    }
+                }
+                catch
+                {
+                    // Reset status
+                    CallStatus = NCP_CallRecorder.IPC.CallStatus.Init;
+                }
+            }
+        }
+
+        public static bool AddCallToList(NCP_CallRecorder.IPC.CallData lastCall, bool DialogCheck)
+        {
+            if (Salesforce.CallRecordings == null)
+            {
+                Salesforce.CallRecordings = new List<CallData>();
+            }
+            // Only treat this as triggered if a new call is there.
+            if (lastCall != null && Salesforce.CallRecordings.Where(x => x.IPC_CallData.Number == lastCall.Number).Count() == 0)
+            {
+                NCP_Browser.Internals.CallData cd = new NCP_Browser.Internals.CallData();
+                cd.IPC_CallData = lastCall;
+                var file = lastCall.OpusFiles.First();
+                var fParts = file.Split('_');
+                if (fParts[1].Length >= 10)
+                {
+                    cd.PhoneNumber = fParts[1].Substring(fParts[1].Length - 10, 10);
+                }
+                else if (fParts[3].Length >= 10)
+                {
+                    cd.PhoneNumber = fParts[3].Substring(fParts[3].Length - 10, 10);
+                }
+                else if (fParts[5].Length >= 10)
+                {
+                    cd.PhoneNumber = fParts[5].Substring(fParts[5].Length - 10, 10);
+                }
+                else
+                {
+                    cd.PhoneNumber = "Unknown";
+                }
+
+                cd.DateAdded = DateTime.ParseExact(fParts[6], "yyyyMMddHHmmss", null);
+
+                lock (Salesforce.FrameLoadLock)
+                {
+                    Salesforce.CallRecordingUpdated = true;
+                    Salesforce.CallRecordings.Add(cd);
+                }
+                if(DialogCheck)
+                {
+                    NCP_Browser.Internals.AsyncBrowserScripting.CheckCallRecordingAgainstCasePhoneNumbers(cd);
+                }
+                return true;
+            }
+            else if (lastCall != null && DialogCheck && Salesforce.CallRecordings.Where(x => x.IPC_CallData.Number == lastCall.Number).Count() == 1)
+            {
+                NCP_Browser.Internals.AsyncBrowserScripting.CheckCallRecordingAgainstCasePhoneNumbers(Salesforce.CallRecordings.Where(x => x.IPC_CallData.Number == lastCall.Number).First());
+            }
+            return false;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace NCP_CallRecorder.IPC
             var svcHost = new ServiceHost(serviceType);
             NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
             svcHost.AddServiceEndpoint(endpointType, binding, EndpointAddress);
+            binding.MaxReceivedMessageSize = 2147483647;
             svcHost.Open();
             return svcHost;
         }

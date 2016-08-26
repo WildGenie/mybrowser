@@ -58,7 +58,7 @@ namespace NCP_Browser
             browser.RequestHandler = new WinFormsRequestHandler(openNewTab, salesforce);
             browser.JsDialogHandler = new JsDialogHandler();
             browser.GeolocationHandler = new GeolocationHandler();
-            browser.DownloadHandler = new DownloadHandler();
+            browser.DownloadHandler = new NCP_Browser.Handlers.DownloadHandler();
             browser.KeyboardHandler = new KeyboardHandler();
             browser.LifeSpanHandler = new LifeSpanHandler();
             if (Name == null)
@@ -416,6 +416,7 @@ namespace NCP_Browser
                                 //});
                             }
                         }
+
                         Thread.Sleep(10);
                     }
                 });

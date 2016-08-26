@@ -81,10 +81,15 @@
     <OutputPath>bin\x86\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PacketDotNet">
       <HintPath>..\SharpPcap\PacketDotNet\PacketDotNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Runtime.Serialization" />
@@ -92,7 +97,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\Streamer.cs" />
     <Compile Include="CallData.cs" />
+    <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="Crypto\Manager.cs" />
     <Compile Include="Decoder.cs" />
     <Compile Include="IPC\Information.cs" />
     <Compile Include="IPC\WCFCallbackInterface.cs" />
@@ -152,6 +160,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
     <None Include="Resources\opusenc.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\opusdec.exe" />
   </ItemGroup>
 </Project>

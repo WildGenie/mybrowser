@@ -84,6 +84,7 @@
             this.openWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.cicoJabberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browserPanel = new System.Windows.Forms.Panel();
+            this.callRecordingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,11 +105,12 @@
             this.wikiToolStripMenuItem,
             this.mnuFiness,
             this.openWindows,
-            this.cicoJabberToolStripMenuItem});
+            this.cicoJabberToolStripMenuItem,
+            this.callRecordingsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip.Size = new System.Drawing.Size(1020, 24);
+            this.menuStrip.Size = new System.Drawing.Size(992, 24);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip";
             this.menuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip_ItemClicked);
@@ -135,61 +137,61 @@
             // 
             this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
             this.newTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.newTabToolStripMenuItem.Text = "&New Tab";
             this.newTabToolStripMenuItem.Click += new System.EventHandler(this.NewTabToolStripMenuItemClick);
             // 
             // closeTabToolStripMenuItem
             // 
             this.closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
-            this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.closeTabToolStripMenuItem.Text = "&Close Tab";
             this.closeTabToolStripMenuItem.Click += new System.EventHandler(this.CloseTabToolStripMenuItemClick);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.printToolStripMenuItem.Text = "&Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.PrintToolStripMenuItemClick);
             // 
             // printToPdfToolStripMenuItem
             // 
             this.printToPdfToolStripMenuItem.Name = "printToPdfToolStripMenuItem";
-            this.printToPdfToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.printToPdfToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.printToPdfToolStripMenuItem.Text = "Print To Pdf";
             this.printToPdfToolStripMenuItem.Click += new System.EventHandler(this.printToPdfToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
             // 
             // showDevToolsMenuItem
             // 
             this.showDevToolsMenuItem.Name = "showDevToolsMenuItem";
-            this.showDevToolsMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.showDevToolsMenuItem.Size = new System.Drawing.Size(161, 22);
             this.showDevToolsMenuItem.Text = "Show Dev Tools";
             this.showDevToolsMenuItem.Click += new System.EventHandler(this.ShowDevToolsMenuItemClick);
             // 
             // closeDevToolsMenuItem
             // 
             this.closeDevToolsMenuItem.Name = "closeDevToolsMenuItem";
-            this.closeDevToolsMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.closeDevToolsMenuItem.Size = new System.Drawing.Size(161, 22);
             this.closeDevToolsMenuItem.Text = "Close Dev Tools";
             this.closeDevToolsMenuItem.Click += new System.EventHandler(this.CloseDevToolsMenuItemClick);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(159, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(158, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuItemClick);
             // 
@@ -493,14 +495,23 @@
             this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.browserPanel.Location = new System.Drawing.Point(0, 24);
             this.browserPanel.Name = "browserPanel";
-            this.browserPanel.Size = new System.Drawing.Size(1020, 466);
+            this.browserPanel.Size = new System.Drawing.Size(992, 466);
             this.browserPanel.TabIndex = 2;
+            // 
+            // callRecordingsToolStripMenuItem
+            // 
+            this.callRecordingsToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.callRecordingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Info;
+            this.callRecordingsToolStripMenuItem.Name = "callRecordingsToolStripMenuItem";
+            this.callRecordingsToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.callRecordingsToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
+            this.callRecordingsToolStripMenuItem.Text = "Call Recordings";
             // 
             // Salesforce
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1020, 490);
+            this.ClientSize = new System.Drawing.Size(992, 490);
             this.Controls.Add(this.browserPanel);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -567,6 +578,7 @@
         private System.Windows.Forms.ToolStripMenuItem loanLookupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loanNotesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cicoJabberToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem callRecordingsToolStripMenuItem;
 
     }
 }

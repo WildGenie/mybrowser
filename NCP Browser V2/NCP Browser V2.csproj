@@ -164,6 +164,22 @@
     <Compile Include="Forms\Controls\BrowserTabUserControl.designer.cs">
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\CaseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CaseControl.Designer.cs">
+      <DependentUpon>CaseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SelectCase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SelectCase.Designer.cs">
+      <DependentUpon>SelectCase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\DownloadHandler.cs" />
+    <Compile Include="Internals\CallData.cs" />
+    <Compile Include="Internals\CallRecordingSelectCaseContainer.cs" />
+    <Compile Include="Internals\CaseRelatedPhoneNumber.cs" />
     <Compile Include="Internals\ChromeWidgetMessageInterceptor.cs" />
     <Compile Include="chrome\ChromeExtensionResourceHandler.cs" />
     <Compile Include="chrome\extensions\ChromeExtensionSchemeHandlerFactory.cs" />
@@ -237,8 +253,14 @@
     <EmbeddedResource Include="Forms\Controls\BrowserTabUserControl.resx">
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\CaseControl.resx">
+      <DependentUpon>CaseControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SelectCase.resx">
+      <DependentUpon>SelectCase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Jabber\Credentials.resx">
       <DependentUpon>Credentials.cs</DependentUpon>

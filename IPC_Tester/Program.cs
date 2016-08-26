@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace IPC_Tester
         static void Main(string[] args)
         {
             NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+            binding.MaxReceivedMessageSize = 2147483647;
             EndpointAddress ep = new EndpointAddress(NCP_CallRecorder.RecordingEngine.IPC_ADDRESS);
             NCP_CallRecorder.IPC.WCFInterfaceContract channel = ChannelFactory<NCP_CallRecorder.IPC.WCFInterfaceContract>.CreateChannel(binding, ep);
             
@@ -49,10 +51,24 @@ namespace IPC_Tester
                             });
                         }
                         break;
+                    case "play":
+                        Console.Write("Enter File Path: ");
+                        var file = Console.ReadLine();
+                        var ms = channel.PlayFile(file);
+                        SoundPlayer sp = new SoundPlayer(ms);
+                        sp.Play();
+                        break;
                     case "confirm":
                         Console.Write("Enter Confirmation #:");
                         var cn = Console.ReadLine();
                         channel.Confirm(int.Parse(cn));
+                        break;
+                    case "upload":
+                        Console.Write("Enter Upload #:");
+                        var un = Console.ReadLine();
+                        Console.Write("Enter Case ID:");
+                        var ci = Console.ReadLine();
+                        channel.SendFile(int.Parse(un), ci);
                         break;
                     case "quit":
                         done = true;

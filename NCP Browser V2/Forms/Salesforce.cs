@@ -19,6 +19,8 @@ namespace NCP_Browser
         public static Dictionary<string, IWebBrowser> BackgroundBrowsers { get; set; }
         public static Dictionary<long, NCP_Browser.chrome.runtime.FrameLoad> FrameLoads { get; set;}
         public static object FrameLoadLock { get; set; }
+        public static List<NCP_Browser.Internals.CallData> CallRecordings { get; set; }
+        public static List<NCP_Browser.Internals.CallRecordingSelectCaseContainer> CallRecordingSelectCaseContainers { get; set; }
 
         // Browser tab holders, this is technically not set up for tabbing but the dictionary of tabss
         //  is useful for storing all the background browsers as well as the main salesforce instance
@@ -84,6 +86,7 @@ namespace NCP_Browser
             Salesforce.FrameLoadLock = new object();
             Salesforce.FrameLoads = new Dictionary<long, chrome.runtime.FrameLoad>();
             Salesforce.PresenseNotifications = new List<IJavascriptCallback>();
+            Salesforce.CallRecordings = new List<Internals.CallData>();
             Finesse_Status = String.Empty;
             Finesse_Show = String.Empty;
 
@@ -109,20 +112,73 @@ namespace NCP_Browser
 
             // Jabber Web Api Initialization
             InitializeJabberWebApi();
-
             // Call Recorder Initialization
             try
             {
                 CallRecorderImplementation = new CallRecorder.Implementation();
                 CallRecorderImplementation.Open();
-                CallRecorderImplementation.Connect();            
+                //CallRecorderImplementation.Connect();            
             }
             catch(Exception e)
             {
                 MessageBox.Show(e.Message);
             }
+            StartMessageLoop();
             
         }
+
+        private void StartMessageLoop()
+        {
+            Task.Run(() =>
+            {
+                int MaxCallNumber = 0;
+                while (true)
+                {
+
+                    lock (Salesforce.FrameLoadLock)
+                    {
+                        try
+                        {
+                            
+                            if (Salesforce.CallRecordingSelectCaseContainers != null && Salesforce.CallRecordingSelectCaseContainers.Count > 0)
+                            {
+                                var first = Salesforce.CallRecordingSelectCaseContainers.First();                                
+                                this.Invoke(new Action<Internals.CallRecordingSelectCaseContainer>(ShowCaseForm),  first );
+                                Salesforce.CallRecordingSelectCaseContainers.Remove(first);
+                            }
+                        }
+                        catch
+                        {
+                            
+                        }
+                        
+                    }
+                    try
+                    {
+                        if(this.IsHandleCreated)
+                        {
+                            this.Invoke(new Action(UpdateUI));
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                    System.Threading.Thread.Sleep(1000);  
+                }
+            });
+        }
+
+        private void ShowCaseForm(Internals.CallRecordingSelectCaseContainer first)
+        {
+            NCP_Browser.Forms.SelectCase sc = new Forms.SelectCase();
+            sc.Number = first.SelectCaseCallData.IPC_CallData.Number;
+            sc.Populate(first.RelatedPhoneNumbers);
+            sc.Text = String.Format("Phone Call with # {0}", first.SelectCaseCallData.PhoneNumber);
+            ((Forms.SelectCase)sc).Show();
+        }
+
+
 
         private void InitializeJabberWebApi()
         {
@@ -326,7 +382,7 @@ namespace NCP_Browser
             //}
 
             //Make newly created tab active
-            //browserTabControl.SelectedTab = tabPage;
+            // browserTabControl.SelectedTab = tabPage;
             // browserTabControl
 
             //browserTabControl.ResumeLayout(true);
@@ -911,5 +967,48 @@ namespace NCP_Browser
         public static object Finesse_Lock { get; set; }
 
         internal static CallRecorder.Implementation CallRecorderImplementation { get; set; }
+
+        internal void UpdateUI()
+        {
+            
+            List<Internals.CallData> RemoveRec = new List<Internals.CallData>();
+            if (CallRecordings != null && CallRecordings.Count > 0)
+            {
+                lock(Salesforce.FrameLoadLock)
+                {
+                    if(Salesforce.CallRecordingUpdated)
+                    {
+                        callRecordingsToolStripMenuItem.DropDownItems.Clear();
+                        foreach (var c in CallRecordings)
+                        {
+                            if (c.Remove)
+                            {
+                                RemoveRec.Add(c);
+                            }
+                            else
+                            {
+                                ToolStripItem tsi = new ToolStripMenuItem();
+                                tsi.Text = String.Format("Call To/From {0} ending at {1: MM/dd hh:mm tt} ", c.PhoneNumber, c.DateAdded);
+                                tsi.Click += new EventHandler(delegate(Object sender, EventArgs e)
+                                {
+                                    NCP_Browser.Internals.AsyncBrowserScripting.CheckCallRecordingAgainstCasePhoneNumbers(c,true);
+                                });
+                                callRecordingsToolStripMenuItem.DropDownItems.Add(tsi);
+                            }
+                        }
+                        foreach (var c in RemoveRec)
+                        {
+                            CallRecordings.Remove(c);
+                        }
+                        Salesforce.CallRecordingUpdated = false;
+                    }                    
+                }                
+            }
+            
+        }
+
+        public static bool CallRecordingUpdated { get; set; }
+
+        public static bool CallEndTrigger { get; set; }
     }
 }

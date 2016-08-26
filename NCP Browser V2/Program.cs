@@ -32,6 +32,7 @@ namespace NCP_Browser
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 CefSharp.Cef.EnableHighDPISupport();
+                //Application.Run(new NCP_Browser.Forms.SelectCase());
                 Application.Run(new Salesforce(true, "https://test.salesforce.com"));
             }
             

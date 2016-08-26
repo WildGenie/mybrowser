@@ -17,13 +17,27 @@ namespace NCP_Browser.Internals
 
         public string NCPBrowserScripting()
         {
-            return "NCP Scripting Engine injected";
+            if (CaseRelatedPhoneNumbers == null)
+            {
+                CaseRelatedPhoneNumbers = new List<CaseRelatedPhoneNumber>();
+            }
+
+            if (UnRelatedCasePhoneNumbers == null)
+            {
+                UnRelatedCasePhoneNumbers = new List<CaseRelatedPhoneNumber>();
+            }
+
+            if (Salesforce.CallRecordings == null)
+            {
+                Salesforce.CallRecordings = new List<CallData>();
+            }
+            return "NCP Scripting Engine injected";            
         }
 
         public void PlayDing()
         {
             Stream dingStream = NCP_Browser.Properties.Resources.Ding;
-                //Assembly.GetExecutingAssembly().GetManifestResourceStream("NCP_Browser.Ding.wav");
+            //Assembly.GetExecutingAssembly().GetManifestResourceStream("NCP_Browser.Ding.wav");
             SoundPlayer dinger = new SoundPlayer(dingStream);
             dinger.Play();
         }
@@ -165,7 +179,7 @@ namespace NCP_Browser.Internals
 
         public void QFundOpen(string url, string name, int MaxWindows)
         {
-            
+
             NCP_Browser.QFund qf = new NCP_Browser.QFund();
             qf.WindowValue = 1;
             var en = this.SalesforceRef.openWindows.DropDownItems.GetEnumerator();
@@ -185,7 +199,7 @@ namespace NCP_Browser.Internals
             qf.Text = String.Format("QFund - {0}", name);
 
             NCP_Browser.Internals.AsyncBrowserScripting.PositionChildBrowserOnOppositeMonitor(this.SalesforceRef, qf);
-            if(MaxWindows > 0)
+            if (MaxWindows > 0)
             {
                 qf.WindowState = FormWindowState.Maximized;
             }
@@ -257,7 +271,7 @@ namespace NCP_Browser.Internals
         {
             ((BaseBaseForm)((ToolStripEnhanced)sender).form).SafeClose();
         }
-        
+
         public void RegisterJabberCallBack(CefSharp.IJavascriptCallback callback)
         {
             // TODO set up linker to forwarder
@@ -307,10 +321,137 @@ namespace NCP_Browser.Internals
             Salesforce.CallRecorderImplementation.StopRecording();
         }
 
-        public string GetRecorderStatus()
+        public void GetRecorderStatus(CefSharp.IJavascriptCallback callback)
         {
-            return Salesforce.CallRecorderImplementation.GetStatus();
+            callback.ExecuteAsync(Salesforce.CallRecorderImplementation.GetStatus());
         }
 
+        public void AddRelatedPhoneNumber(String CaseId, String PhoneNumber, String LoanNumber, String CustomerName, String CaseNumber, String CreatedDate)
+        {
+            if (CaseRelatedPhoneNumbers == null)
+            {
+                CaseRelatedPhoneNumbers = new List<CaseRelatedPhoneNumber>();
+            }
+
+            var CleanedPhoneNumber = PhoneNumber.Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", "");
+
+            if (CaseRelatedPhoneNumbers.Where(x => x.CaseId == CaseId && x.PhoneNumber == CleanedPhoneNumber).Count() == 0)
+            {
+                CaseRelatedPhoneNumbers.Add(new CaseRelatedPhoneNumber() { CaseId = CaseId, PhoneNumber = CleanedPhoneNumber, CaseNumber = CaseNumber, CustomerName = CustomerName, LoanNumber = LoanNumber, CreatedDate = DateTime.ParseExact(CreatedDate,"yyyy-MM-dd HH:mm:ss", null) });
+            }
+
+        }
+
+        public void AddUnRelatedPhoneNumber(String CaseId, String PhoneNumber, String LoanNumber, String CustomerName, String CaseNumber, String CreatedDate)
+        {
+            if (UnRelatedCasePhoneNumbers == null)
+            {
+                UnRelatedCasePhoneNumbers = new List<CaseRelatedPhoneNumber>();
+            }
+
+            var CleanedPhoneNumber = PhoneNumber.Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", "");
+
+            if (UnRelatedCasePhoneNumbers.Where(x => x.CaseId == CaseId && x.PhoneNumber == CleanedPhoneNumber).Count() == 0)
+            {
+                UnRelatedCasePhoneNumbers.Add(new CaseRelatedPhoneNumber() { CaseId = CaseId, PhoneNumber = CleanedPhoneNumber, CaseNumber = CaseNumber, CustomerName = CustomerName, LoanNumber = LoanNumber, CreatedDate = DateTime.ParseExact(CreatedDate, "yyyy-MM-dd HH:mm:ss", null) });
+            }
+        }
+
+        public void TriggerCallEnd()
+        {
+            lock(Salesforce.FrameLoadLock)
+            {
+                Salesforce.CallEndTrigger = true;
+            }
+            /*
+            if(Salesforce.CallRecordings == null)
+            {
+                Salesforce.CallRecordings = new List<CallData>();
+            }
+
+            var information = Salesforce.CallRecorderImplementation.GetInformation();
+            var lastCall = information.CallDataList.OrderByDescending(x => x.Number).FirstOrDefault();
+
+            NCP_Browser.CallRecorder.Implementation.AddCallToList(lastCall,true);
+            */
+        }
+
+        
+
+        private static List<CaseRelatedPhoneNumber> CaseRelatedPhoneNumbers { get; set; }
+        private static List<CaseRelatedPhoneNumber> UnRelatedCasePhoneNumbers { get; set; }
+
+        public static void CheckCallRecordingAgainstCasePhoneNumbers(CallData x, bool showConfirmation = false)
+        {
+            if (UnRelatedCasePhoneNumbers == null)
+            {
+                UnRelatedCasePhoneNumbers = new List<CaseRelatedPhoneNumber>();
+            }
+
+            if(CaseRelatedPhoneNumbers == null)
+            {
+                CaseRelatedPhoneNumbers = new List<CaseRelatedPhoneNumber>();
+            }
+
+            if (UnRelatedCasePhoneNumbers.Where(y => y.PhoneNumber == x.PhoneNumber).Select(y => new CaseRelatedPhoneNumber { CaseId = y.CaseId }).Distinct().Count() == 1)
+            {
+                x.Remove = true;
+            }
+            if (CaseRelatedPhoneNumbers.Where(y => y.PhoneNumber == x.PhoneNumber).Select(y => new CaseRelatedPhoneNumber { CaseId = y.CaseId }).Distinct().Count() == 1)
+            {
+                // Just Attach it
+                SendMailToSalesforce(x, CaseRelatedPhoneNumbers.Where(y => y.PhoneNumber == x.PhoneNumber).Select(y => new CaseRelatedPhoneNumber { CaseId = y.CaseId }).First().CaseId);
+                if(showConfirmation)
+                {
+                    MessageBox.Show("Call recording automatically attached");
+                }
+            }
+            else if(CaseRelatedPhoneNumbers.Where(y => y.PhoneNumber == x.PhoneNumber).Select(y => new CaseRelatedPhoneNumber { CaseId = y.CaseId }).Distinct().Count() > 1)
+            {
+                // Show List of Cases to attach to (filtered)
+                ShowRecordingSelectionDialog(x, CaseRelatedPhoneNumbers.Where(y => y.PhoneNumber == x.PhoneNumber).Select(y => new CaseRelatedPhoneNumber { CaseId = y.CaseId, CaseNumber = y.CaseNumber, CustomerName = y.CustomerName, LoanNumber = y.LoanNumber, PhoneNumber = y.PhoneNumber, CreatedDate = y.CreatedDate }).Distinct().ToList());
+            }
+            else
+            {
+                // Show list of all Cases to attach to (unfiltered)
+                ShowRecordingSelectionDialog(x, CaseRelatedPhoneNumbers.Select(y => new CaseRelatedPhoneNumber { CaseId = y.CaseId, CaseNumber = y.CaseNumber, CustomerName = y.CustomerName, LoanNumber = y.LoanNumber, PhoneNumber = y.PhoneNumber, CreatedDate = y.CreatedDate }).Distinct().ToList());
+            }
+        }
+
+        private static void ShowRecordingSelectionDialog(CallData x, List<CaseRelatedPhoneNumber> list)
+        {
+            lock(Salesforce.FrameLoadLock)
+            {
+                CallRecordingSelectCaseContainer crcc = new CallRecordingSelectCaseContainer();
+                crcc.RelatedPhoneNumbers = list;
+                crcc.SelectCaseCallData = x;
+                if (Salesforce.CallRecordingSelectCaseContainers == null)
+                {
+                    Salesforce.CallRecordingSelectCaseContainers = new List<CallRecordingSelectCaseContainer>();
+                }
+                Salesforce.CallRecordingSelectCaseContainers.Add(crcc);
+            }
+        }
+
+        private static void ShowForm(object param)
+        {
+            List<CaseRelatedPhoneNumber> list = (List<CaseRelatedPhoneNumber>)param;
+            NCP_Browser.Forms.SelectCase sc = new Forms.SelectCase();
+            sc.Show();
+            sc.Populate(list);
+        }
+
+        private static void SendMailToSalesforce(CallData x, string CaseId)
+        {
+            if(Salesforce.CallRecorderImplementation.SendFile(x.IPC_CallData.Number, CaseId))
+            {
+                x.Remove = true;
+            }
+            else
+            {
+                // TODO: relay the error
+            }
+            //SalesforceRef.UpdateUI();
+        }
     }
 }

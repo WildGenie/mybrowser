@@ -178,9 +178,9 @@ namespace NCP_CallRecorder
             }
 
             List<String> WavFilesToConvert = new List<string>();
-                
-            // TODO, need to linke the BYE to the call id, party id for the target of call
-            var fullCall = @"C:\CallRecording\From_" + From + "_To_" + To + "_RemotePhone_" + RemotePhone + String.Format("_{0:yyyyMMddHHmmss}_.wav", DateTime.Now);
+
+            var FileTimeStamp = DateTime.Now;
+            var fullCall = Path.Combine(Path.Combine(Path.Combine(RecordingEngine.ROOT_FILE_FOLDER,Environment.MachineName),"recording"),"From_" + From + "_To_" + To + "_RemotePhone_" + RemotePhone + String.Format("_{0:yyyyMMddHHmmss}_.wav", FileTimeStamp));
             FileStream fs = new FileStream(fullCall, FileMode.Create);
             WavFilesToConvert.Add(fullCall);
             //byte[] bs = new byte[audioData.Length * 2];
@@ -215,7 +215,7 @@ namespace NCP_CallRecorder
                 }
 
                 // TODO, need to linke the BYE to the call id, party id for the target of call
-                var callSlice = @"C:\CallRecording\CallRecording_"+CallRecordingNumber.ToString()+"_From_" + From + "_To_" + To + "_RemotePhone_" + RemotePhone + String.Format("_{0:yyyyMMddHHmmss}_.wav",DateTime.Now);
+                var callSlice = Path.Combine(Path.Combine(Path.Combine(RecordingEngine.ROOT_FILE_FOLDER, Environment.MachineName), "recording"), "CallRecording_" + CallRecordingNumber.ToString() + "_From_" + From + "_To_" + To + "_RemotePhone_" + RemotePhone + String.Format("_{0:yyyyMMddHHmmss}_.wav", FileTimeStamp));
                 fs = new FileStream(callSlice, FileMode.Create);
                 WavFilesToConvert.Add(callSlice);
                 //byte[] bs = new byte[audioData.Length * 2];
@@ -247,6 +247,7 @@ namespace NCP_CallRecorder
                 opusEnc.Start();
                 opusEnc.WaitForExit();
                 callData.OpusFiles.Add(wavFile.Replace("wav", "opus"));
+                File.Delete(wavFile);
                 Console.WriteLine(opusEnc.StandardOutput.ReadToEnd());
             }
             try
@@ -254,6 +255,12 @@ namespace NCP_CallRecorder
                 NCP_CallRecorder.RecordingEngine.callDataNumber++;
                 callData.Number = NCP_CallRecorder.RecordingEngine.callDataNumber;
                 NCP_CallRecorder.RecordingEngine.AddCallData(callData);
+                callData.OpusFiles.ForEach(x =>
+                {
+                    NCP_CallRecording.Crypto.Manager.Encrypt(x);
+                    File.Delete(x);
+                    x = x + ".pgp";
+                });
 
                 //if (NCP_CallRecorder.RecordingEngine.ClientConnected)
                 //{
@@ -387,7 +394,7 @@ namespace NCP_CallRecorder
             header[39] = Subchunk2ID[3];
 
             // 4byte Little Endian SubChunk2Size - 16 for PCM
-            byte[] SubChunk2Size = BitConverter.GetBytes((Int32)bs.Length * 2);
+            byte[] SubChunk2Size = BitConverter.GetBytes((Int32)bs.Length);
             if (!BitConverter.IsLittleEndian)
             {
                 Array.Reverse(SubChunk2Size);
