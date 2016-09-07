@@ -423,7 +423,15 @@ namespace NCP_Browser
 
                 if(Name != null)
                 {
-                    //this.Browser.GetBrowser().ShowDevTools();
+                    if(Salesforce.BackgroundActions == null)
+                    {
+                        Salesforce.BackgroundActions = new List<Action>();
+                    }
+
+                    Salesforce.BackgroundActions.Add(new Action(() =>
+                    {
+                        this.Browser.GetBrowser().ShowDevTools();
+                    }));
                 }
                 // #1
                 else

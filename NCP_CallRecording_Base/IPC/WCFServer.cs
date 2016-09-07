@@ -124,5 +124,11 @@ namespace NCP_CallRecorder.IPC
             }
             return false;
         }
+
+
+        //MemoryStream WCFInterfaceContract.PlayFile(string MachineName, string FileName)
+        //{
+            //Path.Combine(Path.Combine(NCP_CallRecording.Configuration.Settings.ROOT_FILE_FOLDER,MachineName))
+        //}
     }
 }

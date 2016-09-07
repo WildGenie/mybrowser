@@ -6,23 +6,24 @@ using System.Text;
 
 namespace NCP_CallRecording.Logging
 {
-    class Writer
+    public class Writer
     {
         private static StreamWriter streamWriter;
+        private static String LogLoc = (Path.Combine(Path.Combine(Configuration.Settings.ROOT_FILE_FOLDER, Environment.MachineName), "log"));
+        private static DateTime StartDate;
         public static void SetUp()
         {
-            /*try
+            try
             {
-                if(!Directory.Exists(@"C:\NCP\logs"))
+                StartDate = DateTime.Now;
+                if (File.Exists(Path.Combine(LogLoc,"CRLog.txt")))
                 {
-                    Directory.CreateDirectory(@"C:\NCP\logs");
-                }
-                if (File.Exists(@"C:\NCP\logs\CRLog.txt"))
-                {
-                    var lfiles = Directory.GetFiles(@"C:\NCP\logs", "CRLog.txt.*", SearchOption.TopDirectoryOnly);
+                    var lfiles = Directory.GetFiles(LogLoc, "CRLog.txt.*", SearchOption.TopDirectoryOnly);
                     foreach (var file in lfiles.ToList())
                     {
                         FileInfo fi = new FileInfo(file);
+                        if (fi.Name == "CRLog.txt")
+                            continue;
                         try
                         {
                             var num = int.Parse(fi.Name.Replace("CRLog.txt.", ""));
@@ -41,20 +42,25 @@ namespace NCP_CallRecording.Logging
                             fi.Delete();
                         }
                     }
-                    File.Move(Path.Combine(@"C:\NCP\logs", "CRLog.txt"), Path.Combine(@"C:\NCP\logs", "CRLog.txt.0"));
+                    File.Move(Path.Combine(LogLoc, "CRLog.txt"), Path.Combine(LogLoc, "CRLog.txt.0"));
                 }
             }
             finally
             {
-                streamWriter = new StreamWriter(Path.Combine(@"C:\NCP\logs", "CRLog.txt"));
-            }*/
+                streamWriter = new StreamWriter(Path.Combine(LogLoc, "CRLog.txt"));
+            }
             //streamWriter = new StreamWriter(Path.Combine(@"C:\NCP\logs", "CRLog.txt"));
         }
 
         public static void Write(String Message)
         {
-            //streamWriter.WriteLine(Message);
-            //streamWriter.Flush();
+            if(DateTime.Now.Date > StartDate.Date)
+            {
+                streamWriter.Close();
+                SetUp();
+            }
+            streamWriter.WriteLine(Message);
+            streamWriter.Flush();
         }
     }
 }

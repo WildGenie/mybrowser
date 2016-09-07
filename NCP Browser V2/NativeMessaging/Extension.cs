@@ -103,17 +103,26 @@ namespace NCP_Browser.NativeMessaging
 
         internal void connectNative(string Hostname, string Executable)
         {
+
             FileInfo fi = new FileInfo(Executable);
-            ExtensionProcess = new Process();
-            ExtensionProcess.StartInfo = new ProcessStartInfo(Executable);
-            ExtensionProcess.StartInfo.WorkingDirectory = fi.Directory.FullName;
-            ExtensionProcess.StartInfo.CreateNoWindow = true;
-            ExtensionProcess.StartInfo.UseShellExecute = false;
-            ExtensionProcess.StartInfo.RedirectStandardInput = true;
-            ExtensionProcess.StartInfo.RedirectStandardOutput = true;
-            ExtensionProcess.StartInfo.RedirectStandardError = true;
-            ExtensionProcess.StartInfo.Arguments = String.Format("--parent-window=0 chrome-extension://{0}/",Hostname);
-            ExtensionProcess.Start();
+            try
+            {
+                ExtensionProcess = new Process();
+                ExtensionProcess.StartInfo = new ProcessStartInfo(Executable);
+                ExtensionProcess.StartInfo.WorkingDirectory = fi.Directory.FullName;
+                ExtensionProcess.StartInfo.CreateNoWindow = true;
+                ExtensionProcess.StartInfo.UseShellExecute = false;
+                ExtensionProcess.StartInfo.RedirectStandardInput = true;
+                ExtensionProcess.StartInfo.RedirectStandardOutput = true;
+                ExtensionProcess.StartInfo.RedirectStandardError = true;
+                ExtensionProcess.StartInfo.Arguments = String.Format("--parent-window=0 chrome-extension://{0}/", Hostname);
+                ExtensionProcess.Start();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error Starting CWIC");
+            }
+            
 
             output = new NativeMessagingOutputQueue(ExtensionProcess.StandardOutput.BaseStream, this.ForwardMessageToBrowser);
             output.Start();

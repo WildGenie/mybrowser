@@ -33,6 +33,7 @@ namespace NCP_Browser.Forms
             this.btn_Close = new System.Windows.Forms.Button();
             this.btn_Discard = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.playerControl1 = new NCP_Browser.Forms.Controls.PlayerControl();
             this.SuspendLayout();
             // 
             // panel1
@@ -90,6 +91,14 @@ namespace NCP_Browser.Forms
             this.progressBar1.Value = 50;
             this.progressBar1.Visible = false;
             // 
+            // playerControl1
+            // 
+            this.playerControl1.Location = new System.Drawing.Point(282, 380);
+            this.playerControl1.Name = "playerControl1";
+            this.playerControl1.Size = new System.Drawing.Size(155, 40);
+            this.playerControl1.TabIndex = 3;
+            this.playerControl1.Visible = false;
+            // 
             // SelectCase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -97,6 +106,7 @@ namespace NCP_Browser.Forms
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(518, 425);
             this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.playerControl1);
             this.Controls.Add(this.btn_Discard);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.panel1);
@@ -118,6 +128,7 @@ namespace NCP_Browser.Forms
         private Button btn_Close;
         private Button btn_Discard;
         private ProgressBar progressBar1;
+        private Controls.PlayerControl playerControl1;
 
     }
 }

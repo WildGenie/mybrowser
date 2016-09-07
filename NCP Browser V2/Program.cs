@@ -33,7 +33,7 @@ namespace NCP_Browser
                 Application.SetCompatibleTextRenderingDefault(false);
                 CefSharp.Cef.EnableHighDPISupport();
                 //Application.Run(new NCP_Browser.Forms.SelectCase());
-                Application.Run(new Salesforce(true, "https://test.salesforce.com"));
+                Application.Run(new Salesforce(true, (String)System.Configuration.ConfigurationSettings.AppSettings["HOME_ADDRESS"]));
             }
             
             //Application.Run(new Jabber.Credentials());

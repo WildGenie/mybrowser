@@ -38,6 +38,21 @@ namespace NCP_CallRecording.Configuration
             }
         }
 
+        public static string ROOT_TEMP_FOLDER
+        {
+            get
+            {
+                if (System.Configuration.ConfigurationManager.AppSettings.AllKeys.Where(x => x == "ROOT_TEMP_FOLDER").Count() == 1)
+                {
+                    return (string)System.Configuration.ConfigurationManager.AppSettings["ROOT_TEMP_FOLDER"];
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
         public static string KEY_LOC
         {
             get

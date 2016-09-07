@@ -170,6 +170,12 @@
     <Compile Include="Forms\Controls\CaseControl.Designer.cs">
       <DependentUpon>CaseControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\PlayerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\PlayerControl.Designer.cs">
+      <DependentUpon>PlayerControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SelectCase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\CaseControl.resx">
       <DependentUpon>CaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\PlayerControl.resx">
+      <DependentUpon>PlayerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
@@ -476,6 +485,11 @@
     </Content>
     <None Include="Properties\app.manifest" />
     <Content Include="Resources\chromium-256.ico" />
+    <Content Include="Resources\Images\Pause.png" />
+    <Content Include="Resources\Images\Play.png" />
+    <Content Include="Resources\Images\SeekLeft.png" />
+    <Content Include="Resources\Images\SeekRight.png" />
+    <Content Include="Resources\Images\Stop.png" />
     <Content Include="Resources\NCP Browser.ico" />
     <Content Include="Resources\qfund.ico" />
     <Content Include="snapshot_blob.bin">

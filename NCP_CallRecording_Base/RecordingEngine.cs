@@ -32,7 +32,8 @@ namespace NCP_CallRecorder
         
         public static void Main(string[] args)
         {
-            Run();
+            System.Threading.Thread mainThread = new System.Threading.Thread(Run);
+            mainThread.Start();
         }
 
         private static ICaptureDevice OpenCaptureDevice()
@@ -124,7 +125,7 @@ namespace NCP_CallRecorder
             lockObject = new object();
             DeleteTheseFiles = new List<string>();
             string ver = SharpPcap.Version.VersionString;
-            Console.WriteLine("SharpPcap {0}, NCP_CallRecorder.RecordingEngine\n", ver);
+            NCP_CallRecording.Logging.Writer.Write(String.Format("SharpPcap {0}, NCP_CallRecorder.RecordingEngine\n", ver));
 
             // Make Folder structure is needed
             if(!Directory.Exists(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName)))
@@ -142,9 +143,15 @@ namespace NCP_CallRecorder
                 Directory.CreateDirectory(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "temp"));
             }
 
+            if (!Directory.Exists(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "log")))
+            {
+                Directory.CreateDirectory(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "log"));
+            }
+
             // Load any files sitting in our machine's folder
             try
             {
+                NCP_CallRecording.Logging.Writer.Write("Loading Existing Files");
                 LoadExistingFiles();
             }
             catch
@@ -154,60 +161,71 @@ namespace NCP_CallRecorder
             
             // Start IPC
             //wcfServer = new NCP_CallRecording.IPC.WCFServer();
+            NCP_CallRecording.Logging.Writer.Write("Service Host Made");
             serviceHost = IPC.WCFFactory.OpenPipe(typeof(IPC.WCFServer), typeof(IPC.WCFInterfaceContract), IPC_ADDRESS);
 
             // Start capture packets
             device = OpenCaptureDevice();
             System.Threading.Thread t = new System.Threading.Thread(device.Capture);
             t.Start();
+            NCP_CallRecording.Logging.Writer.Write("Device Capture Started");
 
             System.Threading.Thread messageThread = new System.Threading.Thread(MessageLoop);
             messageThread.Start(t);
+            NCP_CallRecording.Logging.Writer.Write("Message Thread Started");
         }
 
         private static void LoadExistingFiles()
         {
-            var pgpFiles = Directory.GetFiles(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "recording"), "*.pgp");
-            Dictionary<DateTime, List<String>> DateAndFiles = new Dictionary<DateTime, List<String>>();
-            foreach (string pgpFile in pgpFiles)
+            try
             {
-                var pgpFileInfo = new FileInfo(pgpFile);
-                string DateString = "";
-                if (pgpFileInfo.Name.StartsWith("CallRecording"))
+                var pgpFiles = Directory.GetFiles(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "recording"), "*.pgp");
+                Dictionary<DateTime, List<String>> DateAndFiles = new Dictionary<DateTime, List<String>>();
+                foreach (string pgpFile in pgpFiles)
                 {
-                    DateString = pgpFileInfo.Name.Split('_')[8];
-                }
-                else if (pgpFileInfo.Name.StartsWith("From"))
-                {
-                    DateString = pgpFileInfo.Name.Split('_')[6];
-                }
-
-                if (DateString != "")
-                {
-                    var datetimevalue = DateTime.ParseExact(DateString, "yyyyMMddHHmmss", null);
-                    if (!DateAndFiles.ContainsKey(datetimevalue))
+                    var pgpFileInfo = new FileInfo(pgpFile);
+                    string DateString = "";
+                    if (pgpFileInfo.Name.StartsWith("CallRecording"))
                     {
-                        DateAndFiles.Add(datetimevalue, new List<string>());
+                        DateString = pgpFileInfo.Name.Split('_')[8];
+                    }
+                    else if (pgpFileInfo.Name.StartsWith("From"))
+                    {
+                        DateString = pgpFileInfo.Name.Split('_')[6];
                     }
 
-                    DateAndFiles.First(x => x.Key == datetimevalue).Value.Add(pgpFile.Replace(".pgp", ""));
+                    if (DateString != "")
+                    {
+                        var datetimevalue = DateTime.ParseExact(DateString, "yyyyMMddHHmmss", null);
+                        if (!DateAndFiles.ContainsKey(datetimevalue))
+                        {
+                            DateAndFiles.Add(datetimevalue, new List<string>());
+                        }
+
+                        DateAndFiles.First(x => x.Key == datetimevalue).Value.Add(pgpFile.Replace(".pgp", ""));
+                    }
+                }
+
+                if (DateAndFiles.Count > 0)
+                {
+                    ipcCallDataList = new List<IPC.CallData>();
+                    DateAndFiles.OrderBy(x => x.Key).ToList().ForEach(x =>
+                    {
+                        callDataNumber++;
+                        var nicp = new IPC.CallData() { Number = callDataNumber, OpusFiles = new List<string>() };
+                        x.Value.ForEach(y =>
+                        {
+                            nicp.OpusFiles.Add(y);
+                        });
+                        ipcCallDataList.Add(nicp);
+                    });
                 }
             }
-
-            if (DateAndFiles.Count > 0)
+            catch(Exception ex)
             {
-                ipcCallDataList = new List<IPC.CallData>();
-                DateAndFiles.OrderBy(x => x.Key).ToList().ForEach(x =>
-                {
-                    callDataNumber++;
-                    var nicp = new IPC.CallData() { Number = callDataNumber, OpusFiles = new List<string>() };
-                    x.Value.ForEach(y =>
-                    {
-                        nicp.OpusFiles.Add(y);
-                    });
-                    ipcCallDataList.Add(nicp);
-                });
+                NCP_CallRecording.Logging.Writer.Write("Loading Existing Files - Exception - " + ex.Message);
             }
+            
         }
 
         private static void MessageLoop(object threadRef)
@@ -232,6 +250,10 @@ namespace NCP_CallRecorder
                             {
                                 watchPorts.Remove(x.port);
                             }
+                            catch(Exception ex)
+                            {
+                                NCP_CallRecording.Logging.Writer.Write(String.Format("Watch Port Remove: {0}", ex.Message));
+                            }
                             finally
                             {
                                 x.Write();
@@ -244,12 +266,12 @@ namespace NCP_CallRecorder
                             try
                             {
                                 File.Delete(file);
-                                Console.WriteLine("File Deleted: {0}", file);
+                                NCP_CallRecording.Logging.Writer.Write(String.Format("File Deleted: {0}", file));
                                 DeletedFiles.Add(file);
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine("File Not Deleted: {0} | {1}", file, e.Message);
+                                NCP_CallRecording.Logging.Writer.Write(String.Format("File Not Deleted: {0} | {1}", file, e.Message));
                             }
                         }
                         foreach(var dfile in DeletedFiles)
@@ -258,7 +280,7 @@ namespace NCP_CallRecorder
                         }
                     }
                 }
-                NCP_CallRecording.Logging.Writer.Write("CheckClientConnected");
+                //NCP_CallRecording.Logging.Writer.Write("CheckClientConnected");
                 // Report current status to client
                 //if (ClientConnected)
                 //{
@@ -276,7 +298,7 @@ namespace NCP_CallRecorder
 
         private static void HandleClientConnected()
         {
-            NCP_CallRecording.Logging.Writer.Write("HandleClientConnected");
+            //NCP_CallRecording.Logging.Writer.Write("HandleClientConnected");
             IPC.CallStatus CallStatusToReport = IPC.CallStatus.Ready;
             lock (lockObject)
             {
@@ -296,7 +318,7 @@ namespace NCP_CallRecorder
                     //callbackChannel.SendCallStatus(CallStatusToReport);
                     LastReportedCallStatus = CallStatusToReport;
                 //}
-                    NCP_CallRecording.Logging.Writer.Write("HandleClientConnected:" + CallStatusToReport.ToString());
+                    //NCP_CallRecording.Logging.Writer.Write("HandleClientConnected:" + CallStatusToReport.ToString());
             }
             catch(Exception e)
             {
@@ -310,6 +332,7 @@ namespace NCP_CallRecorder
 
         private static void Restart(ref System.Threading.Thread t)
         {
+            NCP_CallRecording.Logging.Writer.Write("Restart()");
             lock(lockObject)
             {
                 try
@@ -317,13 +340,18 @@ namespace NCP_CallRecorder
                     RequiresRestart = false;
                     device.Close();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    NCP_CallRecording.Logging.Writer.Write("Restart() Error: " + ex.Message);
                     RequiresRestart = true;
                 }
                 try
                 {
                     device = OpenCaptureDevice();
+                }
+                catch (Exception ex)
+                {
+                    NCP_CallRecording.Logging.Writer.Write("Restart() Error2: " + ex.Message);
                 }
                 finally
                 {
@@ -343,6 +371,7 @@ namespace NCP_CallRecorder
 
         internal static void CloseDevice()
         {
+            NCP_CallRecording.Logging.Writer.Write("CloseDevice()");
             lock (lockObject)
             {
                 // There isn't anything associated with a call at this point so no clean up required on that front.
@@ -350,6 +379,10 @@ namespace NCP_CallRecorder
                 try
                 {
                     device.StopCapture();
+                }
+                catch (Exception ex)
+                {
+                    NCP_CallRecording.Logging.Writer.Write(String.Format("CloseDevide() Failure: {0}", ex.Message));
                 }
                 finally
                 {
@@ -361,6 +394,7 @@ namespace NCP_CallRecorder
 
         internal static void StopRecording()
         {
+            NCP_CallRecording.Logging.Writer.Write("StopRecording()");
             lock (lockObject)
             {
                 if (!stopMarker && recording)
@@ -373,6 +407,7 @@ namespace NCP_CallRecorder
 
         internal static void StartRecording()
         {
+            NCP_CallRecording.Logging.Writer.Write("StartRecording()");
             lock (lockObject)
             {
                 if (!startMarker && !recording)
@@ -548,6 +583,7 @@ namespace NCP_CallRecorder
                     var newCall = new NCP_CallRecorder.CallData();
                     newCall.CallId = packetData.CallID;
                     newCall.audioData = new MemoryStream();
+                    NCP_CallRecording.Logging.Writer.Write(String.Format("New Call : {0}", newCall.CallId));
                     callDataList.Add(newCall);
                 }
             }
@@ -559,8 +595,10 @@ namespace NCP_CallRecorder
                     callData.Write();
                     if(watchPorts.Where(x => x == callData.port).Count() == 1)
                     {
+                        NCP_CallRecording.Logging.Writer.Write(String.Format("Remove Port({1}) : {0}", callData.port, callData.CallId));
                         watchPorts.Remove(callData.port);
                     }
+                    NCP_CallRecording.Logging.Writer.Write(String.Format("End Call : {0}", callData.CallId));
                     callDataList.Remove(callData);
                 }
             }
@@ -586,16 +624,14 @@ namespace NCP_CallRecorder
 
             if (!String.IsNullOrEmpty(packetData.MediaDescription) && foundCallData != null)
             {
-
                 if (foundCallData.port == 0)
                 {
                     foundCallData.port = ushort.Parse(packetData.MediaPort);
                 }
 
-
-
                 if (watchPorts.Where(x => x == foundCallData.port).Count() == 0)
                 {
+                    NCP_CallRecording.Logging.Writer.Write(String.Format("Add Port({1}) : {0}", foundCallData.port, foundCallData.CallId));
                     watchPorts.Add(foundCallData.port);
                 }
             }

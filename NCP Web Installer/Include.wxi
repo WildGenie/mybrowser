@@ -2,4 +2,5 @@
 <Include>
 	<!-- TODO: Put your code here. -->
   <?define RootFolder = "\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\" ?>
+  <?define ConfigFolder = "\\schear-fs\it\_CODE\NCP Browser\NCP Web Installer\config\" ?>
 </Include>

@@ -35,8 +35,8 @@
       <Component Id="$(var.SharpPcap.TargetFileName)" Guid="{5F22B2EF-A260-4FBA-822C-897DC167C752}">
         <File Id="$(var.SharpPcap.TargetFileName)" Source="$(var.SharpPcap.TargetPath)" KeyPath ="yes" />
       </Component>
-      <Component Id="NCP_CallRecording_Service.config" Guid="{60B7CD1C-CAE3-44AD-81C1-05DB1587C3E1}">
-        <File Id="NCP_CallRecording_Service.config" Source="$(var.SourceDir)\NCP_CallRecording_Service.config" KeyPath="yes" />
+      <Component Id="NCP_CallRecording_Service.exe.config" Guid="{60B7CD1C-CAE3-44AD-81C1-05DB1587C3E1}">
+        <File Id="NCP_CallRecording_Service.exe.config" Source="$(var.SourceDir)\NCP_CallRecording_Service.exe.config" KeyPath="yes" />
       </Component>
       <Component Id="$(var.NCP_CallRecording_Service.TargetFileName)" Guid="{A00C2C57-023F-41F9-931F-456516B71D73}">
         <File Id="$(var.NCP_CallRecording_Service.TargetFileName)" Source="$(var.NCP_CallRecording_Service.TargetPath)" KeyPath="yes" />
@@ -75,7 +75,7 @@
       <ComponentRef Id="$(var.NCP_CallRecording_Service.TargetFileName)"/>
       <ComponentRef Id="CreateCallRecordingFolder"/>
       <ComponentRef Id="BouncyCastle.Crypto.dll"/>
-      <ComponentRef Id="NCP_CallRecording_Service.config"/>
+      <ComponentRef Id="NCP_CallRecording_Service.exe.config"/>
     </Feature>
 	</Product>
 </Wix>

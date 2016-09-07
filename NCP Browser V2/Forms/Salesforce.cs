@@ -90,14 +90,19 @@ namespace NCP_Browser
             Finesse_Status = String.Empty;
             Finesse_Show = String.Empty;
 
-            // Add salesforce tab
-            AddTab(this.SalesforceInstance);
+            this.HandleCreated += Salesforce_HandleCreated;
             
             //AddTab(CefExample.DefaultUrl, Name : "Cisco Web Communicator");
 
             //Only perform layout when control has completly finished resizing
             ResizeBegin += (s, e) => SuspendLayout();
             ResizeEnd += (s, e) => ResumeLayout(true);
+        }
+
+        void Salesforce_HandleCreated(object sender, EventArgs e)
+        {
+            // Add salesforce tab
+            AddTab(this.SalesforceInstance);
         }
 
         public Salesforce(bool InitializeCEF, string SalesforceInstance)
@@ -1010,5 +1015,15 @@ namespace NCP_Browser
         public static bool CallRecordingUpdated { get; set; }
 
         public static bool CallEndTrigger { get; set; }
+
+
+        public static List<Action> BackgroundActions { get; set; }
+        private void backroundDevToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(BackgroundActions != null && BackgroundActions.Count() > 0)
+            {
+                BackgroundActions.ForEach(x => x.Invoke());
+            }
+        }
     }
 }

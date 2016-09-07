@@ -287,9 +287,17 @@ namespace NCP_Browser.Forms
         {
             lock(Salesforce.FrameLoadLock)
             {
-                Salesforce.CallRecordingUpdated = true;
-                Salesforce.CallRecordings.Where(x => x.IPC_CallData.Number == Number).First().Remove = true;
-                Salesforce.CallRecorderImplementation.Confirm(Number);
+                try
+                {
+                    Salesforce.CallRecordingUpdated = true;
+                    Salesforce.CallRecordings.Where(x => x.IPC_CallData.Number == Number).First().Remove = true;
+                    Salesforce.CallRecorderImplementation.Confirm(Number);
+                }
+                catch
+                {
+                    MessageBox.Show("Error discarding call. Please contact IT");
+                }
+                
             }            
         }
 

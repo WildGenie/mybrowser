@@ -83,8 +83,9 @@
             this.mnuFiness = new System.Windows.Forms.ToolStripMenuItem();
             this.openWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.cicoJabberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.browserPanel = new System.Windows.Forms.Panel();
             this.callRecordingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.browserPanel = new System.Windows.Forms.Panel();
+            this.backroundDevToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,11 +107,12 @@
             this.mnuFiness,
             this.openWindows,
             this.cicoJabberToolStripMenuItem,
-            this.callRecordingsToolStripMenuItem});
+            this.callRecordingsToolStripMenuItem,
+            this.backroundDevToolsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip.Size = new System.Drawing.Size(992, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1614, 24);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip";
             this.menuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip_ItemClicked);
@@ -490,14 +492,6 @@
             this.cicoJabberToolStripMenuItem.Visible = false;
             this.cicoJabberToolStripMenuItem.Click += new System.EventHandler(this.cicoJabberToolStripMenuItem_Click);
             // 
-            // browserPanel
-            // 
-            this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.browserPanel.Location = new System.Drawing.Point(0, 24);
-            this.browserPanel.Name = "browserPanel";
-            this.browserPanel.Size = new System.Drawing.Size(992, 466);
-            this.browserPanel.TabIndex = 2;
-            // 
             // callRecordingsToolStripMenuItem
             // 
             this.callRecordingsToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -507,11 +501,26 @@
             this.callRecordingsToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.callRecordingsToolStripMenuItem.Text = "Call Recordings";
             // 
+            // browserPanel
+            // 
+            this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browserPanel.Location = new System.Drawing.Point(0, 24);
+            this.browserPanel.Name = "browserPanel";
+            this.browserPanel.Size = new System.Drawing.Size(1614, 466);
+            this.browserPanel.TabIndex = 2;
+            // 
+            // backroundDevToolsToolStripMenuItem
+            // 
+            this.backroundDevToolsToolStripMenuItem.Name = "backroundDevToolsToolStripMenuItem";
+            this.backroundDevToolsToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
+            this.backroundDevToolsToolStripMenuItem.Text = "Backround Dev Tools";
+            this.backroundDevToolsToolStripMenuItem.Click += new System.EventHandler(this.backroundDevToolsToolStripMenuItem_Click);
+            // 
             // Salesforce
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(992, 490);
+            this.ClientSize = new System.Drawing.Size(1614, 490);
             this.Controls.Add(this.browserPanel);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -579,6 +588,7 @@
         private System.Windows.Forms.ToolStripMenuItem loanNotesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cicoJabberToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem callRecordingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backroundDevToolsToolStripMenuItem;
 
     }
 }

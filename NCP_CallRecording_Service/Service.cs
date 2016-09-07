@@ -19,7 +19,15 @@ namespace NCP_CallRecording_Service
 
         protected override void OnStart(string[] args)
         {
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.UnhandledException += new UnhandledExceptionEventHandler(ExceptionHandler);
             NCP_CallRecorder.RecordingEngine.Main(null);
+        }
+
+        private void ExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception ex = (Exception)e.ExceptionObject;
+            NCP_CallRecording.Logging.Writer.Write("Error: " + ex.Message);
         }
 
         protected override void OnStop()
