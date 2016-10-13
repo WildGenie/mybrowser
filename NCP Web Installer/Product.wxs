@@ -51,169 +51,149 @@
     <DirectoryRef Id="INSTALLFOLDER">
       <Component Id="NCP_Browser_V2.exe" Guid="{5F0507A8-DC94-4167-A5A4-380B17BA0F43}">
         <!-- START AUTOGEN CODE -->
-        <File Id="agsXMPP.dll" Name="agsXMPP.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\agsXMPP.dll" KeyPath="no" Vital="yes" />
-        <File Id="cef.pak" Name="cef.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\cef.pak" KeyPath="no" Vital="yes" />
-        <File Id="CefSharp.BrowserSubprocess.Core.dll" Name="CefSharp.BrowserSubprocess.Core.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\CefSharp.BrowserSubprocess.Core.dll" KeyPath="no" Vital="yes" />
-        <File Id="CefSharp.BrowserSubprocess.exe" Name="CefSharp.BrowserSubprocess.exe" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\CefSharp.BrowserSubprocess.exe" KeyPath="no" Vital="yes" />
-        <File Id="CefSharp.Core.dll" Name="CefSharp.Core.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\CefSharp.Core.dll" KeyPath="no" Vital="yes" />
-        <File Id="CefSharp.dll" Name="CefSharp.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\CefSharp.dll" KeyPath="no" Vital="yes" />
-        <File Id="CefSharp.Example.dll" Name="CefSharp.Example.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\CefSharp.Example.dll" KeyPath="no" Vital="yes" />
-        <File Id="CefSharp.WinForms.dll" Name="CefSharp.WinForms.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\CefSharp.WinForms.dll" KeyPath="no" Vital="yes" />
-        <File Id="cef_100_percent.pak" Name="cef_100_percent.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\cef_100_percent.pak" KeyPath="no" Vital="yes" />
-        <File Id="cef_200_percent.pak" Name="cef_200_percent.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\cef_200_percent.pak" KeyPath="no" Vital="yes" />
-        <File Id="cef_extensions.pak" Name="cef_extensions.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\cef_extensions.pak" KeyPath="no" Vital="yes" />
-        <File Id="d3dcompiler_43.dll" Name="d3dcompiler_43.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\d3dcompiler_43.dll" KeyPath="no" Vital="yes" />
-        <File Id="d3dcompiler_47.dll" Name="d3dcompiler_47.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\d3dcompiler_47.dll" KeyPath="no" Vital="yes" />
-        <File Id="devtools_resources.pak" Name="devtools_resources.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\devtools_resources.pak" KeyPath="no" Vital="yes" />
-        <File Id="icudtl.dat" Name="icudtl.dat" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\icudtl.dat" KeyPath="no" Vital="yes" />
-        <File Id="JabberAddOn.js" Name="JabberAddOn.js" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\JabberAddOn.js" KeyPath="no" Vital="yes" />
-        <File Id="JabberAddOnBackground.js" Name="JabberAddOnBackground.js" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\JabberAddOnBackground.js" KeyPath="no" Vital="yes" />
-        <File Id="JabberSDK.dll" Name="JabberSDK.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\JabberSDK.dll" KeyPath="no" Vital="yes" />
-        <File Id="JabberWebApi.dll" Name="JabberWebApi.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\JabberWebApi.dll" KeyPath="no" Vital="yes" />
-        <File Id="libcef.dll" Name="libcef.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\libcef.dll" KeyPath="no" Vital="yes" />
-        <File Id="libEGL.dll" Name="libEGL.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\libEGL.dll" KeyPath="no" Vital="yes" />
-        <File Id="libGLESv2.dll" Name="libGLESv2.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\libGLESv2.dll" KeyPath="no" Vital="yes" />
-        <File Id="Microsoft.Owin.Cors.dll" Name="Microsoft.Owin.Cors.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Microsoft.Owin.Cors.dll" KeyPath="no" Vital="yes" />
-        <File Id="Microsoft.Owin.Diagnostics.dll" Name="Microsoft.Owin.Diagnostics.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Microsoft.Owin.Diagnostics.dll" KeyPath="no" Vital="yes" />
-        <File Id="Microsoft.Owin.dll" Name="Microsoft.Owin.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Microsoft.Owin.dll" KeyPath="no" Vital="yes" />
-        <File Id="Microsoft.Owin.FileSystems.dll" Name="Microsoft.Owin.FileSystems.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Microsoft.Owin.FileSystems.dll" KeyPath="no" Vital="yes" />
-        <File Id="Microsoft.Owin.Host.HttpListener.dll" Name="Microsoft.Owin.Host.HttpListener.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Microsoft.Owin.Host.HttpListener.dll" KeyPath="no" Vital="yes" />
-        <File Id="Microsoft.Owin.Hosting.dll" Name="Microsoft.Owin.Hosting.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Microsoft.Owin.Hosting.dll" KeyPath="no" Vital="yes" />
-        <File Id="Microsoft.Owin.Security.dll" Name="Microsoft.Owin.Security.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Microsoft.Owin.Security.dll" KeyPath="no" Vital="yes" />
-        <File Id="Microsoft.Owin.StaticFiles.dll" Name="Microsoft.Owin.StaticFiles.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Microsoft.Owin.StaticFiles.dll" KeyPath="no" Vital="yes" />
-        <File Id="natives_blob.bin" Name="natives_blob.bin" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\natives_blob.bin" KeyPath="no" Vital="yes" />
-        <File Id="NCP_Browser_V2.application" Name="NCP_Browser_V2.application" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\NCP_Browser_V2.application" KeyPath="no" Vital="yes" />
-        <File Id="NCP_Browser_V2.exe" Name="NCP_Browser_V2.exe" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\NCP_Browser_V2.exe" KeyPath="yes" Vital="yes">
+        <File Id="agsXMPP.dll" Name="agsXMPP.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\agsXMPP.dll" KeyPath="no" Vital="yes" />
+        <File Id="BouncyCastle.Crypto.dll" Name="BouncyCastle.Crypto.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\BouncyCastle.Crypto.dll" KeyPath="no" Vital="yes" />
+        <File Id="cef.pak" Name="cef.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\cef.pak" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.BrowserSubprocess.Core.dll" Name="CefSharp.BrowserSubprocess.Core.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.BrowserSubprocess.exe" Name="CefSharp.BrowserSubprocess.exe" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.BrowserSubprocess.exe" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.Core.dll" Name="CefSharp.Core.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.Core.dll" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.Core.xml" Name="CefSharp.Core.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.Core.xml" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.dll" Name="CefSharp.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.dll" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.Example.dll" Name="CefSharp.Example.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.Example.dll" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.Example.pdb" Name="CefSharp.Example.pdb" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.Example.pdb" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.WinForms.dll" Name="CefSharp.WinForms.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.WinForms.dll" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.WinForms.xml" Name="CefSharp.WinForms.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.WinForms.xml" KeyPath="no" Vital="yes" />
+        <File Id="CefSharp.xml" Name="CefSharp.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.xml" KeyPath="no" Vital="yes" />
+        <File Id="cef_100_percent.pak" Name="cef_100_percent.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\cef_100_percent.pak" KeyPath="no" Vital="yes" />
+        <File Id="cef_200_percent.pak" Name="cef_200_percent.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\cef_200_percent.pak" KeyPath="no" Vital="yes" />
+        <File Id="cef_extensions.pak" Name="cef_extensions.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\cef_extensions.pak" KeyPath="no" Vital="yes" />
+        <File Id="d3dcompiler_43.dll" Name="d3dcompiler_43.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\d3dcompiler_43.dll" KeyPath="no" Vital="yes" />
+        <File Id="d3dcompiler_47.dll" Name="d3dcompiler_47.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\d3dcompiler_47.dll" KeyPath="no" Vital="yes" />
+        <File Id="devtools_resources.pak" Name="devtools_resources.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\devtools_resources.pak" KeyPath="no" Vital="yes" />
+        <File Id="icudtl.dat" Name="icudtl.dat" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\icudtl.dat" KeyPath="no" Vital="yes" />
+        <File Id="JabberAddOn.js" Name="JabberAddOn.js" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\JabberAddOn.js" KeyPath="no" Vital="yes" />
+        <File Id="JabberAddOnBackground.js" Name="JabberAddOnBackground.js" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\JabberAddOnBackground.js" KeyPath="no" Vital="yes" />
+        <File Id="JabberSDK.dll" Name="JabberSDK.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\JabberSDK.dll" KeyPath="no" Vital="yes" />
+        <File Id="JabberWebApi.dll" Name="JabberWebApi.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\JabberWebApi.dll" KeyPath="no" Vital="yes" />
+        <File Id="JabberWebApi.js" Name="JabberWebApi.js" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\JabberWebApi.js" KeyPath="no" Vital="yes" />
+        <File Id="JabberWebApi.json" Name="JabberWebApi.json" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\JabberWebApi.json" KeyPath="no" Vital="yes" />
+        <File Id="JabberWebApiBackground.js" Name="JabberWebApiBackground.js" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\JabberWebApiBackground.js" KeyPath="no" Vital="yes" />
+        <File Id="libcef.dll" Name="libcef.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\libcef.dll" KeyPath="no" Vital="yes" />
+        <File Id="libEGL.dll" Name="libEGL.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\libEGL.dll" KeyPath="no" Vital="yes" />
+        <File Id="libGLESv2.dll" Name="libGLESv2.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\libGLESv2.dll" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Cors.dll" Name="Microsoft.Owin.Cors.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Cors.dll" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Cors.xml" Name="Microsoft.Owin.Cors.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Cors.xml" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Diagnostics.dll" Name="Microsoft.Owin.Diagnostics.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Diagnostics.dll" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Diagnostics.xml" Name="Microsoft.Owin.Diagnostics.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Diagnostics.xml" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.dll" Name="Microsoft.Owin.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.dll" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.FileSystems.dll" Name="Microsoft.Owin.FileSystems.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.FileSystems.dll" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.FileSystems.xml" Name="Microsoft.Owin.FileSystems.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.FileSystems.xml" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Host.HttpListener.dll" Name="Microsoft.Owin.Host.HttpListener.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Host.HttpListener.dll" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Host.HttpListener.xml" Name="Microsoft.Owin.Host.HttpListener.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Host.HttpListener.xml" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Hosting.dll" Name="Microsoft.Owin.Hosting.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Hosting.dll" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Hosting.xml" Name="Microsoft.Owin.Hosting.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Hosting.xml" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Security.dll" Name="Microsoft.Owin.Security.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Security.dll" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.Security.xml" Name="Microsoft.Owin.Security.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.Security.xml" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.StaticFiles.dll" Name="Microsoft.Owin.StaticFiles.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.StaticFiles.dll" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.StaticFiles.xml" Name="Microsoft.Owin.StaticFiles.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.StaticFiles.xml" KeyPath="no" Vital="yes" />
+        <File Id="Microsoft.Owin.xml" Name="Microsoft.Owin.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Microsoft.Owin.xml" KeyPath="no" Vital="yes" />
+        <File Id="natives_blob.bin" Name="natives_blob.bin" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\natives_blob.bin" KeyPath="no" Vital="yes" />
+        <File Id="NCP_Browser_V2.application" Name="NCP_Browser_V2.application" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_Browser_V2.application" KeyPath="no" Vital="yes" />
+        <File Id="NCP_Browser_V2.exe.config" Name="NCP_Browser_V2.exe.config" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_Browser_V2.exe.config" KeyPath="no" Vital="yes" />
+        <File Id="NCP_Browser_V2.exe.manifest" Name="NCP_Browser_V2.exe.manifest" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_Browser_V2.exe.manifest" KeyPath="no" Vital="yes" />
+        <File Id="NCP_Browser_V2.vshost.application" Name="NCP_Browser_V2.vshost.application" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_Browser_V2.vshost.application" KeyPath="no" Vital="yes" />
+        <File Id="NCP_Browser_V2.vshost.exe" Name="NCP_Browser_V2.vshost.exe" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_Browser_V2.vshost.exe" KeyPath="no" Vital="yes" />
+        <File Id="NCP_Browser_V2.vshost.exe.config" Name="NCP_Browser_V2.vshost.exe.config" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_Browser_V2.vshost.exe.config" KeyPath="no" Vital="yes" />
+        <File Id="NCP_Browser_V2.vshost.exe.manifest" Name="NCP_Browser_V2.vshost.exe.manifest" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_Browser_V2.vshost.exe.manifest" KeyPath="no" Vital="yes" />
+        <File Id="NCP_CallRecording.exe" Name="NCP_CallRecording.exe" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_CallRecording.exe" KeyPath="no" Vital="yes" />
+        <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Newtonsoft.Json.dll" KeyPath="no" Vital="yes" />
+        <File Id="Newtonsoft.Json.xml" Name="Newtonsoft.Json.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Newtonsoft.Json.xml" KeyPath="no" Vital="yes" />
+        <File Id="Owin.dll" Name="Owin.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\Owin.dll" KeyPath="no" Vital="yes" />
+        <File Id="PacketDotNet.dll" Name="PacketDotNet.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\PacketDotNet.dll" KeyPath="no" Vital="yes" />
+        <File Id="PacketDotNet.xml" Name="PacketDotNet.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\PacketDotNet.xml" KeyPath="no" Vital="yes" />
+        <File Id="SalesforceUploader.exe" Name="SalesforceUploader.exe" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\SalesforceUploader.exe" KeyPath="no" Vital="yes" />
+        <File Id="SalesforceUploader.pdb" Name="SalesforceUploader.pdb" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\SalesforceUploader.pdb" KeyPath="no" Vital="yes" />
+        <File Id="SharpPcap.dll" Name="SharpPcap.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\SharpPcap.dll" KeyPath="no" Vital="yes" />
+        <File Id="SharpPcap.pdb" Name="SharpPcap.pdb" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\SharpPcap.pdb" KeyPath="no" Vital="yes" />
+        <File Id="SharpPcap.xml" Name="SharpPcap.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\SharpPcap.xml" KeyPath="no" Vital="yes" />
+        <File Id="snapshot_blob.bin" Name="snapshot_blob.bin" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\snapshot_blob.bin" KeyPath="no" Vital="yes" />
+        <File Id="System.Net.Http.Formatting.dll" Name="System.Net.Http.Formatting.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\System.Net.Http.Formatting.dll" KeyPath="no" Vital="yes" />
+        <File Id="System.Net.Http.Formatting.xml" Name="System.Net.Http.Formatting.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\System.Net.Http.Formatting.xml" KeyPath="no" Vital="yes" />
+        <File Id="System.Web.Cors.dll" Name="System.Web.Cors.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\System.Web.Cors.dll" KeyPath="no" Vital="yes" />
+        <File Id="System.Web.Http.dll" Name="System.Web.Http.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\System.Web.Http.dll" KeyPath="no" Vital="yes" />
+        <File Id="System.Web.Http.Owin.dll" Name="System.Web.Http.Owin.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\System.Web.Http.Owin.dll" KeyPath="no" Vital="yes" />
+        <File Id="System.Web.Http.Owin.xml" Name="System.Web.Http.Owin.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\System.Web.Http.Owin.xml" KeyPath="no" Vital="yes" />
+        <File Id="System.Web.Http.xml" Name="System.Web.Http.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\System.Web.Http.xml" KeyPath="no" Vital="yes" />
+        <File Id="widevinecdmadapter.dll" Name="widevinecdmadapter.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\widevinecdmadapter.dll" KeyPath="no" Vital="yes" />
+        <!-- END AUTOGEN CODE -->
+        <File Id="NCP_Browser_V2.exe" Name="NCP_Browser_V2.exe" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_Browser_V2.exe" KeyPath="yes" Vital="yes">
           <Shortcut Id="NCPWeb.Shortcut" Directory="DesktopFolder" WorkingDirectory="INSTALLFOLDER" Name="NCPWSCUT" LongName="NCP Web" />
         </File>
-        <File Id="NCP_Browser_V2.exe.config" Name="NCP_Browser_V2.exe.config" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\NCP_Browser_V2.exe.config" KeyPath="no" Vital="yes" />
-        <File Id="NCP_Browser_V2.exe.manifest" Name="NCP_Browser_V2.exe.manifest" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\NCP_Browser_V2.exe.manifest" KeyPath="no" Vital="yes" />
-        <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Newtonsoft.Json.dll" KeyPath="no" Vital="yes" />
-        <File Id="Owin.dll" Name="Owin.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Owin.dll" KeyPath="no" Vital="yes" />
-        <File Id="snapshot_blob.bin" Name="snapshot_blob.bin" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\snapshot_blob.bin" KeyPath="no" Vital="yes" />
-        <File Id="System.Net.Http.Formatting.dll" Name="System.Net.Http.Formatting.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\System.Net.Http.Formatting.dll" KeyPath="no" Vital="yes" />
-        <File Id="System.Web.Cors.dll" Name="System.Web.Cors.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\System.Web.Cors.dll" KeyPath="no" Vital="yes" />
-        <File Id="System.Web.Http.dll" Name="System.Web.Http.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\System.Web.Http.dll" KeyPath="no" Vital="yes" />
-        <File Id="System.Web.Http.Owin.dll" Name="System.Web.Http.Owin.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\System.Web.Http.Owin.dll" KeyPath="no" Vital="yes" />
-        <File Id="widevinecdmadapter.dll" Name="widevinecdmadapter.dll" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\widevinecdmadapter.dll" KeyPath="no" Vital="yes" />
-        <!-- END AUTOGEN CODE -->
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="runtime">
-      <Component Id="runtimefiles" Guid="{4EA93025-0817-4C4F-A7D6-F9B021F3755E}">
-        <File Id="BrowserScripting.js" Name="BrowserScripting.js" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\chrome\runtime\BrowserScripting.js" KeyPath="no" Vital="yes" />
-        <File Id="NativeBrowserScripting.js" Name="NativeBrowserScripting.js" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\chrome\runtime\NativeBrowserScripting.js" KeyPath="no" Vital="yes" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="locales">
       <Component Id="localesfiles" Guid="{8F33B264-AA6C-4635-B387-19E9E4619193}">
-        <File Id="am.pak" Name="am.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\am.pak" KeyPath="no" Vital="yes" />
-        <File Id="ar.pak" Name="ar.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\ar.pak" KeyPath="no" Vital="yes" />
-        <File Id="bg.pak" Name="bg.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\bg.pak" KeyPath="no" Vital="yes" />
-        <File Id="bn.pak" Name="bn.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\bn.pak" KeyPath="no" Vital="yes" />
-        <File Id="ca.pak" Name="ca.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\ca.pak" KeyPath="no" Vital="yes" />
-        <File Id="cs.pak" Name="cs.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\cs.pak" KeyPath="no" Vital="yes" />
-        <File Id="da.pak" Name="da.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\da.pak" KeyPath="no" Vital="yes" />
-        <File Id="de.pak" Name="de.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\de.pak" KeyPath="no" Vital="yes" />
-        <File Id="el.pak" Name="el.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\el.pak" KeyPath="no" Vital="yes" />
-        <File Id="en_GB.pak" Name="en-GB.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\en-GB.pak" KeyPath="no" Vital="yes" />
-        <File Id="en_US.pak" Name="en-US.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\en-US.pak" KeyPath="no" Vital="yes" />
-        <File Id="es_419.pak" Name="es-419.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\es-419.pak" KeyPath="no" Vital="yes" />
-        <File Id="es.pak" Name="es.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\es.pak" KeyPath="no" Vital="yes" />
-        <File Id="et.pak" Name="et.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\et.pak" KeyPath="no" Vital="yes" />
-        <File Id="fa.pak" Name="fa.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\fa.pak" KeyPath="no" Vital="yes" />
-        <File Id="fi.pak" Name="fi.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\fi.pak" KeyPath="no" Vital="yes" />
-        <File Id="fil.pak" Name="fil.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\fil.pak" KeyPath="no" Vital="yes" />
-        <File Id="fr.pak" Name="fr.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\fr.pak" KeyPath="no" Vital="yes" />
-        <File Id="gu.pak" Name="gu.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\gu.pak" KeyPath="no" Vital="yes" />
-        <File Id="he.pak" Name="he.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\he.pak" KeyPath="no" Vital="yes" />
-        <File Id="hi.pak" Name="hi.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\hi.pak" KeyPath="no" Vital="yes" />
-        <File Id="hr.pak" Name="hr.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\hr.pak" KeyPath="no" Vital="yes" />
-        <File Id="hu.pak" Name="hu.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\hu.pak" KeyPath="no" Vital="yes" />
-        <File Id="id.pak" Name="id.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\id.pak" KeyPath="no" Vital="yes" />
-        <File Id="it.pak" Name="it.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\it.pak" KeyPath="no" Vital="yes" />
-        <File Id="ja.pak" Name="ja.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\ja.pak" KeyPath="no" Vital="yes" />
-        <File Id="kn.pak" Name="kn.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\kn.pak" KeyPath="no" Vital="yes" />
-        <File Id="ko.pak" Name="ko.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\ko.pak" KeyPath="no" Vital="yes" />
-        <File Id="lt.pak" Name="lt.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\lt.pak" KeyPath="no" Vital="yes" />
-        <File Id="lv.pak" Name="lv.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\lv.pak" KeyPath="no" Vital="yes" />
-        <File Id="ml.pak" Name="ml.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\ml.pak" KeyPath="no" Vital="yes" />
-        <File Id="mr.pak" Name="mr.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\mr.pak" KeyPath="no" Vital="yes" />
-        <File Id="ms.pak" Name="ms.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\ms.pak" KeyPath="no" Vital="yes" />
-        <File Id="nb.pak" Name="nb.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\nb.pak" KeyPath="no" Vital="yes" />
-        <File Id="nl.pak" Name="nl.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\nl.pak" KeyPath="no" Vital="yes" />
-        <File Id="pl.pak" Name="pl.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\pl.pak" KeyPath="no" Vital="yes" />
-        <File Id="pt_BR.pak" Name="pt-BR.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\pt-BR.pak" KeyPath="no" Vital="yes" />
-        <File Id="pt_PT.pak" Name="pt-PT.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\pt-PT.pak" KeyPath="no" Vital="yes" />
-        <File Id="ro.pak" Name="ro.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\ro.pak" KeyPath="no" Vital="yes" />
-        <File Id="ru.pak" Name="ru.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\ru.pak" KeyPath="no" Vital="yes" />
-        <File Id="sk.pak" Name="sk.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\sk.pak" KeyPath="no" Vital="yes" />
-        <File Id="sl.pak" Name="sl.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\sl.pak" KeyPath="no" Vital="yes" />
-        <File Id="sr.pak" Name="sr.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\sr.pak" KeyPath="no" Vital="yes" />
-        <File Id="sv.pak" Name="sv.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\sv.pak" KeyPath="no" Vital="yes" />
-        <File Id="sw.pak" Name="sw.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\sw.pak" KeyPath="no" Vital="yes" />
-        <File Id="ta.pak" Name="ta.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\ta.pak" KeyPath="no" Vital="yes" />
-        <File Id="te.pak" Name="te.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\te.pak" KeyPath="no" Vital="yes" />
-        <File Id="th.pak" Name="th.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\th.pak" KeyPath="no" Vital="yes" />
-        <File Id="tr.pak" Name="tr.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\tr.pak" KeyPath="no" Vital="yes" />
-        <File Id="uk.pak" Name="uk.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\uk.pak" KeyPath="no" Vital="yes" />
-        <File Id="vi.pak" Name="vi.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\vi.pak" KeyPath="no" Vital="yes" />
-        <File Id="zh_CN.pak" Name="zh-CN.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\zh-CN.pak" KeyPath="no" Vital="yes" />
-        <File Id="zh_TW.pak" Name="zh-TW.pak" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\locales\zh-TW.pak" KeyPath="no" Vital="yes" />
-      </Component>
-    </DirectoryRef>
+        <File Id="am.pak" Name="am.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\am.pak" KeyPath="no" Vital="yes" />
+        <File Id="ar.pak" Name="ar.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\ar.pak" KeyPath="no" Vital="yes" />
+        <File Id="bg.pak" Name="bg.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\bg.pak" KeyPath="no" Vital="yes" />
+        <File Id="bn.pak" Name="bn.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\bn.pak" KeyPath="no" Vital="yes" />
+        <File Id="ca.pak" Name="ca.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\ca.pak" KeyPath="no" Vital="yes" />
+        <File Id="cs.pak" Name="cs.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\cs.pak" KeyPath="no" Vital="yes" />
+        <File Id="da.pak" Name="da.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\da.pak" KeyPath="no" Vital="yes" />
+        <File Id="de.pak" Name="de.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\de.pak" KeyPath="no" Vital="yes" />
+        <File Id="el.pak" Name="el.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\el.pak" KeyPath="no" Vital="yes" />
+        <File Id="en_GB.pak" Name="en-GB.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\en-GB.pak" KeyPath="no" Vital="yes" />
+        <File Id="en_US.pak" Name="en-US.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\en-US.pak" KeyPath="no" Vital="yes" />
+        <File Id="es_419.pak" Name="es-419.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\es-419.pak" KeyPath="no" Vital="yes" />
+        <File Id="es.pak" Name="es.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\es.pak" KeyPath="no" Vital="yes" />
+        <File Id="et.pak" Name="et.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\et.pak" KeyPath="no" Vital="yes" />
+        <File Id="fa.pak" Name="fa.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\fa.pak" KeyPath="no" Vital="yes" />
+        <File Id="fi.pak" Name="fi.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\fi.pak" KeyPath="no" Vital="yes" />
+        <File Id="fil.pak" Name="fil.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\fil.pak" KeyPath="no" Vital="yes" />
+        <File Id="fr.pak" Name="fr.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\fr.pak" KeyPath="no" Vital="yes" />
+        <File Id="gu.pak" Name="gu.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\gu.pak" KeyPath="no" Vital="yes" />
+        <File Id="he.pak" Name="he.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\he.pak" KeyPath="no" Vital="yes" />
+        <File Id="hi.pak" Name="hi.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\hi.pak" KeyPath="no" Vital="yes" />
+        <File Id="hr.pak" Name="hr.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\hr.pak" KeyPath="no" Vital="yes" />
+        <File Id="hu.pak" Name="hu.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\hu.pak" KeyPath="no" Vital="yes" />
+        <File Id="id.pak" Name="id.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\id.pak" KeyPath="no" Vital="yes" />
+        <File Id="it.pak" Name="it.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\it.pak" KeyPath="no" Vital="yes" />
+        <File Id="ja.pak" Name="ja.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\ja.pak" KeyPath="no" Vital="yes" />
+        <File Id="kn.pak" Name="kn.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\kn.pak" KeyPath="no" Vital="yes" />
+        <File Id="ko.pak" Name="ko.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\ko.pak" KeyPath="no" Vital="yes" />
+        <File Id="lt.pak" Name="lt.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\lt.pak" KeyPath="no" Vital="yes" />
+        <File Id="lv.pak" Name="lv.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\lv.pak" KeyPath="no" Vital="yes" />
+        <File Id="ml.pak" Name="ml.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\ml.pak" KeyPath="no" Vital="yes" />
+        <File Id="mr.pak" Name="mr.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\mr.pak" KeyPath="no" Vital="yes" />
+        <File Id="ms.pak" Name="ms.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\ms.pak" KeyPath="no" Vital="yes" />
+        <File Id="nb.pak" Name="nb.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\nb.pak" KeyPath="no" Vital="yes" />
+        <File Id="nl.pak" Name="nl.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\nl.pak" KeyPath="no" Vital="yes" />
+        <File Id="pl.pak" Name="pl.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\pl.pak" KeyPath="no" Vital="yes" />
+        <File Id="pt_BR.pak" Name="pt-BR.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\pt-BR.pak" KeyPath="no" Vital="yes" />
+        <File Id="pt_PT.pak" Name="pt-PT.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\pt-PT.pak" KeyPath="no" Vital="yes" />
+        <File Id="ro.pak" Name="ro.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\ro.pak" KeyPath="no" Vital="yes" />
+        <File Id="ru.pak" Name="ru.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\ru.pak" KeyPath="no" Vital="yes" />
+        <File Id="sk.pak" Name="sk.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\sk.pak" KeyPath="no" Vital="yes" />
+        <File Id="sl.pak" Name="sl.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\sl.pak" KeyPath="no" Vital="yes" />
+        <File Id="sr.pak" Name="sr.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\sr.pak" KeyPath="no" Vital="yes" />
+        <File Id="sv.pak" Name="sv.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\sv.pak" KeyPath="no" Vital="yes" />
+        <File Id="sw.pak" Name="sw.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\sw.pak" KeyPath="no" Vital="yes" />
+        <File Id="ta.pak" Name="ta.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\ta.pak" KeyPath="no" Vital="yes" />
+        <File Id="te.pak" Name="te.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\te.pak" KeyPath="no" Vital="yes" />
+        <File Id="th.pak" Name="th.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\th.pak" KeyPath="no" Vital="yes" />
+        <File Id="tr.pak" Name="tr.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\tr.pak" KeyPath="no" Vital="yes" />
+        <File Id="uk.pak" Name="uk.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\uk.pak" KeyPath="no" Vital="yes" />
+        <File Id="vi.pak" Name="vi.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\vi.pak" KeyPath="no" Vital="yes" />
+        <File Id="zh_CN.pak" Name="zh-CN.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\zh-CN.pak" KeyPath="no" Vital="yes" />
+        <File Id="zh_TW.pak" Name="zh-TW.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\locales\zh-TW.pak" KeyPath="no" Vital="yes" />
 
-    <DirectoryRef Id="Resources">
-      <Component Id="Resourcesfiles" Guid="{125F19E0-2F88-4915-8578-FF8F439B3E79}">
-        <File Id="chromium_256.ico" Name="chromium-256.ico" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\chromium-256.ico" KeyPath="no" Vital="yes" />
-        <File Id="chromium_256.png" Name="chromium-256.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\chromium-256.png" KeyPath="no" Vital="yes" />
-        <File Id="nav_left_green.png" Name="nav_left_green.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\nav_left_green.png" KeyPath="no" Vital="yes" />
-        <File Id="nav_plain_green.png" Name="nav_plain_green.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\nav_plain_green.png" KeyPath="no" Vital="yes" />
-        <File Id="nav_plain_red.png" Name="nav_plain_red.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\nav_plain_red.png" KeyPath="no" Vital="yes" />
-        <File Id="nav_right_green.png" Name="nav_right_green.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\nav_right_green.png" KeyPath="no" Vital="yes" />
-        <File Id="NCP_Browser.ico" Name="NCP Browser.ico" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\NCP Browser.ico" KeyPath="no" Vital="yes" />
-        <File Id="qfund.ico" Name="qfund.ico" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\qfund.ico" KeyPath="no" Vital="yes" />
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="cwic">
-      <Component Id="cwicfiles" Guid="{9B4FAD8A-47FC-4DA2-B03E-8F49BE623A4A}">
-        <File Id="background.js" Name="background.js" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\cwic\background.js" KeyPath="no" Vital="yes" />
-        <File Id="contentscript.js" Name="contentscript.js" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\cwic\contentscript.js" KeyPath="no" Vital="yes" />
-        <File Id="cwic_plugin.js" Name="cwic_plugin.js" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\cwic\cwic_plugin.js" KeyPath="no" Vital="yes" />
-        <File Id="Jabber_128x128.png" Name="Jabber_128x128.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\cwic\Jabber_128x128.png" KeyPath="no" Vital="yes" />
-        <File Id="Jabber_16x16.png" Name="Jabber_16x16.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\cwic\Jabber_16x16.png" KeyPath="no" Vital="yes" />
-        <File Id="Jabber_48x48.png" Name="Jabber_48x48.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\cwic\Jabber_48x48.png" KeyPath="no" Vital="yes" />
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="Images">
-      <Component Id="Imagesfiles" Guid="{E54B55F3-BF69-4798-936A-AE4D2B36C5CE}">
-        <File Id="back.png" Name="back.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\Images\back.png" KeyPath="no" Vital="yes" />
-        <File Id="forward.png" Name="forward.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\Images\forward.png" KeyPath="no" Vital="yes" />
-        <File Id="go.png" Name="go.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\Images\go.png" KeyPath="no" Vital="yes" />
-        <File Id="halt.png" Name="halt.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\Images\halt.png" KeyPath="no" Vital="yes" />
-        <File Id="home.png" Name="home.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\Images\home.png" KeyPath="no" Vital="yes" />
-        <File Id="reload.png" Name="reload.png" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\Images\reload.png" KeyPath="no" Vital="yes" />
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="Sounds">
-      <Component Id="Soundsfiles" Guid="{3589AD33-479D-4339-8B5D-5B1124A389AE}">
-        <File Id="Ding.wav" Name="Ding.wav" Source="\\schear-fs\Software\v2browser\Application Files\NCP_Browser_V2_2_0_0_3\Resources\Sounds\Ding.wav" KeyPath="no" Vital="yes" />
       </Component>
     </DirectoryRef>
 
     <Feature Id="MainApplication" Title="Main Application" Level="1">
       <ComponentRef Id="NCP_Browser_V2.exe"/>
-      <ComponentRef Id="runtimefiles"/>
       <ComponentRef Id="localesfiles"/>
-      <ComponentRef Id="Resourcesfiles"/>
-      <ComponentRef Id="cwicfiles"/>
-      <ComponentRef Id="Imagesfiles"/>
-      <ComponentRef Id="Soundsfiles"/>
     </Feature>
   </Product>
 </Wix>

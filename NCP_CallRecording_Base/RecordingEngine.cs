@@ -38,90 +38,134 @@ namespace NCP_CallRecorder
 
         private static ICaptureDevice OpenCaptureDevice()
         {
-            lock(lockObject)
+            try
             {
-                BreakIt = false;
-            }
-            if(ipcCallDataList == null)
-            {
-                ipcCallDataList = new List<IPC.CallData>();
-            }
-            // Initialize Fields/Properties
-            if (RecordingEngine.device != null && ((SharpPcap.WinPcap.WinPcapDevice)RecordingEngine.device).Opened)
-            {
-                // Device is open we don't need to restart
-                return RecordingEngine.device;
-            }
-            else
-            {
-                LastReportedCallStatus = IPC.CallStatus.Init;
-                // We don't want to drop any current call recordings on the floor if a single malformed packet causes an exception
-                if(watchPorts != null && watchPorts.Count > 0 && callDataList != null && callDataList.Count > 0)
+                lock (lockObject)
                 {
-                    // Because we are restarting the listener these calls may be effectivly "dead" so add a 10 second expiration date
-                    //  that will be cleared if new packets are written to to the audio streams
-                    lock(lockObject)
-                    {
-                        callDataList.ForEach(x =>
-                        {
-                            x.ExpirationDate = DateTime.Now.AddSeconds(10);
-                        });
-                    }                    
+                    BreakIt = false;
+                }
+                if (ipcCallDataList == null)
+                {
+                    ipcCallDataList = new List<IPC.CallData>();
+                }
+                // Initialize Fields/Properties
+                if (RecordingEngine.device != null && ((SharpPcap.WinPcap.WinPcapDevice)RecordingEngine.device).Opened)
+                {
+                    // Device is open we don't need to restart
+                    return RecordingEngine.device;
                 }
                 else
                 {
-                    watchPorts = new List<UInt16>();
-                    callDataList = new List<CallData>();
+                    LastReportedCallStatus = IPC.CallStatus.Init;
+                    // We don't want to drop any current call recordings on the floor if a single malformed packet causes an exception
+                    if (watchPorts != null && watchPorts.Count > 0 && callDataList != null && callDataList.Count > 0)
+                    {
+                        // Because we are restarting the listener these calls may be effectivly "dead" so add a 10 second expiration date
+                        //  that will be cleared if new packets are written to to the audio streams
+                        lock (lockObject)
+                        {
+                            callDataList.ForEach(x =>
+                            {
+                                x.ExpirationDate = DateTime.Now.AddSeconds(10);
+                            });
+                        }
+                    }
+                    else
+                    {
+                        watchPorts = new List<UInt16>();
+                        callDataList = new List<CallData>();
+                    }
+
+                    // Retrieve the device list
+                    CaptureDeviceList devices = null;
+                    System.Threading.Thread getDeviceThread = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart((object x) =>
+                    {
+                        devices = CaptureDeviceList.Instance;
+                    }));
+                    getDeviceThread.Start(null);
+                    bool done = false;
+                    int ii = 0;
+                    while(!done)
+                    {
+
+                        done = getDeviceThread.Join(1000);
+                        ii++;
+                        System.Threading.Thread.Sleep(1000);
+                        if(ii > 10)
+                        {
+                            done = true;
+                        }
+                    }
+
+                    ICaptureDevice device = null;
+
+                    
+
+                    int i = 0;
+                    if(devices != null && devices.Count > 0)
+                    {
+                        foreach (var d in devices)
+                        {
+                            if (d.Description.contains("MS NDIS 6.0 LoopBack Driver") || m.Description.toLower().contains("loopback"))
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                device = d;
+                                NCP_CallRecording.Logging.Writer.Write("DEV: " + d.Description);
+                            }
+
+                        }
+                    }
+                    
+
+                    // If no devices were found print an error
+                    if (device == null)
+                    {
+                        Console.WriteLine("No devices were found on this machine");
+                        return null;
+                    }
+
+                    //Register our handler function to the 'packet arrival' event
+                    device.OnPacketArrival +=
+                        new PacketArrivalEventHandler(device_OnPacketArrival);
+
+                    // Write the OPUS encoder to disk for use
+                    if (File.Exists(Path.Combine(Path.GetTempPath(), "opusenc.exe")))
+                    {
+                        File.Delete(Path.Combine(Path.GetTempPath(), "opusenc.exe"));
+                    }
+                    File.WriteAllBytes(Path.Combine(Path.GetTempPath(), "opusenc.exe"), NCP_CallRecording.Properties.Resources.opusenc);
+
+                    if (File.Exists(Path.Combine(Path.GetTempPath(), "opusdec.exe")))
+                    {
+                        File.Delete(Path.Combine(Path.GetTempPath(), "opusdec.exe"));
+                    }
+                    File.WriteAllBytes(Path.Combine(Path.GetTempPath(), "opusdec.exe"), NCP_CallRecording.Properties.Resources.opusdec);
+
+
+
+                    //Open the device for capturing
+                    int readTimeoutMilliseconds = 1000;
+                    device.Open(DeviceMode.Promiscuous, readTimeoutMilliseconds);
+
+                    Console.WriteLine
+                        ("-- Listening on {0}, hit 'Ctrl-C' to exit...",
+                        device.Description);
+
+                    return device;
                 }
-
-                // Retrieve the device list
-                var devices = CaptureDeviceList.Instance;
-
-                // If no devices were found print an error
-                if (devices.Count < 1)
-                {
-                    Console.WriteLine("No devices were found on this machine");
-                    return null;
-                }
-
-                int i = 0;
-
-                var device = devices[0];
-
-                //Register our handler function to the 'packet arrival' event
-                device.OnPacketArrival +=
-                    new PacketArrivalEventHandler(device_OnPacketArrival);
-
-                // Write the OPUS encoder to disk for use
-                if (File.Exists(Path.Combine(Path.GetTempPath(), "opusenc.exe")))
-                {
-                    File.Delete(Path.Combine(Path.GetTempPath(), "opusenc.exe"));
-                }
-                File.WriteAllBytes(Path.Combine(Path.GetTempPath(), "opusenc.exe"), NCP_CallRecording.Properties.Resources.opusenc);
-
-                if (File.Exists(Path.Combine(Path.GetTempPath(), "opusdec.exe")))
-                {
-                    File.Delete(Path.Combine(Path.GetTempPath(), "opusdec.exe"));
-                }
-                File.WriteAllBytes(Path.Combine(Path.GetTempPath(), "opusdec.exe"), NCP_CallRecording.Properties.Resources.opusdec);
-
-
-
-                //Open the device for capturing
-                int readTimeoutMilliseconds = 1000;
-                device.Open(DeviceMode.Promiscuous, readTimeoutMilliseconds);
-
-                Console.WriteLine
-                    ("-- Listening on {0}, hit 'Ctrl-C' to exit...",
-                    device.Description);
-
-                return device;
-            }                        
+            }
+            catch (Exception e)
+            {
+                NCP_CallRecording.Logging.Writer.Write("Open Device Error: " + e.Message + "\n" + e.StackTrace);
+                return null;
+            }
         }
 
         internal static void Run()
-        {
-            NCP_CallRecording.Logging.Writer.SetUp();
+        {            
             lockObject = new object();
             DeleteTheseFiles = new List<string>();
             string ver = SharpPcap.Version.VersionString;
@@ -148,6 +192,8 @@ namespace NCP_CallRecorder
                 Directory.CreateDirectory(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "log"));
             }
 
+            NCP_CallRecording.Logging.Writer.SetUp();
+
             // Load any files sitting in our machine's folder
             try
             {
@@ -166,13 +212,22 @@ namespace NCP_CallRecorder
 
             // Start capture packets
             device = OpenCaptureDevice();
-            System.Threading.Thread t = new System.Threading.Thread(device.Capture);
-            t.Start();
-            NCP_CallRecording.Logging.Writer.Write("Device Capture Started");
+            if(device != null)
+            {
+                System.Threading.Thread t = new System.Threading.Thread(device.Capture);
+                t.Start();
+                NCP_CallRecording.Logging.Writer.Write("Device Capture Started");
 
-            System.Threading.Thread messageThread = new System.Threading.Thread(MessageLoop);
-            messageThread.Start(t);
-            NCP_CallRecording.Logging.Writer.Write("Message Thread Started");
+                System.Threading.Thread messageThread = new System.Threading.Thread(MessageLoop);
+                messageThread.Start(t);
+                NCP_CallRecording.Logging.Writer.Write("Message Thread Started");
+            }
+            else
+            {
+                NCP_CallRecording.Logging.Writer.Write("Cannot open device");
+                Environment.Exit(1);
+            }
+            
         }
 
         private static void LoadExistingFiles()
@@ -223,7 +278,7 @@ namespace NCP_CallRecorder
             }
             catch(Exception ex)
             {
-                NCP_CallRecording.Logging.Writer.Write("Loading Existing Files - Exception - " + ex.Message);
+                NCP_CallRecording.Logging.Writer.Write("Loading Existing Files - Exception - " + ex.Message + "\n" + ex.StackTrace);
             }
             
         }
@@ -252,7 +307,7 @@ namespace NCP_CallRecorder
                             }
                             catch(Exception ex)
                             {
-                                NCP_CallRecording.Logging.Writer.Write(String.Format("Watch Port Remove: {0}", ex.Message));
+                                NCP_CallRecording.Logging.Writer.Write(String.Format("Watch Port Remove: {0}", ex.Message + "\n" + ex.StackTrace));
                             }
                             finally
                             {
@@ -271,7 +326,7 @@ namespace NCP_CallRecorder
                             }
                             catch (Exception e)
                             {
-                                NCP_CallRecording.Logging.Writer.Write(String.Format("File Not Deleted: {0} | {1}", file, e.Message));
+                                NCP_CallRecording.Logging.Writer.Write(String.Format("File Not Deleted: {0} | {1}", file, e.Message + "\n" + e.StackTrace));
                             }
                         }
                         foreach(var dfile in DeletedFiles)
@@ -324,9 +379,9 @@ namespace NCP_CallRecorder
             {
                 ClientConnected = false;
                 NCP_CallRecording.Logging.Writer.Write("HandleClientConnected:false");
-                NCP_CallRecording.Logging.Writer.Write("Error: " + e.Message);
+                NCP_CallRecording.Logging.Writer.Write("Error: " + e.Message + "\n" + e.StackTrace);
                 if(e.InnerException != null)
-                    NCP_CallRecording.Logging.Writer.Write("Error: " + e.InnerException.Message);
+                    NCP_CallRecording.Logging.Writer.Write("Error: " + e.InnerException.Message + "\n" + e.InnerException.StackTrace);
             }
         }
 
@@ -342,7 +397,7 @@ namespace NCP_CallRecorder
                 }
                 catch(Exception ex)
                 {
-                    NCP_CallRecording.Logging.Writer.Write("Restart() Error: " + ex.Message);
+                    NCP_CallRecording.Logging.Writer.Write("Restart() Error: " + ex.Message + "\n" + ex.StackTrace);
                     RequiresRestart = true;
                 }
                 try
@@ -351,7 +406,7 @@ namespace NCP_CallRecorder
                 }
                 catch (Exception ex)
                 {
-                    NCP_CallRecording.Logging.Writer.Write("Restart() Error2: " + ex.Message);
+                    NCP_CallRecording.Logging.Writer.Write("Restart() Error2: " + ex.Message + "\n" + ex.StackTrace);
                 }
                 finally
                 {
@@ -382,7 +437,7 @@ namespace NCP_CallRecorder
                 }
                 catch (Exception ex)
                 {
-                    NCP_CallRecording.Logging.Writer.Write(String.Format("CloseDevide() Failure: {0}", ex.Message));
+                    NCP_CallRecording.Logging.Writer.Write(String.Format("CloseDevide() Failure: {0}", ex.Message + "\n" + ex.StackTrace));
                 }
                 finally
                 {

@@ -292,6 +292,7 @@ namespace NCP_Browser.Forms
                     Salesforce.CallRecordingUpdated = true;
                     Salesforce.CallRecordings.Where(x => x.IPC_CallData.Number == Number).First().Remove = true;
                     Salesforce.CallRecorderImplementation.Confirm(Number);
+                    this.Close();
                 }
                 catch
                 {

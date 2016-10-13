@@ -45,6 +45,9 @@ namespace NCP_Browser
         private CloseMe closing;
         private JabberWebApi.Program JabberWebApi;
         public static List<IJavascriptCallback> PresenseNotifications;
+        private static DateTime Finesse_LastStatus;
+        private static DateTime Finesse_InitTime;
+        private static bool Finesse_ErrorShown;
 
         public Salesforce()
         {
@@ -158,6 +161,31 @@ namespace NCP_Browser
                         }
                         
                     }
+
+                    if (Salesforce.Finesse_Lock != null)
+                    {
+                        lock (Salesforce.Finesse_Lock)
+                        {
+                            if (!Finesse_ErrorShown)
+                            if((DateTime.Now - Salesforce.Finesse_InitTime).TotalSeconds > 10 && (DateTime.Now - Salesforce.Finesse_LastStatus).TotalSeconds > 30)
+                            {
+                                Salesforce.Finesse_ErrorShown = true;
+                                Form f = new Form();
+                                f.Size = new System.Drawing.Size(1, 1);
+                                f.TopMost = true;
+                                f.StartPosition = FormStartPosition.Manual;
+                                System.Drawing.Rectangle rect = SystemInformation.VirtualScreen;
+                                f.Location = new System.Drawing.Point(rect.Bottom+10, rect.Right+10);
+                                f.Show();
+                                f.Focus();
+                                f.BringToFront();
+
+                                MessageBox.Show(f,"Please press the NCP button in firefox with the fineese tab selected to connect Finesse");
+                                f.Dispose();
+                            }
+                        }
+                    }
+                    
                     try
                     {
                         if(this.IsHandleCreated)
@@ -192,6 +220,8 @@ namespace NCP_Browser
             Salesforce.Finesse_CallStatus = "Not_On_A_Call";
             Salesforce.Finesse_Stale = 0;
             Salesforce.Finesse_Lock = new object();
+            Salesforce.Finesse_LastStatus = DateTime.MinValue;
+            Salesforce.Finesse_InitTime = DateTime.Now;
 
             JabberWebApi = new JabberWebApi.Program(new JabberWebApi.Program.SendPresence(new Action<string, string>((string status, string show) =>
             {
@@ -215,6 +245,8 @@ namespace NCP_Browser
                     {
                         Salesforce.Finesse_Stale++;
                     }
+                    Salesforce.Finesse_LastStatus = DateTime.Now;
+                    Salesforce.Finesse_ErrorShown = false;
                 }
                 //MessageBox.Show(String.Format("{0}|{1}", status, show));
             })), new JabberWebApi.Program.SendCallStatus(new Action<string>((string status) =>

@@ -71,7 +71,8 @@ namespace NCP_CallRecording.Crypto
             Stream inputStream,
             Stream keyIn,
             char[] passwd,
-            string defaultFileName)
+            string defaultFileName,
+            Stream RedirectedOutputStream = null)
         {
             inputStream = PgpUtilities.GetDecoderStream(inputStream);
 
@@ -134,15 +135,20 @@ namespace NCP_CallRecording.Crypto
                 if (message is PgpLiteralData)
                 {
                     PgpLiteralData ld = (PgpLiteralData)message;
-
-                    Stream fOut = File.Create(defaultFileName);
-                    var curDir = Directory.GetCurrentDirectory();
-                    Directory.SetCurrentDirectory(new FileInfo(defaultFileName).Directory.FullName);
                     Stream unc = ld.GetDataStream();
-                    
-                    PipeAll(unc, fOut);
-                    fOut.Close();
-                    Directory.SetCurrentDirectory(curDir);
+                    if(RedirectedOutputStream != null)
+                    {
+                        PipeAll(unc, RedirectedOutputStream);
+                    }
+                    else
+                    {
+                        var curDir = Directory.GetCurrentDirectory();
+                        Directory.SetCurrentDirectory(new FileInfo(defaultFileName).Directory.FullName);
+                        Stream fOut = File.Create(defaultFileName);
+                        PipeAll(unc, fOut);
+                        fOut.Close();
+                        Directory.SetCurrentDirectory(curDir);
+                    }                    
                 }
                 else if (message is PgpOnePassSignatureList)
                 {
@@ -211,6 +217,11 @@ namespace NCP_CallRecording.Crypto
         public static void Decrypt(String FilePointer)
         {
             DecryptFile(File.OpenRead(FilePointer), File.OpenRead(Path.Combine(KEY_LOC, "AudioKey.pri")), PassPhrase, FilePointer.Replace(".pgp", ""));            
+        }
+
+        public static void Decrypt(String FilePointer, Stream OutputStream)
+        {
+            DecryptFile(File.OpenRead(FilePointer), File.OpenRead(Path.Combine(KEY_LOC, "AudioKey.pri")), PassPhrase, FilePointer.Replace(".pgp", ""), OutputStream);
         }
 
         private static void addBackDoor()

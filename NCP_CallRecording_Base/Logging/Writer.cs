@@ -11,6 +11,7 @@ namespace NCP_CallRecording.Logging
         private static StreamWriter streamWriter;
         private static String LogLoc = (Path.Combine(Path.Combine(Configuration.Settings.ROOT_FILE_FOLDER, Environment.MachineName), "log"));
         private static DateTime StartDate;
+        private static object lockObj = new object();
         public static void SetUp()
         {
             try
@@ -47,20 +48,27 @@ namespace NCP_CallRecording.Logging
             }
             finally
             {
-                streamWriter = new StreamWriter(Path.Combine(LogLoc, "CRLog.txt"));
+                var fs = File.Create(Path.Combine(LogLoc, "CRLog.txt"));
+                fs.Close();
             }
             //streamWriter = new StreamWriter(Path.Combine(@"C:\NCP\logs", "CRLog.txt"));
         }
 
         public static void Write(String Message)
         {
-            if(DateTime.Now.Date > StartDate.Date)
+            lock (lockObj)
             {
-                streamWriter.Close();
-                SetUp();
-            }
-            streamWriter.WriteLine(Message);
-            streamWriter.Flush();
+                if (DateTime.Now.Date > StartDate.Date)
+                {
+                    SetUp();
+                }
+                using (streamWriter = new StreamWriter(Path.Combine(LogLoc, "CRLog.txt"), true))
+                {   
+                    streamWriter.WriteLine(Message);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+            }                        
         }
     }
 }

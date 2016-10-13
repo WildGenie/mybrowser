@@ -72,6 +72,10 @@ namespace NCP_CallRecorder.IPC
         {
             FileInfo fi = new FileInfo(FilePath);
             var targetFile = Path.Combine(Path.Combine(Path.Combine(RecordingEngine.ROOT_FILE_FOLDER, Environment.MachineName),"temp"), fi.Name);
+            if (File.Exists(targetFile))
+            {
+                File.Delete(targetFile);
+            }
             File.Move(FilePath, targetFile);
             if(targetFile.EndsWith(".pgp"))
             {
@@ -99,22 +103,28 @@ namespace NCP_CallRecorder.IPC
                 {
                     var item = NCP_CallRecorder.RecordingEngine.ipcCallDataList.Where(x => x.Number == Number).First();
 
-                    SmtpClient client = new SmtpClient(AlertSMTPHost, NCP_CallRecording.Configuration.Settings.SMTP_PORT);
-                    client.Credentials = new NetworkCredential(AlertSendAccountUsername, AlertSendAccountPassword);
-                    MailMessage mm = new MailMessage(AlertFromAddress, new MailAddress(NCP_CallRecording.Configuration.Settings.TO_ADDRESS));
-                    mm.Body = String.Format("CaseId:{0}\n", CaseId);
-                    List<Attachment> attchs = new List<Attachment>();
-                    foreach(var opusFile in item.OpusFiles)
-                    {
-                        var a = new Attachment(opusFile + ".pgp");
-                        mm.Attachments.Add(a);
-                        attchs.Add(a);
-                    }
-                    client.Send(mm);
-                    foreach(var a in attchs)
-                    {
-                        a.Dispose();
-                    }
+                    // GET API CREDENTIALS
+                    string endpoint = null;
+                    string username = null;
+                    string password = null;
+                    string token = null;
+
+                    GetAPICredentials(ref endpoint, ref username, ref password, ref token);
+                    bool success = true;
+                    item.OpusFiles.ForEach(of => {
+                        FileInfo fi = new FileInfo(of+".pgp");
+                        var thisSuccess = SalesforceUploader.Program.UploadFile(of + ".pgp", endpoint, username, password, token, "Call " + fi.Name, CaseId, Environment.MachineName);
+                        if(success)
+                        {
+                            success = thisSuccess == null;
+                        }
+                        else
+                        {
+                            NCP_CallRecording.Logging.Writer.Write(String.Format("Error - WCFInterfaceContract.SendFile - {0} - {1}", thisSuccess.Message, thisSuccess.StackTrace));
+                        }
+                    });
+                    
+
                     return true;
                 }
             }
@@ -123,6 +133,38 @@ namespace NCP_CallRecorder.IPC
                 return false;
             }
             return false;
+        }
+
+        private static void GetAPICredentials(ref string endpoint, ref string username, ref string password, ref string token)
+        {
+            MemoryStream ms = new MemoryStream();
+            NCP_CallRecording.Crypto.Manager.Decrypt(Path.Combine(NCP_CallRecording.Configuration.Settings.KEY_LOC, "APICredentials.txt.pgp"), ms);
+            ms.Position = 0;
+            StreamReader sr = new StreamReader(ms);
+            string line = null;
+
+            int currentLineNumber = 0;
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                if (currentLineNumber == 0)
+                {
+                    endpoint = line;
+                }
+                else if (currentLineNumber == 1)
+                {
+                    username = line;
+                }
+                else if (currentLineNumber == 2)
+                {
+                    password = line;
+                }
+                else if (currentLineNumber == 3)
+                {
+                    token = line;
+                }
+                currentLineNumber++;
+            }
         }
 
 

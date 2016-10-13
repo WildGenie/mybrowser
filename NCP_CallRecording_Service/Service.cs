@@ -27,7 +27,7 @@ namespace NCP_CallRecording_Service
         private void ExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
             Exception ex = (Exception)e.ExceptionObject;
-            NCP_CallRecording.Logging.Writer.Write("Error: " + ex.Message);
+            NCP_CallRecording.Logging.Writer.Write("Unhandled Error: " + ex.Message + ex.StackTrace);
         }
 
         protected override void OnStop()

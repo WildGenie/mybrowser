@@ -22,19 +22,52 @@ namespace NCP_Browser
         [STAThread]
         static void Main(string[] args)
         {
-            Install();
-            if (args.Contains("-L"))
+            try
             {
-                Launch();
+                if (Directory.Exists("cache"))
+                {
+                    Directory.Delete("cache", true);
+                }
             }
-            else
+            catch
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                CefSharp.Cef.EnableHighDPISupport();
-                //Application.Run(new NCP_Browser.Forms.SelectCase());
-                Application.Run(new Salesforce(true, (String)System.Configuration.ConfigurationSettings.AppSettings["HOME_ADDRESS"]));
+
             }
+
+            try
+            {
+                if (Directory.Exists("cookies"))
+                {
+                    Directory.Delete("cookies", true);
+                }
+            }
+            catch
+            {
+
+            }            
+            
+            try
+            {
+                Install();
+                if (args.Contains("-L"))
+                {
+                    Launch();
+                }
+                else
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    CefSharp.Cef.EnableHighDPISupport();
+                    //Application.Run(new NCP_Browser.Forms.SelectCase());
+                    Application.Run(new Salesforce(true, (String)System.Configuration.ConfigurationSettings.AppSettings["HOME_ADDRESS"]));
+                }
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+                MessageBox.Show(e.StackTrace);
+            }
+            
             
             //Application.Run(new Jabber.Credentials());
         }

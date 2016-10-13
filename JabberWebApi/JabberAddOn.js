@@ -53,6 +53,7 @@
             CallPresenceStatus(callPresence)
         }
 
+        SetPlacingOutboundCall();
         /*if (currentPresence != getValueFromSelector(watchSelector)) {
             currentPresence = getValueFromSelector(watchSelector);
             //alert(currentPresence);
@@ -60,6 +61,13 @@
         }*/
     }, 1000);
 
+    function SetPlacingOutboundCall()
+    {
+        // Get Current CWIC status
+
+        // IF Finesses "Not Ready" and "Off The Hook" then set 'Not Ready - Placing outbound Call'
+
+    }
 
     function getValueFromSelector(selector)
     {
@@ -108,6 +116,7 @@
             return "";
         }
     }
+
 
     function mapWithTable(currentPresence) {
         try {
