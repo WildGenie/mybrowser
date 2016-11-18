@@ -106,7 +106,7 @@ namespace NCP_CallRecorder
                     {
                         foreach (var d in devices)
                         {
-                            if (d.Description.contains("MS NDIS 6.0 LoopBack Driver") || m.Description.toLower().contains("loopback"))
+                            if (d.Description.Contains("MS NDIS 6.0 LoopBack Driver") || d.Description.ToLower().Contains("loopback"))
                             {
                                 continue;
                             }
@@ -320,7 +320,13 @@ namespace NCP_CallRecorder
                         {
                             try
                             {
-                                File.Delete(file);
+                                FileInfo fi = new FileInfo(file);
+                                if(!Directory.Exists(Path.Combine(fi.Directory.FullName, "deleted")))
+                                {
+                                    Directory.CreateDirectory(Path.Combine(fi.Directory.FullName, "deleted"));
+                                }
+                                File.Move(fi.FullName, Path.Combine(fi.Directory.FullName, "deleted", fi.Name));
+                                //File.Delete(file);
                                 NCP_CallRecording.Logging.Writer.Write(String.Format("File Deleted: {0}", file));
                                 DeletedFiles.Add(file);
                             }

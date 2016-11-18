@@ -75,8 +75,8 @@ namespace NCP_Browser
             if(Name == null)
             {
                 // Foreground Browser
-                browser.RegisterJsObject(NCP_Browser.chrome.runtime.BrowserScripting.Name, new NCP_Browser.chrome.runtime.BrowserScripting(browser, this, salesforce), false);
-                browser.RegisterAsyncJsObject("bound", salesforce.browserScripting, false);
+                browser.RegisterJsObject(NCP_Browser.chrome.runtime.BrowserScripting.Name, new NCP_Browser.chrome.runtime.BrowserScripting(browser, this, salesforce), new BindingOptions(){ CamelCaseJavascriptNames = false  });
+                browser.RegisterAsyncJsObject("bound", salesforce.browserScripting, new BindingOptions() { CamelCaseJavascriptNames = false });
                 browser.FrameLoadEnd += salesforce_FrameLoadEnd;
                 browser.FrameLoadStart += browser_FrameLoadStart;
                 
@@ -86,7 +86,7 @@ namespace NCP_Browser
                 // Background Browser
                 //Extension.SetBackgroundBrowser(browser);
                 //Salesforce.BackgroundBrowsers.Add(Name, browser);
-                browser.RegisterJsObject(NCP_Browser.chrome.runtime.NativeBrowserScripting.Name, new NCP_Browser.chrome.runtime.NativeBrowserScripting(browser, this, Name, salesforce), false);
+                browser.RegisterJsObject(NCP_Browser.chrome.runtime.NativeBrowserScripting.Name, new NCP_Browser.chrome.runtime.NativeBrowserScripting(browser, this, Name, salesforce), new BindingOptions() { CamelCaseJavascriptNames = false });
                 browser.FrameLoadEnd += background_FrameLoadEnd;
             }
 
@@ -103,8 +103,8 @@ namespace NCP_Browser
             eventObject.EventArrived += OnJavascriptEventArrived;
             // Use the default of camelCaseJavascriptNames
             // .Net methods starting with a capitol will be translated to starting with a lower case letter when called from js
-            browser.RegisterJsObject("boundEvent", eventObject, camelCaseJavascriptNames:true);
-            browser.RegisterJsObject("chrome.runtime", new BoundObject(), false);
+            browser.RegisterJsObject("boundEvent", eventObject, new BindingOptions() { CamelCaseJavascriptNames = true });
+            browser.RegisterJsObject("chrome.runtime", new BoundObject(), new BindingOptions() { CamelCaseJavascriptNames = true });
 
             // Cef.AddWebPluginDirectory(@"C:\Users\ccraig\AppData\Local\Google\Chrome\User Data\Default\Extensions\ppbllmlcmhfnfflbkbinnhacecaankdh\C:\Users\ccraig\AppData\Local\Google\Chrome\User Data\Default\Extensions\ppbllmlcmhfnfflbkbinnhacecaankdh\3.1.0.363_0");
             //Cef.RefreshWebPlugins();
@@ -141,7 +141,7 @@ namespace NCP_Browser
             {
                 e.Frame.ExecuteJavaScriptAsync("var CurrentFrameIdentifier = " + e.Frame.Identifier.ToString());
                 e.Browser.MainFrame.EvaluateScriptAsync(NCP_Browser.Properties.Resources.chrome_native_runtime);
-                e.Browser.MainFrame.ExecuteJavaScriptAsync(NCP_Browser.Properties.Resources.background.Replace("chrome-extension", "cefsharp-extension"));
+                //e.Browser.MainFrame.ExecuteJavaScriptAsync(NCP_Browser.Properties.Resources.background.Replace("chrome-extension", "cefsharp-extension"));
                 e.Browser.MainFrame.ExecuteJavaScriptAsync("ncp_runtime.DoneInitializing();");
             }            
         }

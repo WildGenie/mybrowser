@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="iso-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//Tigris//DTD XHTML 1.0 Transitional//EN"
+          "http://style.tigris.org/tigris_transitional.dtd">
+<html>
+    <head>
+        @Styles.Render("~/Content/readyset.css")
+        @Styles.Render("~/Content/inst.css")
+        @Styles.Render("~/Content/joint.css")
+        @Scripts.Render("~/Scripts/json2.js")
+        @Scripts.Render("~/Scripts/jquery.js")        
+        @Scripts.Render("~/Scripts/lodash.js")
+        @*@Scripts.Render("~/Scripts/underscore.js")*@
+        @Scripts.Render("~/Scripts/backbone.js")        
+        @Scripts.Render("~/Scripts/joint.js")
+        
+        
+        <link rel="stylesheet" type="text/css" href="http://www.tigris.org/branding/css/print.css" media="print" />
+        <title>@ViewBag.Title</title>
+    </head>
+    <body>
+        @RenderBody()
+    </body>
+</html>

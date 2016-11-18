@@ -195,6 +195,7 @@ var ports = {}
     console.log("Background: DomContentLoaded"),
     console.log("Extension URL: " + chrome.extension.getURL("")),
     console.log("document.domain: " + document.domain)
+    console.log('whaaaaat');
 //}),
 chrome.runtime.onConnect.addListener(handleClientPortRequest),
 chrome.runtime.onConnectExternal.addListener(handleClientPortRequest);

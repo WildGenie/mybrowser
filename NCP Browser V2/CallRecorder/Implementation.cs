@@ -70,10 +70,13 @@ namespace NCP_Browser.CallRecorder
         {
             NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
             binding.MaxReceivedMessageSize = 2147483647;
+            //binding.SendTimeout = new TimeSpan(0, 0, 5, 30, 0);
+            //binding.ReceiveTimeout = new TimeSpan(0, 0, 5, 30, 0);
             EndpointAddress ep = new EndpointAddress(NCP_CallRecorder.RecordingEngine.IPC_ADDRESS);
             channelFactory = new ChannelFactory<NCP_CallRecorder.IPC.WCFInterfaceContract>(binding);
             channelFactory.Faulted += channelFactory_Faulted;
             channel = channelFactory.CreateChannel(ep);
+            ((IContextChannel)channel).OperationTimeout = new TimeSpan(0, 0, 5, 30, 0);
         }
 
         void channelFactory_Faulted(object sender, EventArgs e)

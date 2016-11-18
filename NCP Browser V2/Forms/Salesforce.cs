@@ -49,11 +49,12 @@ namespace NCP_Browser
         private static DateTime Finesse_InitTime;
         private static bool Finesse_ErrorShown;
 
-        public Salesforce()
+        /*public Salesforce()
         {
             Initialize();
-        }
+        }*/
 
+        /*
         public Salesforce(ReloadMe ReloadMe, CloseMe CloseMe, bool InitializeCEF, string SalesforceInstance)
         {
             // TODO: Complete member initialization
@@ -65,7 +66,7 @@ namespace NCP_Browser
                 this.InitializeCEF();
 
             Initialize();
-        }
+        }*/
 
 
         private void Initialize()
@@ -170,7 +171,7 @@ namespace NCP_Browser
                             if((DateTime.Now - Salesforce.Finesse_InitTime).TotalSeconds > 10 && (DateTime.Now - Salesforce.Finesse_LastStatus).TotalSeconds > 30)
                             {
                                 Salesforce.Finesse_ErrorShown = true;
-                                Form f = new Form();
+                                /*Form f = new Form();
                                 f.Size = new System.Drawing.Size(1, 1);
                                 f.TopMost = true;
                                 f.StartPosition = FormStartPosition.Manual;
@@ -181,7 +182,7 @@ namespace NCP_Browser
                                 f.BringToFront();
 
                                 MessageBox.Show(f,"Please press the NCP button in firefox with the fineese tab selected to connect Finesse");
-                                f.Dispose();
+                                f.Dispose();*/
                             }
                         }
                     }
@@ -312,7 +313,7 @@ namespace NCP_Browser
             //cfSettings.CachePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "NCPBrowser");
             cfSettings.UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
 
-            Cef.OnContextInitialized = delegate
+            /*Cef.OnContextInitialized = delegate
             {
                 var cookieManager = Cef.GetGlobalCookieManager();
                 cookieManager.SetStoragePath("cookies", true);
@@ -326,7 +327,7 @@ namespace NCP_Browser
                     //The default is true, you can change to false to disable
                     context.SetPreference("webkit.webprefs.plugins_enabled", true, out errorMessage);
                 }
-            };
+            };*/
 
             cfSettings.IgnoreCertificateErrors = true;
             cfSettings.FocusedNodeChangedEnabled = true;
@@ -368,9 +369,24 @@ namespace NCP_Browser
 
             cfSettings.CefCommandLineArgs.Add("--mute-audio", "--mute-audio");
 
-            if (!Cef.Initialize(cfSettings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))
+            if (!Cef.Initialize(cfSettings))
             {
                 throw new Exception("Unable to Initialize Cef");
+            }
+            else
+            {
+                var cookieManager = Cef.GetGlobalCookieManager();
+                cookieManager.SetStoragePath("cookies", true);
+                cookieManager.SetSupportedSchemes("custom");
+
+                //Dispose of context when finished - preferable not to keep a reference if possible.
+                using (var context = Cef.GetGlobalRequestContext())
+                {
+                    string errorMessage;
+                    //You can set most preferences using a `.` notation rather than having to create a complex set of dictionaries.
+                    //The default is true, you can change to false to disable
+                    context.SetPreference("webkit.webprefs.plugins_enabled", true, out errorMessage);
+                }
             }
             
             if (!CefSharp.Cef.AddCrossOriginWhitelistEntry("http://localhost:59507", "cefsharp-extension", "ppbllmlcmhfnfflbkbinnhacecaankdh", true))

@@ -17,6 +17,8 @@ namespace NCP_Browser.chrome.runtime
         private CefSharp.WinForms.ChromiumWebBrowser browser;
         private BrowserTabUserControl browserTabUserControl;
         private Salesforce salesforce;
+        private object loadLock;
+        private bool doneInit = false;
 
 
         public NativeBrowserScripting(CefSharp.WinForms.ChromiumWebBrowser browser, BrowserTabUserControl browserTabUserControl, String Id, Salesforce salesforce)
@@ -26,6 +28,8 @@ namespace NCP_Browser.chrome.runtime
             this.browserTabUserControl = browserTabUserControl;
             this._id = Id;
             this.salesforce = salesforce;
+            this.loadLock = new object();
+
         }
 
         public string id
@@ -153,7 +157,20 @@ namespace NCP_Browser.chrome.runtime
 
         public void DoneInitializing()
         {
-            this.browserTabUserControl.DoneInitializing();
+            // I had to add a threadlock here and a boolean value to signify that has been called.
+            // For some reason the chromium javascript runtime was doubling the invocations
+            lock(loadLock)
+            {
+                if(!doneInit)
+                {
+                    this.browser.GetBrowser().MainFrame.ExecuteJavaScriptAsync(NCP_Browser.Properties.Resources.background.Replace("chrome-extension", "cefsharp-extension"));
+                    
+                    this.browserTabUserControl.DoneInitializing();
+
+                    doneInit = true;
+                }
+            }
+            
         }
 
         public class ExtensionInfo

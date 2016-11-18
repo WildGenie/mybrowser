@@ -84,8 +84,8 @@
             this.openWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.cicoJabberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.callRecordingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.browserPanel = new System.Windows.Forms.Panel();
             this.backroundDevToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.browserPanel = new System.Windows.Forms.Panel();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -466,8 +466,8 @@
             // 
             this.mnuFiness.ForeColor = System.Drawing.SystemColors.Info;
             this.mnuFiness.Name = "mnuFiness";
-            this.mnuFiness.Size = new System.Drawing.Size(51, 20);
-            this.mnuFiness.Text = "Finess";
+            this.mnuFiness.Size = new System.Drawing.Size(57, 20);
+            this.mnuFiness.Text = "Finesse";
             this.mnuFiness.Click += new System.EventHandler(this.mnu_Finess);
             // 
             // openWindows
@@ -501,6 +501,13 @@
             this.callRecordingsToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.callRecordingsToolStripMenuItem.Text = "Call Recordings";
             // 
+            // backroundDevToolsToolStripMenuItem
+            // 
+            this.backroundDevToolsToolStripMenuItem.Name = "backroundDevToolsToolStripMenuItem";
+            this.backroundDevToolsToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
+            this.backroundDevToolsToolStripMenuItem.Text = "Backround Dev Tools";
+            this.backroundDevToolsToolStripMenuItem.Click += new System.EventHandler(this.backroundDevToolsToolStripMenuItem_Click);
+            // 
             // browserPanel
             // 
             this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -508,13 +515,6 @@
             this.browserPanel.Name = "browserPanel";
             this.browserPanel.Size = new System.Drawing.Size(1614, 466);
             this.browserPanel.TabIndex = 2;
-            // 
-            // backroundDevToolsToolStripMenuItem
-            // 
-            this.backroundDevToolsToolStripMenuItem.Name = "backroundDevToolsToolStripMenuItem";
-            this.backroundDevToolsToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
-            this.backroundDevToolsToolStripMenuItem.Text = "Backround Dev Tools";
-            this.backroundDevToolsToolStripMenuItem.Click += new System.EventHandler(this.backroundDevToolsToolStripMenuItem_Click);
             // 
             // Salesforce
             // 

@@ -22,7 +22,7 @@ namespace NCP_Browser
         [STAThread]
         static void Main(string[] args)
         {
-            try
+           try
             {
                 if (Directory.Exists("cache"))
                 {
@@ -44,11 +44,11 @@ namespace NCP_Browser
             catch
             {
 
-            }            
+            }       
             
             try
             {
-                Install();
+                //Install();
                 if (args.Contains("-L"))
                 {
                     Launch();

@@ -1,0 +1,552 @@
+﻿@{
+    ViewBag.Title = "Salesforce";
+}
+<h2>Salesforce</h2>
+<div class="app">
+    <div class="readyset">
+        <h3>Data Structure</h3>
+        <dl>
+            <dt>The first step to understanding how to configure our salesforce instance is to understand the basic data structure</dt>
+            <dd>
+                <div id="paper"></div>
+            </dd>
+            <dd>
+                <ul>
+                    <li>Case
+                        <ul>
+                            <li>Object Name: Case</li>
+                            <li>A Case refers to a work item.</li>
+                            <li>The case is the replacement for email.</li>
+                            <li>There are many types of cases such as Suspense, Pending Loans, Past Date ACH's, etc.</li>
+                        </ul>
+                    </li>
+                    <li>QFund Transactions
+                        <ul>
+                            <li>Object Name: QFund_Transactions__c</li>
+                            <li>A Case generally relate to some QFund transactions that require an agent to deal with.</li>
+                            <li>In the case of a "Suspense" a QFund Transaction is a transaction that has met rule criteria for investigation.</li>
+                            <li>Since this is work management related to short term loans a Case will almost always be related to a QFund Loan.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        QFund Loan
+                        <ul>
+                            <li>Object Name: QFund_Loans__c</li>
+                            <li>Since these are work items related to a Loan managment system generally a case is related to a Loan in QFund</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Contact
+                        <ul>
+                            <li>Object Name: Contact</li>
+                            <li>We are using the default salesforce Contact Object to store information about a Loan Customer</li>
+                        </ul>
+                    </li>
+                    <li>
+                        QFund Phone #
+                        <ul>
+                            <li>Object Name: QFund_Phone_Number__c</li>
+                            <li>The schema for phone numbers in salesforce does not support the data model for phone numbers in QFund so a custom object was made to store phone information</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Account
+                        <ul>
+                            <li>Object Name: Account</li>
+                            <li>Salesforce contains an object known as an Account.</li>
+                            <li>This is usually used to hold information about a "sale" but we are using it for the entity that the loan belongs to and the entity that a work item belongs to.</li>
+                            <li>
+                                This is where things can get a little tricky. 
+                                <ul>
+                                    <li>A Loan could belong to a CSO</li>
+                                    <li>The case could belong to a Store on a different CSO</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+        <h3>Call Center Console</h3>
+        <dl>
+            <dt>The main interface that the agents use is referred to as a Service Cloud Console Application. We have named our application Call Center Console</dt>
+            <dd>
+                You can access the configuration of the Call Center Console by going Create => Apps; clicking on Call Center Console; navigating to specific area that needs updating
+            </dd>
+            <dt>Console Components</dt>
+            <dd>
+                Service Cloud Console applications support what is known as console components. These can be background pages or visible buttons that open a windowed page.<br/>
+                You can access configration of custom console components by going Customize => Console => Custom Console Components
+                <h4>We currently have three console components</h4>
+                <ul>
+                    <li>Call Center Console Table Manager
+                        <ul>
+                            <li>This is used to keep cases that are assigned to agents open and prevent accidentallly dropping cases on the floor</li>
+                            <li>If a user accidentally closes a tab of the case assigned to them the tab will reopen</li>
+                            <li>New cases assigned to an agent will automatically open</li>
+                            <li>This is also where case routing is triggered</li>
+                            <li>
+                                Technical Details
+                                <ul>
+                                    <li>Type: Custom Console Component
+                                        <ul>
+                                            <li>Name: Call_Center_Console_Tab_Manager</li>
+                                            <li>Visual Force Page: Call_Center_Console_Tab_Manager</li>
+                                            <li>Controller: Call_Center_Console_Tab_Manager</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Alerts
+                        <ul>
+                            <li>This is used to display messages to the user</li>
+                            <li>This utilized salesforce push notifications on the case object. It uses the field Assignment_Note__c for the body of the messages</li>
+                            <li>Technical Details
+                                <ul>
+                                    <li>Type: Custom Console Component
+                                        <ul>
+                                            <li>Name: Alerts</li>
+                                            <li>Visual Force Page: Call_Center_Console_Alerts</li>
+                                            <li>Controller: Call_Center_Console_Alerts</li>
+                                        </ul>
+                                    </li>                                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Omni-Channel
+                        <ul>
+                            <li>Salesforce has a user presence system/work routing system known as Omni-Channel</li>
+                            <li>We currenly only use Omni-Channel for the persence system as the case routing method Omni-Channel uses is insuficcient to our needs</li>
+                            <li>Tecnical Details
+                                <ul>
+                                    <li>Type: Standard Console Component
+                                        <ul>
+                                            <li>
+                                                Custom Routing Code Class: Schedulable_sObjectRouting
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+        <h3>CaseViewOverride</h3>
+        <dl>
+            <dd>
+                The Standard page for Cases in Salesforce is much to freeform and poorly designed for anything requiring quick disposition and handling. This is due to salesforce's UI being primarily designed to manage customer relations work and not specific tasks.
+                <h4>We have replaced the standard Case Page with our Own</h4>
+
+                <ul>
+                    <li>
+                        Technical Details
+                        <ul>
+                            <li>Custom Visual Force Page: CaseViewOverrdie</li>
+                            <li>Custom Class: CaseViewOverride</li>
+                        </ul>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+</div>
+<style>
+    #paper {
+    width: 1000px;
+    display: block;
+    border: 0;
+    margin-bottom: 3px;
+    text-align: center;
+    background: #464a65;
+    }
+    #paper>svg {
+        overflow: visible;
+    }
+    .connection,
+    .connection-wrap {
+        stroke: #ccc0ef;
+    }
+</style>
+<script>
+    var erd = joint.shapes.erd;
+
+    var graph = new joint.dia.Graph();
+
+    var paper = new joint.dia.Paper({
+        el: document.getElementById('paper'),
+        width: 695,
+        height: 600,
+        gridSize: 1,
+        model: graph,
+        linkPinning: false,
+        linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
+    });
+
+    // Custom highlighter - display an outline around each element that fits its shape.
+
+    var highlighter = V('path', {
+        'stroke': '#e9fc03',
+        'stroke-width': '2px',
+        'fill': 'transparent',
+        'pointer-events': 'none'
+    });
+
+    // Define a specific highligthing path for every shape.
+
+    erd.Attribute.prototype.getHighlighterPath = function (w, h) {
+
+        return ['M', 0, h / 2, 'A', w / 2, h / 2, '0 1,0', w, h / 2, 'A', w / 2, h / 2, '0 1,0', 0, h / 2].join(' ');
+    };
+
+    erd.Entity.prototype.getHighlighterPath = function (w, h) {
+
+        return ['M', w, 0, w, h, 0, h, 0, 0, 'z'].join(' ');
+    };
+
+    erd.Relationship.prototype.getHighlighterPath = function (w, h) {
+
+        return ['M', w / 2, 0, w, w / 2, w / 2, w, 0, w / 2, 'z'].join(' ');
+    };
+
+    erd.ISA.prototype.getHighlighterPath = function (w, h) {
+
+        return ['M', -8, 1, w + 8, 1, w / 2, h + 2, 'z'].join(' ');
+    };
+
+    // Unbind orignal highligting handlers.
+    paper.off('cell:highlight cell:unhighlight');
+
+    // Bind custom ones.
+    paper.on('cell:highlight', function (cellView) {
+
+        var padding = 5;
+
+        var bbox = g.rect(cellView.getBBox({ useModelGeometry: true })).moveAndExpand({
+            x: -padding,
+            y: -padding,
+            width: 2 * padding,
+            height: 2 * padding
+        });
+
+        highlighter.translate(bbox.x, bbox.y, { absolute: true });
+        highlighter.attr('d', cellView.model.getHighlighterPath(bbox.width, bbox.height));
+
+        V(paper.viewport).append(highlighter);
+    });
+
+    paper.on('cell:unhighlight', function () {
+
+        highlighter.remove();
+    });
+
+    // Create shapes
+
+    var sObject = new erd.Entity({
+
+        position: { x: 0, y: 0 },
+        attrs: {
+            text: {
+                fill: '#ffffff',
+                text: 'sObject',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0 1px #333333' }
+            },
+            '.outer, .inner': {
+                fill: '#31d0c6',
+                stroke: 'none',
+                filter: { name: 'dropShadow', args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' } }
+            },
+            size: {
+                width: 200,
+                height: 100
+            }
+        }
+    });
+
+    /*var wage = new erd.WeakEntity({
+
+        position: { x: 530, y: 200 },
+        attrs: {
+            text: {
+                fill: '#ffffff',
+                text: 'Wage',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0 1px #333333' }
+            },
+            '.inner': {
+                fill: '#31d0c6',
+                stroke: 'none',
+                points: '155,5 155,55 5,55 5,5'
+            },
+            '.outer': {
+                fill: 'none',
+                stroke: '#31d0c6',
+                points: '160,0 160,60 0,60 0,0',
+                filter: { name: 'dropShadow', args: { dx: 0.5, dy: 2, blur: 2, color: '#333333' } }
+            }
+        }
+    });
+
+    var paid = new erd.IdentifyingRelationship({
+
+        position: { x: 350, y: 190 },
+        attrs: {
+            text: {
+                fill: '#ffffff',
+                text: 'Gets paid',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0 1px #333333' }
+            },
+            '.inner': {
+                fill: '#7c68fd',
+                stroke: 'none'
+            },
+            '.outer': {
+                fill: 'none',
+                stroke: '#7c68fd',
+                filter: { name: 'dropShadow', args: { dx: 0, dy: 2, blur: 1, color: '#333333' } }
+            }
+        }
+    });
+
+    var isa = new erd.ISA({
+
+        position: { x: 125, y: 300 },
+        attrs: {
+            text: {
+                text: 'ISA',
+                fill: '#ffffff',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0 1px #333333' }
+            },
+            polygon: {
+                fill: '#fdb664',
+                stroke: 'none',
+                filter: { name: 'dropShadow', args: { dx: 0, dy: 2, blur: 1, color: '#333333' } }
+            }
+        }
+    });
+
+    var number = new erd.Key({
+
+        position: { x: 1, y: 90 },
+        attrs: {
+            text: {
+                fill: '#ffffff',
+                text: 'Number',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0 1px #333333' }
+            },
+            '.outer, .inner': {
+                fill: '#feb662',
+                stroke: 'none'
+            },
+            '.outer': {
+                filter: { name: 'dropShadow', args: { dx: 0, dy: 2, blur: 2, color: '#222138' } }
+            }
+        }
+    });
+
+    var employeeName = new erd.Normal({
+
+        position: { x: 75, y: 30 },
+        attrs: {
+            text: {
+                fill: '#ffffff',
+                text: 'Name',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0 1px #333333' }
+            },
+            '.outer': {
+                fill: '#fe8550',
+                stroke: '#fe854f',
+                filter: { name: 'dropShadow', args: { dx: 0, dy: 2, blur: 2, color: '#222138' } }
+            }
+        }
+    });
+
+    var skills = new erd.Multivalued({
+
+        position: { x: 150, y: 90 },
+        attrs: {
+            text: {
+                fill: '#ffffff',
+                text: 'Skills',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0px 1px #333333' }
+            },
+            '.inner': {
+                fill: '#fe8550',
+                stroke: 'none',
+                rx: 43,
+                ry: 21
+
+            },
+            '.outer': {
+                fill: '#464a65',
+                stroke: '#fe8550',
+                filter: { name: 'dropShadow', args: { dx: 0, dy: 2, blur: 2, color: '#222138' } }
+            }
+        }
+    });
+
+    var amount = new erd.Derived({
+
+        position: { x: 440, y: 80 },
+        attrs: {
+            text: {
+                fill: '#ffffff',
+                text: 'Amount',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0 1px #333333' }
+            },
+            '.inner': {
+                fill: '#fca079',
+                stroke: 'none',
+                'display': 'block'
+            },
+            '.outer': {
+                fill: '#464a65',
+                stroke: '#fe854f',
+                'stroke-dasharray': '3,1',
+                filter: { name: 'dropShadow', args: { dx: 0, dy: 2, blur: 2, color: '#222138' } }
+            }
+        }
+    });
+
+    var uses = new erd.Relationship({
+
+        position: { x: 300, y: 390 },
+        attrs: {
+            text: {
+                fill: '#ffffff',
+                text: 'Uses',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0 1px #333333' }
+            },
+            '.outer': {
+                fill: '#797d9a',
+                stroke: 'none',
+                filter: { name: 'dropShadow', args: { dx: 0, dy: 2, blur: 1, color: '#333333' } }
+            }
+        }
+    });*/
+
+    var expanation = new erd.Multivalued({
+
+        position: { x: -100, y: 180 },
+        attrs: {
+            text: {
+                fill: '#ffffff',
+                text: 'Type',
+                'letter-spacing': 0,
+                style: { 'text-shadow': '1px 0px 1px #333333' }
+            },
+            '.inner': {
+                fill: '#fe8550',
+                stroke: 'none',
+                rx: 43,
+                ry: 21
+
+            },
+            '.outer': {
+                fill: '#464a65',
+                stroke: '#fe8550',
+                filter: { name: 'dropShadow', args: { dx: 0, dy: 2, blur: 2, color: '#222138' } }
+            }
+        }
+    });
+
+    // Create new shapes by cloning
+    var legSObject = sObject.clone().position(-125, 10).attr('text/text', 'Standard Object');
+    var legCObject = sObject.clone().position(-125, 100).attr('text/text', 'Custom Object');
+    legCObject.attributes.attrs['.outer, .inner'].fill = '#42f4b6';
+    legCObject.attributes.attrs['text'].fill = "#000000";
+
+
+    var caseObject = legSObject.clone().position(50, 100).attr('text/text', 'Case');
+    var accountObject = legSObject.clone().position(50, 250).attr('text/text', 'Account');
+    var contactObject = legSObject.clone().position(350, 300).attr('text/text', 'Contact');
+
+
+    var qftranObject = legCObject.clone().position(350, 50).attr('text/text', 'QFund Transactions');
+    var qfloanObject = legCObject.clone().position(350, 150).attr('text/text', 'QFund Loan');
+    var qfphoneObject = legCObject.clone().position(350, 400).attr('text/text', 'QFund Phone #');
+
+    var exAccountCSO = expanation.clone().position(-75, 290).attr('text/text', 'CSO');
+    var exAccountStore = expanation.clone().position(75, 350).attr('text/text', 'Store');
+    var exContactCustomer = expanation.clone().position(520, 310).attr('text/text', 'Customer');
+    
+
+
+    //var date = employeeName.clone().position(590, 80).attr('text/text', 'Date');
+
+    //var car = employee.clone().position(430, 400).attr('text/text', 'Company car');
+
+    //var plate = number.clone().position(405, 500).attr('text/text', 'Plate');
+
+
+    // Helpers
+
+    var createLink = function (elm1, elm2) {
+
+        var myLink = new erd.Line({
+            source: { id: elm1.id },
+            target: { id: elm2.id }
+        });
+
+        return myLink.addTo(graph);
+    };
+
+    var createLabel = function (txt) {
+        return {
+            labels: [{
+                position: -20,
+                attrs: {
+                    text: { dy: -8, text: txt, fill: '#ffffff' },
+                    rect: { fill: 'none' }
+                }
+            }]
+        };
+    };
+
+    // Add shapes to the graph
+
+    graph.addCells([legSObject, legCObject, caseObject, accountObject, contactObject, qftranObject, qfphoneObject, qfloanObject, expanation, exContactCustomer, exAccountCSO, exAccountStore]);
+
+    createLink(caseObject, accountObject).set(createLabel('M..1'));
+    createLink(qftranObject, caseObject).set(createLabel('1..M'));
+
+    createLink(caseObject, qfloanObject).set(createLabel('1..1')).set('vertices',[{x:262,y:181}]);
+    createLink(qfloanObject, caseObject).set(createLabel('M..1'));
+
+    createLink(qfloanObject, accountObject).set(createLabel('1..1'));
+
+    createLink(qfloanObject, contactObject).set(createLabel('1..1'));
+
+    createLink(contactObject, qfphoneObject).set(createLabel('1..M'));
+
+    createLink(accountObject, exAccountCSO);
+    createLink(accountObject, exAccountStore);
+    createLink(exAccountCSO, exAccountStore).set(createLabel('1..M'));
+
+    createLink(contactObject, exContactCustomer);
+
+    /*
+    createLink(employee, number);
+    createLink(employee, employeeName);
+    createLink(employee, skills);
+    createLink(employee, isa);
+    createLink(isa, salesman);
+    createLink(salesman, uses).set(createLabel('0..1'));
+    createLink(car, uses).set(createLabel('1..1'));
+    createLink(car, plate);
+    createLink(wage, paid).set(createLabel('N'));
+    createLink(wage, amount);
+    createLink(wage, date);*/
+</script>

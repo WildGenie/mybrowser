@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="@2" Category="CodeSchema_Class" Bounds="-9844.70499999553,-9803,126.923333333332,26" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsFinal="True" CodeSchemaProperty_IsInternal="True" CommonLabel="Program" Icon="Microsoft.VisualStudio.Class.Internal" Label="NCP Browser V2" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=&quot;file://schear-fs/it/_CODE/NCP Browser/NCP Browser V2/Program.cs&quot; StartLineNumber=10 StartCharacterOffset=4 EndLineNumber=10 EndCharacterOffset=4)" UseManualLocation="True" />
+    <Node Id="@3" Category="CodeSchema_Class" Bounds="-9829.55452073871,-9618.1884765625,94.5366666666669,26" CodeSchemaProperty_IsPublic="True" CommonLabel="Salesforce" Icon="Microsoft.VisualStudio.Class.Public" Label="Salesforce" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=&quot;file://schear-fs/it/_CODE/NCP Browser/NCP Browser V2/Forms/Salesforce.cs&quot; StartLineNumber=14 StartCharacterOffset=4 EndLineNumber=14 EndCharacterOffset=4)" UseManualLocation="True" />
+    <Node Id="@5" Category="CodeSchema_Method" Bounds="-9853.8691015625,-9730.14915646048,144.080000000002,26" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Main" FunctionTypeFlags="Method" Icon="Microsoft.VisualStudio.Method.Private" Label="Main‎(string‎[]‎) ‎: void" Language="{B5E9BD34-6D3E-4B5D-925E-8A43B79820B4}" SourceLocation="(Assembly=&quot;file://schear-fs/it/_CODE/NCP Browser/NCP Browser V2/Program.cs&quot; StartLineNumber=21 StartCharacterOffset=8 EndLineNumber=21 EndCharacterOffset=8)" UseManualLocation="True" />
+    <Node Id="EntrtyPoint" Category="Comment" Bounds="-9992.23166666667,-9727.71799895255,81.3300000000017,25.9599999999991" Label="Entrty Point" UseManualLocation="True" />
+    <Node Id="MainForm" Category="Comment" Bounds="-10003.0087952016,-9618.10695924465,77.2666666666664,25.9599999999991" Label="Main Form" UseManualLocation="True" />
+    <Node Id="ThisIsTheMainEntryPoint" Category="Comment" Bounds="-9892.74,-9889.9601000019,222.496666666666,41.9199999999983" Label="This contains the Main method for the browser" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="@2" Target="@5" Category="Contains" Bounds="-9781.65220957193,-9777,0.304347775487258,37.8511344597518" />
+    <Link Source="@5" Target="@3" Bounds="-9782.19637166708,-9704.1494140625,0.314196987386822,76.9610125014351" />
+    <Link Source="EntrtyPoint" Target="@5" Bounds="-9910.90140625,-9715.99787914963,48.0332127537604,0.682381140893995" />
+    <Link Source="MainForm" Target="@3" Bounds="-9925.74215494792,-9605.16931400868,87.1876347311154,0.0296923271016567" />
+    <Link Source="ThisIsTheMainEntryPoint" Target="@2" Bounds="-9781.42577982905,-9848.0401000019,0.113290608118405,36.0401444674935" />
+  </Links>
+  <Categories>
+    <Category Id="CodeSchema_Class" Label="Class" BasedOn="CodeSchema_Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Classes" />
+    <Category Id="CodeSchema_Member" Label="Member" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Field" NavigationActionLabel="Members" />
+    <Category Id="CodeSchema_Method" Label="Method" BasedOn="CodeSchema_Member" CanBeDataDriven="True" DefaultAction="Link:Forward:CodeSchema_Calls" Icon="CodeSchema_Method" NavigationActionLabel="Methods" />
+    <Category Id="CodeSchema_Type" Label="Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Types" />
+    <Category Id="Comment" Label="Comment" Description="Represents a user defined comment on the diagram" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Comments" />
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsAbstract" Label="Is Abstract" Description="Flag to indicate member is 'Abstract' does not provide a full implementation" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsFinal" Label="Is Final" Description="Flag to indicate the member is 'Final' and cannot be derived from" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsInternal" Label="Is Internal" Description="Flag to indicate the method is 'Internal'" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPrivate" Label="Is Private" Description="Flag to indicate the scope is Private" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPublic" Label="Is Public" Description="Flag to indicate the scope is Public" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsStatic" Label="Is Static" Description="Flag to indicate the member is a static member" DataType="System.Boolean" />
+    <Property Id="CommonLabel" DataType="System.String" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="FunctionTypeFlags" Label="FunctionTypeFlags" Description="FunctionTypeFlags" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Language" Label="Language" Description="Language" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="SourceLocation" Label="Start Line Number" DataType="Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="ArrayRank" Label="Array Rank" ValueType="System.String" />
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+    <Name Id="Member" Label="Member" ValueType="System.Object" />
+    <Name Id="Name" Label="Name" ValueType="System.String" />
+    <Name Id="Namespace" Label="Namespace" ValueType="System.String" />
+    <Name Id="OverloadingParameters" Label="Parameter" ValueType="Microsoft.VisualStudio.GraphModel.GraphNodeIdCollection" Formatter="NameValueNoEscape" />
+    <Name Id="ParentType" Label="Parent Type" ValueType="System.Object" />
+    <Name Id="Type" Label="Type" ValueType="System.Object" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(ab10ef44-098d-40de-8c9e-8bbe55253d93.OutputPathUri)" />
+    <Alias n="2" Id="(@1 Namespace=NCP_Browser Type=Program)" />
+    <Alias n="3" Id="(@1 Namespace=NCP_Browser Type=Salesforce)" />
+    <Alias n="4" Uri="Assembly=$(FxReferenceAssembliesUri)/.NETFramework/v4.5.2/mscorlib.dll" />
+    <Alias n="5" Id="(@1 Namespace=NCP_Browser Type=Program Member=(Name=Main OverloadingParameters=[(@4 Namespace=System Type=(Name=String ArrayRank=1 ParentType=String))]))" />
+  </IdentifierAliases>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+  <Paths>
+    <Path Id="ab10ef44-098d-40de-8c9e-8bbe55253d93.OutputPath" Value="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\NCP_Browser_V2.exe" />
+    <Path Id="ab10ef44-098d-40de-8c9e-8bbe55253d93.OutputPathUri" Value="file://schear-fs/it/_CODE/NCP Browser/NCP Browser V2/bin/x86/Release/NCP_Browser_V2.exe" />
+    <Path Id="FxReferenceAssemblies" Value="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework" />
+    <Path Id="FxReferenceAssembliesUri" Value="file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework" />
+  </Paths>
+</DirectedGraph>

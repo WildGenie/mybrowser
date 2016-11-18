@@ -57,13 +57,10 @@
         <File Id="CefSharp.BrowserSubprocess.Core.dll" Name="CefSharp.BrowserSubprocess.Core.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" KeyPath="no" Vital="yes" />
         <File Id="CefSharp.BrowserSubprocess.exe" Name="CefSharp.BrowserSubprocess.exe" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.BrowserSubprocess.exe" KeyPath="no" Vital="yes" />
         <File Id="CefSharp.Core.dll" Name="CefSharp.Core.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.Core.dll" KeyPath="no" Vital="yes" />
-        <File Id="CefSharp.Core.xml" Name="CefSharp.Core.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.Core.xml" KeyPath="no" Vital="yes" />
         <File Id="CefSharp.dll" Name="CefSharp.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.dll" KeyPath="no" Vital="yes" />
         <File Id="CefSharp.Example.dll" Name="CefSharp.Example.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.Example.dll" KeyPath="no" Vital="yes" />
         <File Id="CefSharp.Example.pdb" Name="CefSharp.Example.pdb" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.Example.pdb" KeyPath="no" Vital="yes" />
         <File Id="CefSharp.WinForms.dll" Name="CefSharp.WinForms.dll" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.WinForms.dll" KeyPath="no" Vital="yes" />
-        <File Id="CefSharp.WinForms.xml" Name="CefSharp.WinForms.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.WinForms.xml" KeyPath="no" Vital="yes" />
-        <File Id="CefSharp.xml" Name="CefSharp.xml" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\CefSharp.xml" KeyPath="no" Vital="yes" />
         <File Id="cef_100_percent.pak" Name="cef_100_percent.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\cef_100_percent.pak" KeyPath="no" Vital="yes" />
         <File Id="cef_200_percent.pak" Name="cef_200_percent.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\cef_200_percent.pak" KeyPath="no" Vital="yes" />
         <File Id="cef_extensions.pak" Name="cef_extensions.pak" Source="\\schear-fs\it\_CODE\NCP Browser\NCP Browser V2\bin\x86\Release\cef_extensions.pak" KeyPath="no" Vital="yes" />

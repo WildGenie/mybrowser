@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Call Center Salesforce Implementation";
+}
+    <h2>Call Center Salesforce Implementation: Project Overview</h2>
+    <div class="app">
+        <div class="readyset" id="overview">
+            <h3>Mission</h3>
+            <dl>
+                <dt>What problem does this project address?</dt>
+                <dd>
+                    Previously the call center used email to manage all their work items. 
+                    This is slow and inefficent and requires contstant micromanagement. 
+                    This also allows collisions to occur when two agents claim an email.
+                </dd>
+                <dt>What are the primary of this project?</dt>
+                <dd>
+                    <ul>
+                        <li>To create a call center work management platform that allows rapid onboarding and quick escalation of skill levels for new employees.</li>
+                        <li>To create a master data management system that allows managers to easily obtain/find information pertaining to call center work items.</li>
+                    </ul>                    
+                </dd>
+                <dt>What are some key features that define the product?</dt>
+                <dd>
+                    <ul>
+                        <li>Salesforce Platform as a service host</li>
+                        <li>Cisco Phone System integration Features:
+                            <ul>
+                                <li>Click to dial</li>
+                                <li>Presence Status integration/sync between salesforce and the Phone System</li>
+                                <li>Call Recording Linking to Salesforce Work Items</li>
+                            </ul>
+                        </li>
+                        <li>User Interface that is suited to a fast moving call center</li>
+                        <li>QFund Loan Management System(LMS) Integration Features:
+                            <ul>
+                                <li>Opening QFund pages from within Salesforce without login</li>
+                                <li>Retrieving pertinent information for the work at hand and display within the salesforce ui</li>
+                            </ul>
+                        </li>
+                        <li>Custom Chromium Based Browser</li>
+                        <li>Skill based routing of work in an evenly distributed manner</li>
+                    </ul>
+                </dd>
+                <dt>What makes this product different from others?</dt>
+                <dd>
+                    Tight integration of Salesforce with Phone Hardware, a Specific Web Application (QFund) and specific workflows for call center work items pertaining to short term loans.
+                </dd>
+            </dl>
+            <h3>Scope</h3>
+            <dl>
+                <dt>What is the scope of this project?</dt>
+                <dd>
+                    Manage All Work items for the call center and provide a method to obtain information about operations.
+                </dd>
+                <dt>What are the high-level assumptions or ground rules for the project?</dt>
+                <dd>
+                    <ul>
+                        <li>Salesforce is the Extension tool</li>
+                        <li>Every Feature added on top of the salesforce ui is optional and graceful degredation must occur in the event the extensions are not there</li>
+                    </ul>                    
+                </dd>
+                <dt>What are we not going to do?</dt>
+                <dd>
+                    Designate Salesforce as the Database of Record. This is contrary to most salesforce implementations.
+                </dd>
+            </dl>
+
+            <h3>Status</h3>
+            <dl>
+                <dt>What is the status of this project?</dt>
+
+                <dd>
+                    Main Case UI is fully developed and stable
+                </dd>
+                <dd>
+                    Integration with the Phone system utilizing the CWIC plugin is stable. This allows click to dial and presence status retrival based upon phone status.
+                </dd>
+                <dd>
+                    Integration with Cisco Finesse for the purpose of presence status retrieval using a Firefox plugin is stable
+                </dd>
+                <dd>
+                    Call Recording/Attachment to cases has been developed but it is not 100% done
+                </dd>
+            </dl>
+            <h3>Applicability</h3>
+            <dl>
+                <dt>Who should use this product?</dt>
+                <dd>
+                    All Call Center Reps/NCP employees that require a tool to manage call center work or to view the results of said work
+                </dd>
+                <dt>How can users get started?</dt>
+                <dd>
+                    <ol>
+                        <li>TODO: Installation Guid</li>                       
+                    </ol>
+                </dd>
+                <dt>How can developers get started?</dt>
+                <dd>
+                    <ul>
+                        <li>First you must familiarize yourself with the administration of salesforce <a href="https://help.salesforce.com/home" target="_blank">here</a>.</li>
+                        <li>The next step is understanding how we are utlizing the salesforce standard features and how we have extended functionality with custom salesforce code which can be found @Html.ActionLink("Here","Salesforce")</li>
+                        <li>There are a number of project requirements that require features web browsers don't nativly support that require either browser extensions to implement or something else. Due to the large number of moving pieces to be integrated into a web application it was determined a custom browser was the best available option.
+                            <ol>
+                                <li>This gives us full control over what the browser will be able to access</li>
+                                <li>This gives us the ability to use a menu strip at the top to not only have "links to bookmarks" but to also have links/lists or anything we could need.</li>
+                                <li>This makes implementation of out of browser resources quicker to implement than with standard browser plugins</li>
+                            </ol>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+    </div>

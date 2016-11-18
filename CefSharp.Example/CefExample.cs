@@ -93,7 +93,8 @@ namespace CefSharp.Example
                 // Disable Surfaces so internal PDF viewer works for OSR
                 // https://bitbucket.org/chromiumembedded/cef/issues/1689
                 //settings.CefCommandLineArgs.Add("disable-surfaces", "1");
-                settings.EnableInternalPdfViewerOffScreen();
+                
+                //settings.EnableInternalPdfViewerOffScreen();
                 
                 // DevTools doesn't seem to be working when this is enabled
                 // http://magpcss.org/ceforum/viewtopic.php?f=6&t=14095
@@ -147,7 +148,7 @@ namespace CefSharp.Example
             settings.FocusedNodeChangedEnabled = true;
 
             //The Request Context has been initialized, you can now set preferences, like proxy server settings
-            Cef.OnContextInitialized = delegate
+           /* Cef.OnContextInitialized = delegate
             {
                 var cookieManager = Cef.GetGlobalCookieManager();
                 cookieManager.SetStoragePath("cookies", true);
@@ -161,9 +162,9 @@ namespace CefSharp.Example
                     //The default is true, you can change to false to disable
                     context.SetPreference("webkit.webprefs.plugins_enabled", true, out errorMessage);
                 }
-            };
+            };*/
 
-            if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))
+            if (!Cef.Initialize(settings))
             {
                 throw new Exception("Unable to Initialize Cef");
             }

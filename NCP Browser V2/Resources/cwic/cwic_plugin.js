@@ -114,8 +114,10 @@ var cwic_plugin = function () {
                     },
                     ciscoChannelProperties: b
                 },
-                append_iframe()
-                //location.protocol === "chrome-extension:" ? append_contentscript() : append_iframe()
+                console.log(location.protocol),
+                //append_iframe()
+
+                location.protocol === "chrome-extension:" ? append_contentscript() : append_iframe()
             }
         },
         sendRequest: function (a) {
