@@ -78,6 +78,7 @@ namespace NCP_Browser.Forms
             this.btn_Discard.TabIndex = 2;
             this.btn_Discard.Text = "Discard Call Recording";
             this.btn_Discard.UseVisualStyleBackColor = false;
+            this.btn_Discard.Visible = false;
             this.btn_Discard.Click += new System.EventHandler(this.btn_Discard_Click);
             this.btn_Discard.MouseEnter += new System.EventHandler(this.btn_Discard_MouseEnter);
             this.btn_Discard.MouseLeave += new System.EventHandler(this.btn_Discard_MouseLeave);

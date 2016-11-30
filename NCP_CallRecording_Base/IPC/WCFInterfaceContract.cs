@@ -33,5 +33,9 @@ namespace NCP_CallRecorder.IPC
 
         [OperationContract(IsOneWay = false)]
         bool SendFile(int Number, string CaseId);
+
+        //[{39C097D8-C850-4156-B9D3-86B90AD5D5B2}] -- Added Interface Method
+        [OperationContract(IsOneWay = true)]
+        void SetDate(System.DateTime Date);
     }
 }

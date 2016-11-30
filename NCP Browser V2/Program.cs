@@ -5,11 +5,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IWshRuntimeLibrary;
+using System.Runtime.InteropServices;
 
 namespace NCP_Browser
 {
     static class Program
     {
+        /*
+        [DllImport("win32tapi.dll", CallingConvention = CallingConvention.StdCall)]
+        public static  extern IntPtr win32tapi_new();
+
+        [DllImport("win32tapi.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static  extern void win32tapi_set(IntPtr refer, string blah);
+
+        [DllImport("win32tapi.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr win32tapi_get(IntPtr refer);
+        */
+
         private static string shortcutFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "Start TestApp.lnk");
         private static string publisherName = Application.CompanyName;
         private static string productName = "NCP Web";
@@ -19,11 +31,30 @@ namespace NCP_Browser
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        private static string PtrToStringUtf8(IntPtr ptr) // aPtr is nul-terminated
+        {
+            return System.Runtime.InteropServices.Marshal.PtrToStringAnsi(ptr);
+            /*if (ptr == IntPtr.Zero)
+                return "";
+            int len = 0;
+            while (System.Runtime.InteropServices.Marshal.ReadByte(ptr, len) != 0)
+                len++;
+            if (len == 0)
+                return "";
+            byte[] array = new byte[len];
+            System.Runtime.InteropServices.Marshal.Copy(ptr, array, 0, len);
+            return System.Text.Encoding.ASCII.GetString(array);*/
+        }
+        
         [STAThread]
         static void Main(string[] args)
         {
+            /*IntPtr blah = win32tapi_new();
+            win32tapi_set(blah, "BLOOOP");
+            var peeteerrrr = win32tapi_get(blah);
+            MessageBox.Show(PtrToStringUtf8(peeteerrrr));*/
            try
-            {
+           {
                 if (Directory.Exists("cache"))
                 {
                     Directory.Delete("cache", true);
@@ -67,7 +98,7 @@ namespace NCP_Browser
                 MessageBox.Show(e.Message);
                 MessageBox.Show(e.StackTrace);
             }
-            
+            //*/
             
             //Application.Run(new Jabber.Credentials());
         }

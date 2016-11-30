@@ -115,6 +115,10 @@ namespace NCP_Browser.CallRecorder
                 {
                     lock (Salesforce.FrameLoadLock)
                     {
+                        if (Salesforce.CallRecordings == null)
+                        {
+                            Salesforce.CallRecordings = new List<CallData>();
+                        }
                         int CurCallNumber = MaxCallNumber;
                         int AddedNumbers = 0;
 
@@ -142,7 +146,7 @@ namespace NCP_Browser.CallRecorder
                             }
                         }
                         
-                        // Remove calls no longer being tracked by the recorder
+                        // Remove calls no longer being tracked by the recorder                        
                         Salesforce.CallRecordings.ForEach(x =>
                         {
                             if (info.CallDataList.Where(y => y.Number == x.IPC_CallData.Number).Count() == 0)
@@ -150,7 +154,6 @@ namespace NCP_Browser.CallRecorder
                                 x.Remove = true;
                             }
                         });
-
 
                         // Show Call Dialog if it has been triggered
                         if(Salesforce.CallEndTrigger)
@@ -407,6 +410,49 @@ namespace NCP_Browser.CallRecorder
                 NCP_Browser.Internals.AsyncBrowserScripting.CheckCallRecordingAgainstCasePhoneNumbers(Salesforce.CallRecordings.Where(x => x.IPC_CallData.Number == lastCall.Number).First());
             }
             return false;
+        }
+
+        public void SetPaginationDate(DateTime Date)
+        {
+            lock (CallRecorderLock)
+            {
+                try
+                {
+                    if (ChannelActive())
+                    {
+                        channel.SetDate(Date);
+                    }
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        internal void UpdateCalls()
+        {
+            lock(CallRecorderLock)
+            {
+                Salesforce.CallRecordings = null;
+                try
+                {
+                    if(ChannelActive())
+                    {
+                        var info = channel.GetInformation();
+                        if(info != null && info.CallDataList != null)
+                        {
+                            info.CallDataList.ForEach(x =>
+                            {
+                                AddCallToList(x, false);
+                            });
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
+            }
         }
     }
 }

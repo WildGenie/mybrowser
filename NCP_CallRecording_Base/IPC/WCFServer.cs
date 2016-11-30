@@ -47,8 +47,11 @@ namespace NCP_CallRecorder.IPC
         NCP_CallRecording.IPC.Information WCFInterfaceContract.GetInformation()
         {
             NCP_CallRecording.IPC.Information info = new NCP_CallRecording.IPC.Information();
-            info.CallDataList = NCP_CallRecorder.RecordingEngine.ipcCallDataList;
-            info.CurrentStatus = NCP_CallRecorder.RecordingEngine.LastReportedCallStatus;
+            lock (RecordingEngine.lockObject)
+            {                
+                info.CallDataList = NCP_CallRecorder.RecordingEngine.ipcCallDataList;
+                info.CurrentStatus = NCP_CallRecorder.RecordingEngine.LastReportedCallStatus;
+            }
             return info;
         }
 
@@ -172,5 +175,11 @@ namespace NCP_CallRecorder.IPC
         //{
             //Path.Combine(Path.Combine(NCP_CallRecording.Configuration.Settings.ROOT_FILE_FOLDER,MachineName))
         //}
+
+        //[{39C097D8-C850-4156-B9D3-86B90AD5D5B2}] - Added WCF Interop Method
+        void WCFInterfaceContract.SetDate(DateTime Date)
+        {
+            RecordingEngine.SetPaginationDate(Date);
+        }
     }
 }

@@ -500,6 +500,7 @@
             this.callRecordingsToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.callRecordingsToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.callRecordingsToolStripMenuItem.Text = "Call Recordings";
+            this.callRecordingsToolStripMenuItem.VisibleChanged += new System.EventHandler(this.callRecordingsToolStripMenuItem_VisibleChanged);
             // 
             // backroundDevToolsToolStripMenuItem
             // 

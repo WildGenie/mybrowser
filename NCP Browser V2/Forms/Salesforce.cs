@@ -14,6 +14,19 @@ namespace NCP_Browser
 {
     public partial class Salesforce : Form
     {
+        #region Overrides
+        // Attempt to reduce flicker
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+        #endregion
+
         // Static References for Extensions and background browsers
         public static Dictionary<string, NativeMessaging.Extension> NativeMessagingExtensions { get; set; }
         public static Dictionary<string, IWebBrowser> BackgroundBrowsers { get; set; }
@@ -146,6 +159,9 @@ namespace NCP_Browser
 
                     lock (Salesforce.FrameLoadLock)
                     {
+                        // THIS BLOCK DISABLED AS THIS FEATURE IS NOT NEEDED
+                        // CORY CRAIG - 2016-11-21
+                        // RE-ENABLED AS SALESFORCE HAS A CONFIG FLAG (CALL RECORDING DISPLAY) TO HANDLE
                         try
                         {
                             
@@ -1021,9 +1037,56 @@ namespace NCP_Browser
 
         internal static CallRecorder.Implementation CallRecorderImplementation { get; set; }
 
+        /// <summary>
+        /// Handler for Date Pagination
+        /// DATE TIME HANDLER
+        /// </summary>
+        /// <param name="da"></param>
+        private void dth(DateTime da)
+        {
+            paginator.ShowFrozenPixels();
+            if(this.InvokeRequired)
+            {
+                this.Invoke(new Action<DateTime>(dth), new object[]{da});
+            }
+            else
+            {
+                CallRecorderImplementation.SetPaginationDate(da);
+                // We need to clear the dropdown and put the paginator back 
+                // so that calls from day x are not shown if day x-- or x++ has no calls
+                lock (Salesforce.FrameLoadLock)
+                {
+                    if (CallRecordings == null)
+                    {
+                        CallRecordings = new List<Internals.CallData>();
+                    }
+                    CallRecordings.Clear();
+                    callRecordingsToolStripMenuItem.DropDownItems.Clear();
+                    callRecordingsToolStripMenuItem.DropDownItems.Add(paginator);
+                }
+                CallRecorderImplementation.UpdateCalls();
+                
+                this.callRecordingsToolStripMenuItem.ShowDropDown();
+                paginator.HideFrozenPixels();
+                
+            }            
+        }
+
+        NCP_Browser.Forms.Controls.SendPaginationDate hand;
+        NCP_Browser.Forms.Controls.ToolStripItemPaginator paginator;
         internal void UpdateUI()
         {
-            
+            if (hand == null)
+            {
+                hand = new Forms.Controls.SendPaginationDate(dth);
+                CallRecorderImplementation.SetPaginationDate(DateTime.Now.Date);
+                CallRecorderImplementation.UpdateCalls();
+            }
+            if (paginator == null)
+            {
+                paginator = new Forms.Controls.ToolStripItemPaginator(dth);
+                callRecordingsToolStripMenuItem.DropDownItems.Add(paginator);
+            }
             List<Internals.CallData> RemoveRec = new List<Internals.CallData>();
             if (CallRecordings != null && CallRecordings.Count > 0)
             {
@@ -1032,6 +1095,8 @@ namespace NCP_Browser
                     if(Salesforce.CallRecordingUpdated)
                     {
                         callRecordingsToolStripMenuItem.DropDownItems.Clear();
+                        
+                        callRecordingsToolStripMenuItem.DropDownItems.Add(paginator);
                         foreach (var c in CallRecordings)
                         {
                             if (c.Remove)
@@ -1072,6 +1137,11 @@ namespace NCP_Browser
             {
                 BackgroundActions.ForEach(x => x.Invoke());
             }
+        }
+
+        private void callRecordingsToolStripMenuItem_VisibleChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

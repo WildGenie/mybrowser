@@ -88,6 +88,9 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="agsXMPP, Version=1.1.1.0, Culture=neutral, PublicKeyToken=ff839b81f1debe86, processorArchitecture=MSIL">
       <HintPath>..\packages\agsXMPP.1.1.1.0\lib\agsXMPP.dll</HintPath>
@@ -187,6 +190,12 @@
     <Compile Include="Forms\Controls\PlayerControl.Designer.cs">
       <DependentUpon>PlayerControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\ToolStripItemPaginator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\ToolStripItemPaginator.Designer.cs">
+      <DependentUpon>ToolStripItemPaginator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SelectCase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,6 +273,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Win32\Hooks.cs" />
+    <Content Include="win32tapi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -610,7 +622,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E /Y "$(ProjectDir)..\CEFBASE" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>rem xcopy /E /Y "$(ProjectDir)..\CEFBASE" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

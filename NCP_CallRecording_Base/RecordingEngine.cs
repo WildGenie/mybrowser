@@ -12,6 +12,13 @@ using System.ServiceModel;
 
 namespace NCP_CallRecorder
 {
+    /*
+    Change Log 2016-11-23 [{39C097D8-C850-4156-B9D3-86B90AD5D5B2}]:
+     * The browser will support pagination of call recordings. 
+     * Modify the Call Recording Engine to by Default only load the first day
+     * Modify the Call Recording Engine to allow changing day and thus reloading
+     *  the call recordings in memory
+    */
     public sealed class RecordingEngine
     {
         internal static List<UInt16> watchPorts;
@@ -29,6 +36,10 @@ namespace NCP_CallRecorder
 
         // TODO: CONFIG FILE
         internal static string ROOT_FILE_FOLDER = NCP_CallRecording.Configuration.Settings.ROOT_FILE_FOLDER;
+
+        //[{39C097D8-C850-4156-B9D3-86B90AD5D5B2}] Added
+        private static DateTime PaginationDate;
+        
         
         public static void Main(string[] args)
         {
@@ -230,8 +241,14 @@ namespace NCP_CallRecorder
             
         }
 
+
+        //[{39C097D8-C850-4156-B9D3-86B90AD5D5B2}] Changes
         private static void LoadExistingFiles()
         {
+            if (PaginationDate == DateTime.MinValue)
+            {
+                PaginationDate = DateTime.Now.Date;
+            }
             try
             {
                 var pgpFiles = Directory.GetFiles(Path.Combine(Path.Combine(ROOT_FILE_FOLDER, Environment.MachineName), "recording"), "*.pgp");
@@ -252,18 +269,21 @@ namespace NCP_CallRecorder
                     if (DateString != "")
                     {
                         var datetimevalue = DateTime.ParseExact(DateString, "yyyyMMddHHmmss", null);
-                        if (!DateAndFiles.ContainsKey(datetimevalue))
+                        //[{39C097D8-C850-4156-B9D3-86B90AD5D5B2}] - Add check to only show the chosen pagination date
+                        if (datetimevalue.Date == PaginationDate.Date)
                         {
-                            DateAndFiles.Add(datetimevalue, new List<string>());
-                        }
+                            if (!DateAndFiles.ContainsKey(datetimevalue))
+                            {
+                                DateAndFiles.Add(datetimevalue, new List<string>());
+                            }
 
-                        DateAndFiles.First(x => x.Key == datetimevalue).Value.Add(pgpFile.Replace(".pgp", ""));
+                            DateAndFiles.First(x => x.Key == datetimevalue).Value.Add(pgpFile.Replace(".pgp", ""));
+                        }
                     }
                 }
-
+                ipcCallDataList = new List<IPC.CallData>();
                 if (DateAndFiles.Count > 0)
-                {
-                    ipcCallDataList = new List<IPC.CallData>();
+                {                    
                     DateAndFiles.OrderBy(x => x.Key).ToList().ForEach(x =>
                     {
                         callDataNumber++;
@@ -806,6 +826,15 @@ namespace NCP_CallRecorder
         internal static void AddCallData(IPC.CallData callData)
         {
             ipcCallDataList.Add(callData);
+        }
+
+        //[{39C097D8-C850-4156-B9D3-86B90AD5D5B2}] - Added Method
+        internal static void SetPaginationDate(DateTime Date)
+        {
+            // Truncate Time
+            PaginationDate = Date.Date;
+            // Reload Files
+            LoadExistingFiles();
         }
     }
 
